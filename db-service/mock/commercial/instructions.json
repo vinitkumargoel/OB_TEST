@@ -1,5 +1,5 @@
 {
-    "alice-instructions": {
+    "commercial-instructions": {
         "instruction-list": [{
             "instructionID": "1000",
             "priorityID": "1",
@@ -12,5 +12,4 @@
             "target": "500"
         }]
     }
-    
 }

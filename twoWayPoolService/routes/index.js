@@ -12,7 +12,7 @@ router.post('/populateInstruction', function (req, res) {
   let token = req.headers['x-access-token'];
   let controlBankDetails = req.body.controlBank;
   let contraBankDetails = req.body.contraBank;
-  let targetAmount = req.body.target;
+  let targetAmount = parseInt(req.body.target);
 
   jwt.verify(token, config.secret, function (err, decodedObj) {
     if (err) return res.status(500).json({
@@ -24,10 +24,9 @@ router.post('/populateInstruction', function (req, res) {
     axios.get(`${serviceUrlConfig.dbUrl}/${userName}-instructions`)
       .then((resp) => {
         Object.assign(data, resp.data);
-        console.log(data['instruction-list']);
         let resObj = {
-          instructionID: parseInt(data['instruction-list'][0].instructionID) + 1,
-          priorityID: parseInt(data['instruction-list'][0].priorityID) + 1,
+          instructionID: parseInt(data['instruction-list'].length) + 1001,
+          priorityID: parseInt(data['instruction-list'].length) + 1,
           controlBank: controlBankDetails.bankName,
           controlBankAccountNumber: controlBankDetails.value,
           controlBankID: controlBankDetails.bankID,
@@ -46,7 +45,6 @@ router.post('/populateInstruction', function (req, res) {
           json: true
         }, function(err, response, body){
           if(err) return res.status(500).json({ message: 'Failed to patch data'})
-          console.log(body);
           res.status(200).json(body);
         })
       });
