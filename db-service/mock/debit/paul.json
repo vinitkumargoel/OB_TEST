@@ -1,0 +1,72 @@
+{
+    "paul-debit": {
+        "username": "paul",
+        "password": "paul",
+        "UIN": "XXXX-xxxx",
+        "creditScore": 700,
+        "banks": [
+            {
+                "bankName": "Halifax",
+                "bankId": "HHaalliiffaaxx",
+                "accounts": [
+                    {
+                        "accountType": "SB",
+                        "accountNumber": "XXXXXX XXXX6789",
+                        "accountTitle": "Every Day Saver",
+                        "standingInst": 1700,
+                        "balance": 3000,
+                        "minBalance": 300,
+                        "interestRate": 0.1,
+                        "availableBalance": 1000,
+                        "standingInstructions": [
+                            {
+                                "name": "Electricity bill",
+                                "value": 200,
+                                "schdDate": "23-12-2018"
+                            },
+                            {
+                                "name": "Utility bills",
+                                "value": 1000,
+                                "schdDate": "19-12-2018"
+                            },
+                            {
+                                "name": "Account transfer to friend",
+                                "value": 800,
+                                "schdDate": "10-12-2018"
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "bankName": "HSBC",
+                "bankId": "HHSSBBCC",
+                "accounts": [
+                    {
+                        "accountType": "PCA",
+                        "accountNumber": "XXXXXX XXXX6123",
+                        "accountTitle": "HSBC Advance Bank Account",
+                        "standingInst": 1200,
+                        "balance": 2400,
+                        "minBalance": 200,
+                        "interestRate": 0.1,
+                        "availableBalance":1000,
+                        "standingInstructions": [
+                            {
+                                "name": "SIP",
+                                "value": 900,
+                                "schdDate": "23-12-2018"
+                            },
+                            {
+                                "name": "Term Insurance",
+                                "value": 300,
+                                "schdDate": "25-12-2018"
+                            }
+                        ]
+                    }
+                ]
+            }
+
+        ]
+    }
+}

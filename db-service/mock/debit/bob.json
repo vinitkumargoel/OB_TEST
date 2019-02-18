@@ -1,0 +1,43 @@
+{
+    "bob-debit":
+    {
+        "username": "bob",
+        "password": "bob",
+        "UIN": "XXXX-xxxx",
+        "creditScore": 700,
+        "banks": [
+            {
+                "bankName": "HSBC",
+                "bankId": "HHSSBBCC",
+                "accounts": [
+                    {
+                        "accountType": "PCA",
+                        "accountNumber": "XXXXXX XXXX6123",
+                        "accountTitle": "HSBC Advance Bank Account",
+                        "standingInst": 100,
+                        "balance": 1400,
+                        "minBalance": 300,
+                        "interestRate": 0.1,
+                        "availableBalance": 1000
+                    }
+                ]
+            },
+            {
+                "bankName": "Barclays",
+                "bankId": "BBaarrccllaayyss",
+                "accounts": [
+                    {
+                        "accountType": "SB",
+                        "accountNumber": "XXXXXX XXXX3222",
+                        "accountTitle": "Easy Saver",
+                        "standingInst": 100,
+                        "balance": 800,
+                        "minBalance": 200,
+                        "interestRate": 0.25,
+                        "availableBalance": 500
+                    }
+                ]
+            }
+        ]
+    }
+}

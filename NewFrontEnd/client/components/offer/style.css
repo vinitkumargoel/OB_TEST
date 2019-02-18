@@ -1,0 +1,119 @@
+.Oval {
+    width: 66px;
+    height: 66px;
+    background-color: #006a4d;
+}
+
+.Center{
+    margin: 0 auto;
+    text-align: left;
+    width: 800px;
+}
+
+.Shape {
+    width: 35px;
+    height: 24px;
+    border: solid 5px #ffffff;
+}
+
+.back_groud_panel
+{
+    padding-left: 7%;
+    
+}
+
+.bgimg{
+    position: relative;
+}
+
+.lbgcard{
+    position: relative;
+    left: 8%;
+    bottom: 11%;
+    width: 16vw;
+}
+
+.switch-button {
+    width: 23vw;
+    height: 65px;
+    border-radius: 3px;
+    background-color: #66980c;
+    box-shadow: 0 9px 19px 0 rgba(43, 63, 8, 0.38);
+    position: absolute;
+    left: 4%;
+    top: 73%;
+    color: white;
+  }
+
+  #switch-msg
+  {
+    float: left;
+    padding-left: 3%;
+  }
+
+  #right-arrow
+  {
+    float: right;
+    padding-right: 7%;
+  }
+
+  #banner
+  {
+      position: relative;
+  }
+
+  #banner img {
+      width: 100%;
+  }
+
+  #banner-img
+  {
+      position: relative;
+  }
+
+  #lable {
+    position: absolute;
+    top: 20%;
+    left:17%;
+    width: 600;
+    font-size: 23px;
+    font-weight: 100;
+    color :white;
+  }
+
+  #msg
+  {
+      top: 10%;
+      left: 5%;
+      /* width: 37%; */
+      padding-top : 25px
+  }
+
+  #bg {
+      position: relative;
+  }
+
+  .container {
+    margin-top: 7%;
+  }
+
+  .back_groud_panal {
+      width: 100%;
+  }
+
+  .inner_banner_1{
+    min-height: 70;
+    background-color: #006a4d;
+    margin: 40px 10px 20px 10px;
+    border-radius: 4px;
+  }
+
+  .classMsg p {
+      font-size: 19px;
+  }
+  
+
+
+
+
+

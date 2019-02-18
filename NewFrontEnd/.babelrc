@@ -1,0 +1,14 @@
+{
+    "presets": ["next/babel"],
+      "plugins": ["transform-es2015-modules-commonjs"],
+      "env": {
+        "test": {
+          "presets": ["next/babel"],
+          "plugins": ["transform-export-extensions"],
+          "only": [
+            "./**/*.js",
+            "node_modules/jest-runtime"
+          ]
+        }
+      }
+}
