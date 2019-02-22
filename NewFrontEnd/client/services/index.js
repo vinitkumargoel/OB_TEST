@@ -3,6 +3,7 @@ import config from '../config.js'
 module.exports = {
  logincall: function(queryData,successCb,errorCb){
    console.log(JSON.stringify({username:queryData.username,password:queryData.password,type:queryData.type}));
+   console.log(queryData);
    console.log(config.loginUrl+"/login");
    $.ajax({
      type: "POST",
@@ -24,6 +25,7 @@ debitCall: function(queryData,successCb,errorCb) {
   })
 },
 creditCall: function(queryData,successCb,errorCb) {
+  console.log("Call",queryData)
   $.ajax({
     type :"GET",
     url : config.accountUrl+"/credit",
@@ -121,6 +123,29 @@ getFinancialAdvisory: function(queryData,successCb,errorCb) {
   $.ajax({
     type :"GET",
     url : config.offeringsUrl+"/advisory",
+    headers: {"x-access-token": queryData},
+    contentType : "application/json",
+    success : successCb,
+    error : errorCb
+  })
+},
+submitInstruction : function(queryData,successCb,errorCb) {
+  console.log(JSON.stringify(queryData))
+  $.ajax({
+    type :"POST",
+    url:config.instructionUrl+"/populateInstruction",
+    data: JSON.stringify(queryData.data),
+    headers: {"x-access-token": queryData.token},
+    contentType : "application/json",
+    success : successCb,
+    error : errorCb
+  })
+},
+instructionCall: function(queryData,successCb,errorCb) {
+  console.log("Call made",queryData)
+  $.ajax({
+    type :"GET",
+    url : config.instructionUrl+"/getInstruction",
     headers: {"x-access-token": queryData},
     contentType : "application/json",
     success : successCb,

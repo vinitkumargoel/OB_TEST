@@ -7,8 +7,9 @@ var axios = require('axios');
 var request = require('request');
 var fs = require('fs');
 
-router.post('/populateInstruction', function (req, res) {
 
+
+router.post('/populateInstruction', function (req, res) {
   let token = req.headers['x-access-token'];
   let controlBankDetails = req.body.controlBank;
   let contraBankDetails = req.body.contraBank;
@@ -50,6 +51,34 @@ router.post('/populateInstruction', function (req, res) {
       });
   });
 });
+
+
+
+
+router.get('/getInstruction',(req,res)=> {
+  var token = req.headers['x-access-token'];
+
+    jwt.verify(token, config.secret, function (err, decodedObj) {        
+        if (err) {
+            return res.status(401).send({
+                auth: false,
+                message: 'Failed to authenticate token.'
+            });
+        };
+        let userName = decodedObj.username;
+
+        request
+            .get(`${serviceUrlConfig.dbUrl}/${userName}-instructions`, (err, response, body) => {
+                if(err) {
+                    res.status(500).json({
+                        errorMsg: 'User data not available'
+                    });
+                }
+                //let instructionSet = JSON.parse(body);
+                res.status(200).json(body);
+            });
+    });
+})
 
 router.get('/transaction', function (req, res, next) {
   let token = req.headers['x-access-token'];

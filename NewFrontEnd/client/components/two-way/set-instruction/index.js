@@ -17,8 +17,9 @@ export default class TwoWay extends React.Component {
       accSumary: {},
       value: '',
       input:'',
-      contraAccount: null,
-      controlAccount: null,
+      instructionData: null,
+      contraAccount: "",
+      controlAccount: "",
       target: null
     }
   }
@@ -32,14 +33,24 @@ export default class TwoWay extends React.Component {
       console.log(err);
     })
 
-
-    Services.getSISuggestions(token, function (data) {
-      this.setState({ siSuggest: data });
-      console.log(data, "getSI")
+    Services.instructionCall(token, function (data) {
+      data=JSON.parse(data);
+      this.setState({ instructionData: data });
+      console.log(data)
     }.bind(this), function (err) {
       console.log(err);
     })
-  }
+
+    
+
+
+  //   Services.getSISuggestions(token, function (data) {
+  //     this.setState({ siSuggest: data });
+  //     console.log(data, "getSI")
+  //   }.bind(this), function (err) {
+  //     console.log(err);
+  //   })
+   }
   handleChange = (e, { value }) => this.setState({ value })
   onCancelClick = () => {
     this.setState({
@@ -63,6 +74,39 @@ export default class TwoWay extends React.Component {
     })
     console.log(data, typeof (data));
     return data;
+  }
+
+  // refresh= async()=>{
+  //   console.log("second call");
+   
+  //   await Services.instructionCall(token, function (data) {
+  //     data=JSON.parse(data);
+  //     console.log("GOt it")
+  //     this.setState({ instructionData: data });
+  //   }.bind(this), function (err) {
+  //     console.log(err);
+  //   })
+    
+  // }
+
+   submitInstruction = async () =>{
+    var token = sessionStorage.getItem("token");
+    let query = {
+      token : token,
+      data:{
+        controlBank : JSON.parse(this.state.controlAccount),
+        contraBank: JSON.parse(this.state.contraAccount),
+        target: this.state.target
+      }
+    }
+    console.log(query);
+    await Services.submitInstruction(query,function(data){
+      console.log(data);
+      this.setState({ instructionData: data });
+    })
+    this.setState({contraAccount:"",controlAccount:"",input:'',target:null});
+    
+    
   }
 
   onPreviousClick = () => {
@@ -99,6 +143,10 @@ export default class TwoWay extends React.Component {
   }
 
 
+  getList = () =>{
+    
+  }
+
 
 
   render() {
@@ -125,6 +173,7 @@ export default class TwoWay extends React.Component {
                   <div className="col-sm">
                     <span style={{ fontWeight: '300', marginTop: '20PX' }}> Contra account</span>
                     <select className="dropdown" onChange={this.selectContraAccount} value={this.state.contraAccount} placeholder="Select a contra account">
+                    <option value="none" >----Select an Account------</option>
                       {this.state.creditData.map((value, index) => {
                         let obj = JSON.stringify(value);
                         return (<option value={obj} key={value["key"]}>{value["label"]}</option>);
@@ -134,7 +183,9 @@ export default class TwoWay extends React.Component {
 
                   <div className="col-sm">
                     <span style={{ fontWeight: '300', marginTop: '20PX' }}> Control account</span>
+                    
                     <select className="dropdown" onChange={this.setControlAccount} value={this.state.controlAccount} placeholder="Select a control account">
+                    <option value="none" >----Select an Account------</option>
                       {this.state.creditData.map((value, index) => {
                         let obj = JSON.stringify(value);
                         return (<option value={obj} key={value["key"]}>{value["label"]}</option>);
@@ -148,7 +199,7 @@ export default class TwoWay extends React.Component {
                   <div className="col-sm">  </div>
                   <div className="col-sm" style={{display: (this.state.input != '') ? '' : 'none' }}>
                     <span style={{ fontWeight: '300', marginTop: '20PX' }}> Target Amount </span>  
-                    <input type="text" placeholder="0.000" onChange={this.setTarget} />
+                    <input type="text" placeholder="0.000" onChange={this.setTarget} value={this.state.target} />
                   </div>
                 </div>
               </div>
@@ -156,12 +207,39 @@ export default class TwoWay extends React.Component {
               <div className="container">
               <div className="row">
                 <div className="col-sm"></div>      
-                <div className="col-sm"><button className="flex-item1" style={{ display: (this.state.value != '') ? '' : 'none' }}
+                <div className="col-sm"><button className="flex-item1" style={{ display: (this.state.value != '') ? '' : 'none' }} onClick= {this.submitInstruction}
                   >ADD</button></div>
                 <div className="col-sm"><button className="flex-item1" style={{ display: (this.state.value != '') ? '' : 'none' }}
                  >NEXT</button></div>
               </div>
               </div>
+              {this.state.instructionData !=null ?
+              (<div className="container">
+                <table className="table">
+                  <thead>
+                    <tr>
+                      <th scope="col">#Instruction</th>
+                      <th scope="col">Contra</th>
+                      <th scope="col">Control</th>
+                      <th scope="col">Target</th>
+                      <th scope="col">Priority</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {this.state.instructionData["instruction-list"].map((value,index)=>{
+                    return(<tr key={index}>
+                      <th scope="row">{value.instructionID}</th>
+                      <td>{value.controlBankAccountNumber}</td>
+                      <td>{value.contraBankAccountNumber}</td>
+                      <td>{value.target}</td>
+                      <td>{value.priorityID}</td>
+                    </tr>)
+                    })}
+                  </tbody>
+                </table>  
+              </div>):(null)}
+              
+              
             </div>
             <div>
             </div>

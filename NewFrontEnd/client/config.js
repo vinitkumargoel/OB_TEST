@@ -9,7 +9,8 @@ module.exports = env == "PRO" ? {
     savingsUrl: 'http://localhost:8082/optimizeFundsService',
     manageSIUrl: 'http://localhost:8082/manageSIService',
     poolingUrl: 'http://localhost:8082/poolingService',
-    portingUrl: 'http://localhost:8082/portingService'
+    portingUrl: 'http://localhost:8082/portingService',
+    instructionUrl: 'http://localhost:8082/portingService'
 } : {
     loginUrl: 'http://localhost:3000/authService',
     accountUrl: 'http://localhost:3001/accountsService',
@@ -18,5 +19,6 @@ module.exports = env == "PRO" ? {
     savingsUrl: 'http://localhost:3005/optimizeFundsService',
     manageSIUrl: 'http://localhost:3006/manageSIService',
     poolingUrl: 'http://localhost:3007/poolingService',
-    portingUrl: 'http://localhost:3008/portingService'
+    portingUrl: 'http://localhost:3008/portingService',
+    instructionUrl: 'http://localhost:3009/twoWayPoolingService'
 };
