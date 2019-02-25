@@ -35,6 +35,27 @@ creditCall: function(queryData,successCb,errorCb) {
     error : errorCb
   })
 },
+commercialDebitCall: function(queryData,successCb,errorCb) {
+  $.ajax({
+    type :"GET",
+    url : config.accountUrl+"/commercialDebit",
+    headers: {"x-access-token": queryData},
+    contentType : "application/json",
+    success : successCb,
+    error : errorCb
+  })
+},
+commercialCreditCall: function(queryData,successCb,errorCb) {
+  console.log("Call",queryData)
+  $.ajax({
+    type :"GET",
+    url : config.accountUrl+"/commercialCredit",
+    headers: {"x-access-token": queryData},
+    contentType : "application/json",
+    success : successCb,
+    error : errorCb
+  })
+},
 payOutCall: function(queryData,successCb,errorCb) {
   $.ajax({
     type :"GET",
@@ -142,10 +163,20 @@ submitInstruction : function(queryData,successCb,errorCb) {
   })
 },
 instructionCall: function(queryData,successCb,errorCb) {
-  console.log("Call made",queryData)
   $.ajax({
     type :"GET",
     url : config.instructionUrl+"/getInstruction",
+    headers: {"x-access-token": queryData},
+    contentType : "application/json",
+    success : successCb,
+    error : errorCb
+  })
+},
+transact: function(queryData,successCb,errorCb) {
+  console.log("Call ",queryData)
+  $.ajax({
+    type :"GET",
+    url : config.instructionUrl+"/transaction",
     headers: {"x-access-token": queryData},
     contentType : "application/json",
     success : successCb,

@@ -17,7 +17,9 @@ export default class Rel extends React.Component{
     }
   }
   componentWillMount() {
+      let type= sessionStorage.getItem("type")
       var token = sessionStorage.getItem("token");
+      if(type ==="retail"){
       Services.totalBalancesCall(token, function(data){
           this.setState({accSumary : data});
           console.log(data)
@@ -35,6 +37,19 @@ export default class Rel extends React.Component{
       }.bind(this),function(err){
           console.log(err);
       })
+    } else if(type ==="commercial"){
+        Services.commercialCreditCall(token, function(data){
+            this.setState({creditData : data.banks});
+  
+       }.bind(this),function(err){
+           console.log(err);
+       })
+        Services.commercialDebitCall(token,function(data){
+            this.setState({debitData : data.banks});
+        }.bind(this),function(err){
+            console.log(err);
+        })
+    }
   }
     render(){
         console.log(sessionStorage.getItem("type"))

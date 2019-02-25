@@ -1,15 +1,5 @@
 {
     "commercial-instructions": {
-        "instruction-list": [{
-            "instructionID": "1000",
-            "priorityID": "1",
-            "controlBank": "Halifax",
-            "controlBankAccountNumber": "XXXXXX XXXX6789",
-            "controlBankID": "HHaalliiffaaxx",
-            "contraBank": "HSBC",
-            "contraBankAccountNumber": "XXXXXX XXXX2345",
-            "contraBankID": "HHSSBBCC",
-            "target": "500"
-        }]
+        "instruction-list": []
     }
 }

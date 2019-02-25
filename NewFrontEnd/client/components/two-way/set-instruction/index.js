@@ -20,12 +20,13 @@ export default class TwoWay extends React.Component {
       instructionData: null,
       contraAccount: "",
       controlAccount: "",
-      target: null
+      target: null,
+      updatedInstruction:null
     }
   }
   componentWillMount() {
     var token = sessionStorage.getItem("token");
-    Services.creditCall(token, function (data) {
+    Services.debitCall(token, function (data) {
       let list = this.dropdownList(data["banks"]);
       this.setState({ creditData: list });
       console.log(data["banks"]);
@@ -76,20 +77,8 @@ export default class TwoWay extends React.Component {
     return data;
   }
 
-  // refresh= async()=>{
-  //   console.log("second call");
-   
-  //   await Services.instructionCall(token, function (data) {
-  //     data=JSON.parse(data);
-  //     console.log("GOt it")
-  //     this.setState({ instructionData: data });
-  //   }.bind(this), function (err) {
-  //     console.log(err);
-  //   })
-    
-  // }
 
-   submitInstruction = async () =>{
+   submitInstruction = () =>{
     var token = sessionStorage.getItem("token");
     let query = {
       token : token,
@@ -99,14 +88,22 @@ export default class TwoWay extends React.Component {
         target: this.state.target
       }
     }
-    console.log(query);
-    await Services.submitInstruction(query,function(data){
+    
+    Services.submitInstruction(query,function(data){
       console.log(data);
-      this.setState({ instructionData: data });
+      return data;
     })
+
+    Services.instructionCall(token, function (data) {
+      data=JSON.parse(data);
+      this.setState({ instructionData: data });
+      console.log(data)
+    }.bind(this), function (err) {
+      console.log(err);
+    })
+    
     this.setState({contraAccount:"",controlAccount:"",input:'',target:null});
-    
-    
+    this.refresh();
   }
 
   onPreviousClick = () => {
@@ -115,18 +112,24 @@ export default class TwoWay extends React.Component {
     })
   }
 
-  selectContraAccount = (e, { value }) => {
-    this.setState({
-      contraAccount: ''
-    })
-  }
-
+  
   onNextClick = () => {
     if (this.state.value == 'pool') {
       this.props.history.push('/poolfrom');
     } else {
       console.log('Next');
     }
+  }
+
+  refresh = () =>{
+    var token = sessionStorage.getItem("token");
+    Services.instructionCall(token, function (data) {
+      data=JSON.parse(data);
+      this.setState({ instructionData: data });
+      console.log(data)
+    }.bind(this), function (err) {
+      console.log(err);
+    })
   }
 
   setControlAccount = (e) => {
@@ -143,14 +146,21 @@ export default class TwoWay extends React.Component {
   }
 
 
-  getList = () =>{
-    
+  execute = () =>{
+    var token = sessionStorage.getItem("token");
+    Services.transact(token,function(data){
+      console.log(data);
+      if(data){
+        alert("Execution complete.");
+      }
+    })
   }
 
 
 
   render() {
     console.log(this.state, "state");
+    
     return (
       <div className='container-fluid' style={{ paddingLeft: '0px', paddingRight: '0px' }}>
         <Header username={this.state.accSumary.username} history={this.props.history} />
@@ -206,15 +216,14 @@ export default class TwoWay extends React.Component {
 
               <div className="container">
               <div className="row">
-                <div className="col-sm"></div>      
+                <div className="col-sm"></div> 
+                <div className="col-sm"></div>     
                 <div className="col-sm"><button className="flex-item1" style={{ display: (this.state.value != '') ? '' : 'none' }} onClick= {this.submitInstruction}
                   >ADD</button></div>
-                <div className="col-sm"><button className="flex-item1" style={{ display: (this.state.value != '') ? '' : 'none' }}
-                 >NEXT</button></div>
               </div>
               </div>
-              {this.state.instructionData !=null ?
-              (<div className="container">
+              {this.state.instructionData !== null ?
+              (<div><div className="container">
                 <table className="table">
                   <thead>
                     <tr>
@@ -229,15 +238,23 @@ export default class TwoWay extends React.Component {
                     {this.state.instructionData["instruction-list"].map((value,index)=>{
                     return(<tr key={index}>
                       <th scope="row">{value.instructionID}</th>
-                      <td>{value.controlBankAccountNumber}</td>
                       <td>{value.contraBankAccountNumber}</td>
+                      <td>{value.controlBankAccountNumber}</td>
                       <td>{value.target}</td>
                       <td>{value.priorityID}</td>
                     </tr>)
                     })}
                   </tbody>
                 </table>  
-              </div>):(null)}
+              </div>
+              <div className="container">
+                <div className="row">
+                  <div className="col-sm">  </div>
+                  <div className="col-sm">  </div>
+                  <div className="col-sm"><button className="flex-item1"  onClick={this.execute}
+                 >EXECUTE</button> </div>
+                </div>  
+              </div></div>):(null)}
               
               
             </div>

@@ -8,6 +8,8 @@ var router = express.Router();
 
 router.get('/credit', fetchCreditAccounts);
 router.get('/debit', fetchDebitAccount);
+router.get('/commercialCredit', fetchCommercialCreditAccounts);
+router.get('/commercialDebit', fetchCommercialDebitAccount);
 router.get('/totalBalances', fetchTotalBalances);
 router.patch('/customizedMinBalance',saveCustomizedMinBalance);
 
@@ -91,6 +93,55 @@ function fetchDebitAccount(req, res) {
     });
 }
 
+function fetchCommercialCreditAccounts(req, res, next) {
+    var token = req.headers['x-access-token'];
+
+    jwt.verify(token, secret, function (err, decodedObj) {        
+        if (err) {
+            return res.status(401).send({
+                auth: false,
+                message: 'Failed to authenticate token.'
+            })
+        };
+        let userName = decodedObj.username;
+
+        request
+            .get(`${serviceUrls.dbUrl}/${userName}-commercial`, (err, response, body) => {
+                if(err) {
+                    res.status(500).json({
+                        errorMsg: 'User data not available'
+                    });
+                }
+                let credits = JSON.parse(body);
+                res.status(200).json(credits);
+            });
+    });
+
+}
+
+function fetchCommercialDebitAccount(req, res) {
+    var token = req.headers['x-access-token'];
+    jwt.verify(token, secret, function (err, decodedObj) {
+        if (err) {
+            return res.status(401).send({
+                auth: false,
+                message: 'Failed to authenticate token.'
+            });
+        }
+        let userName = decodedObj.username;
+
+        request
+            .get(`${serviceUrls.dbUrl}/${userName}-commercial`, (err, response, body) => {
+                if(err) {
+                    res.status(500).json({
+                        errorMsg: 'User data not available'
+                    });
+                }
+                let credits = JSON.parse(body);
+                res.status(200).json(credits);
+            });
+    });
+}
 
 function saveCustomizedMinBalance(req, res) {
     var token = req.headers['x-access-token'];
