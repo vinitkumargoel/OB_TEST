@@ -169,8 +169,8 @@ const instrResult=async(userName)=>{
              "contraBankBalance": contraBankBalance
            });
           }
-           else if ((contraBankBalance - target - contraBankBalance) >= contraBankMinBalance) {
-             contraBankBalance -= target - contraBankBalance;
+           else if ((contraBankBalance - target + controlBankBalance) >= contraBankMinBalance) {
+             contraBankBalance -= target + controlBankBalance;
              controlBankBalance = target;
               //console.log(contraBankBalance,controlBankBalance);
 
