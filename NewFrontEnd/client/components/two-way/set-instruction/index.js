@@ -35,7 +35,7 @@ export default class TwoWay extends React.Component {
     })
 
     Services.instructionCall(token, function (data) {
-      data=JSON.parse(data);
+      // data=JSON.parse(data);
       this.setState({ instructionData: data });
       console.log(data)
     }.bind(this), function (err) {
@@ -95,7 +95,7 @@ export default class TwoWay extends React.Component {
     })
 
     Services.instructionCall(token, function (data) {
-      data=JSON.parse(data);
+      // data=JSON.parse(data);
       this.setState({ instructionData: data });
       console.log(data)
     }.bind(this), function (err) {
@@ -124,7 +124,7 @@ export default class TwoWay extends React.Component {
   refresh = () =>{
     var token = sessionStorage.getItem("token");
     Services.instructionCall(token, function (data) {
-      data=JSON.parse(data);
+      // data=JSON.parse(data);
       this.setState({ instructionData: data });
       console.log(data)
     }.bind(this), function (err) {

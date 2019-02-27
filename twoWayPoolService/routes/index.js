@@ -23,6 +23,7 @@ router.post('/populateInstruction', function (req, res) {
     let data = {};
     axios.get(`${serviceUrlConfig.dbUrl}/${userName}-instructions`)
       .then((resp) => {
+        console.log(resp);
         Object.assign(data, resp.data);
         let resObj = {
           instructionID: parseInt(data['instruction-list'].length) + 1000,
@@ -241,7 +242,7 @@ let updateTransaction=async(userName,bank,priorityID,controlBankBalance,contraBa
 };
 
 
-router.get('/instructions',(req,res)=>{
+router.get('/getInstruction',(req,res)=>{
   let token = req.headers['x-access-token'];
   
 
