@@ -23,7 +23,6 @@ router.post('/populateInstruction', function (req, res) {
     let data = {};
     axios.get(`${serviceUrlConfig.dbUrl}/${userName}-instructions`)
       .then((resp) => {
-        console.log(resp);
         Object.assign(data, resp.data);
         let resObj = {
           instructionID: parseInt(data['instruction-list'].length) + 1000,
@@ -67,7 +66,7 @@ router.get('/transaction', function (req, res, next) {
   
     
     result.then(function(data) {
-     // console.log(data) ;
+      console.log(data) ;
       res.send(data);
    })
    .catch((err)=>{
@@ -98,8 +97,8 @@ const instrResult=async(userName)=>{
       contraBankAccountNumber= instrObj["instruction-list"][i].contraBankAccountNumber;
       target = parseInt(instrObj["instruction-list"][i].target);
       priorityID = parseInt(instrObj["instruction-list"][i].priorityID);
-      //console.log(target);
-
+      console.log(target);
+      console.log(typeof target);
       let data=await getcommercialAcct(userName)      
      
         //console.log(data);
@@ -133,9 +132,10 @@ const instrResult=async(userName)=>{
         contraBankBalance = filteredContraAcc[0].balance;
         contraBankMinBalance = filteredContraAcc[0].minBalance;
 
-        //console.log(controlBankBalance,contraBankBalance,contraBankMinBalance);
-        
-        if(controlBankBalance == target){
+        console.log(controlBankBalance,contraBankBalance,contraBankMinBalance);
+        console.log(typeof controlBankBalance);
+
+        if(controlBankBalance === target){
           result.push({
             "priority": priorityID,
             "message": "Target Balance is same as in the account",
@@ -154,7 +154,7 @@ const instrResult=async(userName)=>{
             data.banks = [...restBankDetails, filteredControlBank, filteredContraBank];
         //update the transaction  
 
-            let newResult=updateTransaction(userName,data.banks,priorityID,controlBankBalance,contraBankBalance);
+            let newResult=await updateTransaction(userName,data.banks,priorityID,controlBankBalance,contraBankBalance);
             if(newResult){
               result.push(newResult);
             }
@@ -169,16 +169,18 @@ const instrResult=async(userName)=>{
              "contraBankBalance": contraBankBalance
            });
           }
-           else if ((contraBankBalance - target + controlBankBalance) >= contraBankMinBalance) {
-             contraBankBalance -= target + controlBankBalance;
+           else if ((contraBankBalance - (target - controlBankBalance)) >= contraBankMinBalance) {
+             contraBankBalance = contraBankBalance-target+controlBankBalance;
              controlBankBalance = target;
+
+             console.log(contraBankBalance+"dsffsf");
               //console.log(contraBankBalance,controlBankBalance);
 
              filteredControlBank["accounts"][0].balance = controlBankBalance;
              filteredContraBank["accounts"][0].balance = contraBankBalance;
              data.banks = [...restBankDetails, filteredControlBank, filteredContraBank];
             //update the transaction  
-            let newResult2=updateTransaction(userName,data.banks,priorityID,controlBankBalance,contraBankBalance);
+            let newResult2=await updateTransaction(userName,data.banks,priorityID,controlBankBalance,contraBankBalance);
               if(newResult2){
                 result.push(newResult2);
               }    
@@ -225,8 +227,8 @@ let updateTransaction=async(userName,bank,priorityID,controlBankBalance,contraBa
   try{
   let resp=await axios.patch(serviceUrlConfig.dbUrl + '/' + userName + '-commercial',{'banks': bank})
   if(resp){
-    console.log(resp.data);
-    
+   // console.log(resp.data);
+    //
   };
   newObj={
     "priority": priorityID,
