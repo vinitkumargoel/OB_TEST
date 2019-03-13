@@ -1,5 +1,22 @@
 {
     "commercial-instructions": {
-        "instruction-list": []
+        "instruction-list": [
+            {
+                "instructionID": "1000",
+                "priorityID": "1",
+                "controlBank": "Halifax",
+                "controlBankAccountNumber": "XXXXXX XXXX9788",
+                "controlBankID": "HHaalliiffaaxx",
+                "controlForceDebit":"false",
+                "contraBank": "HSBC",
+                "contraBankAccountNumber": "XXXXXX XXXX6123",
+                "contraBankID": "HHSSBBCC",
+                "contraForceDebit":"false",
+                "target": "8000",
+                "instructionType":"Target Balance",
+                "executionMode":"Manual",
+                "reversal":"false"
+            }
+        ]
     }
 }

@@ -10,10 +10,8 @@ var fs = require('fs');
 router.post('/populateInstruction', function (req, res) {
 
   let token = req.headers['x-access-token'];
-  let controlBankDetails = req.body.controlBank;
-  let contraBankDetails = req.body.contraBank;
-  let targetAmount = parseInt(req.body.target);
-
+  let instruction = req.body.instruction;
+  
   jwt.verify(token, config.secret, function (err, decodedObj) {
     if (err) return res.status(500).json({
       auth: false,
@@ -25,22 +23,23 @@ router.post('/populateInstruction', function (req, res) {
       .then((resp) => {
         Object.assign(data, resp.data);
         let resObj = {
-          instructionID: parseInt(data['instruction-list'].length) + 1000,
-          priorityID: parseInt(data['instruction-list'].length) + 1,
-          controlBank: controlBankDetails.bankName,
-          controlBankAccountNumber: controlBankDetails.value,
-          controlBankID: controlBankDetails.bankID,
-          contraBank: contraBankDetails.bankName,
-          contraBankID: contraBankDetails.bankID,
-          contraBankAccountNumber: contraBankDetails.value,
-          target: targetAmount
+          instructionID: parseInt(data['currentInstructions'].length) + 1000,
+          priorityID: parseInt(data['currentInstructions'].length) + 1,
+          controlBankAccountNumber: instruction.controlBankAccountNumber,
+          contraBankAccountNumber: instruction.contraBankAccountNumber,
+          target: instruction.target,
+         	instructionType:"Target Balance",
+					executionMode:"Manual",
+				  reversal:"false",
+				  forceDebitControlAccount:"false",
+				  forceDebitContraAccount:"false"
         }
-        let finalData = data['instruction-list'];
+        let finalData = data['currentInstructions'];
         finalData.push(resObj);
         request.post({
           url: serviceUrlConfig.dbUrl+'/'+userName+'-instructions',
           body: {
-            'instruction-list': finalData
+            'currentInstructions': finalData
           },
           json: true
         }, function(err, response, body){
@@ -83,7 +82,7 @@ const instrResult=async(userName)=>{
   let instrObj=await getInstruction(userName);
   // console.log(instrObj);
 
-     let len = instrObj["instruction-list"].length;
+     let len = instrObj["currentInstructions"].length;
      let result = [];
 
      
@@ -91,12 +90,12 @@ const instrResult=async(userName)=>{
 
     //to get last value of ID	
     for (i = 0; i < len; i++) {
-      controlBank = instrObj["instruction-list"][i].controlBank;
-      contraBank = instrObj["instruction-list"][i].contraBank;
-      controlBankAccountNumber= instrObj["instruction-list"][i].controlBankAccountNumber;
-      contraBankAccountNumber= instrObj["instruction-list"][i].contraBankAccountNumber;
-      target = parseInt(instrObj["instruction-list"][i].target);
-      priorityID = parseInt(instrObj["instruction-list"][i].priorityID);
+      controlBank = instrObj["currentInstructions"][i].controlBank;
+      contraBank = instrObj["currentInstructions"][i].contraBank;
+      controlBankAccountNumber= instrObj["currentInstructions"][i].controlBankAccountNumber;
+      contraBankAccountNumber= instrObj["currentInstructions"][i].contraBankAccountNumber;
+      target = parseInt(instrObj["currentInstructions"][i].target);
+      priorityID = parseInt(instrObj["currentInstructions"][i].priorityID);
       console.log(target);
       console.log(typeof target);
       let data=await getcommercialAcct(userName)      
@@ -287,7 +286,7 @@ router.get('/balances',(req,res)=>{
        
         // console.log(instrObj);
       
-           let len = instrObj["instruction-list"].length;
+           let len = instrObj["currentInstructions"].length;
            let result = [];
         let i=0;
            
@@ -295,12 +294,12 @@ router.get('/balances',(req,res)=>{
       
           //to get last value of ID	
           //for (i = 0; i < len; i++) {
-            controlBank = instrObj["instruction-list"][i].controlBank;
-            contraBank = instrObj["instruction-list"][i].contraBank;
-            controlBankAccountNumber= instrObj["instruction-list"][i].controlBankAccountNumber;
-            contraBankAccountNumber= instrObj["instruction-list"][i].contraBankAccountNumber;
-            target = parseInt(instrObj["instruction-list"][i].target);
-            priorityID = parseInt(instrObj["instruction-list"][i].priorityID);
+            controlBank = instrObj["currentInstructions"][i].controlBank;
+            contraBank = instrObj["currentInstructions"][i].contraBank;
+            controlBankAccountNumber= instrObj["currentInstructions"][i].controlBankAccountNumber;
+            contraBankAccountNumber= instrObj["currentInstructions"][i].contraBankAccountNumber;
+            target = parseInt(instrObj["currentInstructions"][i].target);
+            priorityID = parseInt(instrObj["currentInstructions"][i].priorityID);
             //console.log(target);
       
             getcommercialAcct(userName).then(function(data) {
