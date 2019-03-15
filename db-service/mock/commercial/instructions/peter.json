@@ -6,8 +6,8 @@
 				[
 					{
 						"instructionId": 100000,
-						"controlAccountNumber":"60161331926817",
-						"contraAccountNumber":"60161331926818",
+						"controlBankAccountNumber":"60161331926817",
+						"contraBankAccountNumber":"60161331926818",
 						"target":"0",
 						"instructionType":"Target Balance",
 						"priorityId":"1",
@@ -19,8 +19,8 @@
 					},
 					{
 						"instructionId": 100001,
-						"controlAccountNumber":"60161331926818",
-						"contraAccountNumber":"60161331926816",
+						"controlBankAccountNumber":"60161331926818",
+						"contraBankAccountNumber":"60161331926816",
 						"target":"0",
 						"instructionType":"Target Balance",
 						"priorityId":"2",
@@ -33,8 +33,8 @@
 					},
 					{
 						"instructionId": 100002,
-						"controlAccountNumber":"60161331926816",
-						"contraAccountNumber":"60161331926815",
+						"controlBankAccountNumber":"60161331926816",
+						"contraBankAccountNumber":"60161331926815",
 						"target":"0",
 						"instructionType":"Target Balance",
 						"priorityId":"3",
@@ -46,8 +46,8 @@
 					},
 					{
 						"instructionId": 100003,
-						"controlAccountNumber":"60161331926821",
-						"contraAccountNumber":"60161331926822",
+						"controlBankAccountNumber":"60161331926821",
+						"contraBankAccountNumber":"60161331926822",
 						"target":"0",
 						"instructionType":"Target Balance",
 						"priorityId":"4",
@@ -59,8 +59,8 @@
 					},
 					{
 						"instructionId": 100004,
-						"controlAccountNumber":"60161331926822",
-						"contraAccountNumber":"60161331926820",
+						"controlBankAccountNumber":"60161331926822",
+						"contraBankAccountNumber":"60161331926820",
 						"target":"0",
 						"instructionType":"Target Balance",
 						"priorityId":"5",
@@ -73,8 +73,8 @@
 					},
 					{
 						"instructionId": 100005,
-						"controlAccountNumber":"60161331926820",
-						"contraAccountNumber":"60161331926819",
+						"controlBankAccountNumber":"60161331926820",
+						"contraBankAccountNumber":"60161331926819",
 						"target":"0",
 						"instructionType":"Target Balance",
 						"priorityId":"6",
@@ -86,8 +86,8 @@
 					},
 					{
 						"instructionId": 100006,
-						"controlAccountNumber":"60161331926825",
-						"contraAccountNumber":"60161331926826",
+						"controlBankAccountNumber":"60161331926825",
+						"contraBankAccountNumber":"60161331926826",
 						"target":"0",
 						"instructionType":"Target Balance",
 						"priorityId":"7",
@@ -100,8 +100,8 @@
 					},
 					{
 						"instructionId": 100007,
-						"controlAccountNumber":"60161331926826",
-						"contraAccountNumber":"60161331926824",
+						"controlBankAccountNumber":"60161331926826",
+						"contraBankAccountNumber":"60161331926824",
 						"target":"0",
 						"instructionType":"Target Balance",
 						"priorityId":"8",
@@ -113,8 +113,8 @@
 					},
 					{
 						"instructionId": 100008,
-						"controlAccountNumber":"60161331926824",
-						"contraAccountNumber":"60161331926823",
+						"controlBankAccountNumber":"60161331926824",
+						"contraBankAccountNumber":"60161331926823",
 						"target":"0",
 						"instructionType":"Target Balance",
 						"priorityId":"9",

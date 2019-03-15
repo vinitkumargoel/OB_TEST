@@ -10,8 +10,8 @@ var fs = require('fs');
 router.post('/populateInstruction', function (req, res) {
 
   let token = req.headers['x-access-token'];
-  let instruction = req.body.instruction;
-  
+  let instruction = req.body
+  console.log(instruction)
   jwt.verify(token, config.secret, function (err, decodedObj) {
     if (err) return res.status(500).json({
       auth: false,
@@ -23,8 +23,8 @@ router.post('/populateInstruction', function (req, res) {
       .then((resp) => {
         Object.assign(data, resp.data);
         let resObj = {
-          instructionID: parseInt(data['currentInstructions'].length) + 1000,
-          priorityID: parseInt(data['currentInstructions'].length) + 1,
+          instructionId: parseInt(data['currentInstructions'].length) + 1000,
+          priorityId: parseInt(data['currentInstructions'].length) + 1,
           controlBankAccountNumber: instruction.controlBankAccountNumber,
           contraBankAccountNumber: instruction.contraBankAccountNumber,
           target: instruction.target,
