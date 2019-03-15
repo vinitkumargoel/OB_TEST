@@ -32,7 +32,10 @@ onLogin(){
       sessionStorage.setItem("username",username)
       sessionStorage.setItem("token",response.token)
       sessionStorage.setItem("type",response.type)
-      this.props.history.push("/home")
+      if(response.type === "retail")
+        this.props.history.push("/home")
+      else
+        this.props.history.push("/homeCommercial")
     }else {
       console.error("not authourised");
     }

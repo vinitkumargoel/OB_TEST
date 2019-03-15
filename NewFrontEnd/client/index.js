@@ -21,6 +21,7 @@ import ManagePayments from './components/managePayments/managedPayments/index'
 import ManagePaymentsSucceed from './components/managePayments/managePaymentsSucceed/index'
 import Options from './components/comm-options/index'
 import TwoWay from './components/two-way/set-instruction/index'
+import commercialHome from './components/commercialHome'
 
 render(
 <MuiThemeProvider>
@@ -45,6 +46,7 @@ render(
     <Route exact path='/financialAdvice' component={FinancialAdvice} />
     <Route exact path="/commercialOptimizations" component={Options} />
     <Route exact path="/setInstructions" component={TwoWay} />
+    <Route exact path="/homeCommercial" component = {commercialHome} />
 
 
     </div>

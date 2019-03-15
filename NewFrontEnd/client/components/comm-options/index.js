@@ -63,12 +63,12 @@ export default class Options extends React.Component{
                     </div>
                     <div className = 'option' style = {{backgroundColor: (this.state.value === 'two-way') ? 'rgba(0, 106, 77, 0.14)' : 'rgba(196, 198, 205, 0.08)'}}>
                       <div className = 'optionHeader'>
-                      Manage 2-way Payment instructions
+                      Cash Pooling
                       </div>
                         <Radio value = 'two-way' className = 'radioStyle' checked={this.state.value === 'two-way'}
                           onChange={this.handleChange}/>
                       <div className = 'optionMeta'>
-                      Manage 2-way payment instructions between your multiple accounts.
+                      Manage Cash Pooling transactions for your businesses.
                       </div>
                     </div>
                     
