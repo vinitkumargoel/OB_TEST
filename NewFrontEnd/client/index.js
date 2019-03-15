@@ -47,7 +47,7 @@ render(
                 <Route exact path="/commercialOptimizations" component={Options} />
                 <Route exact path="/setInstructions" component={TwoWay} />
                 <Route exact path="/history" component={History} />
-
+                <Route exact path="/homeCommercial" component = {commercialHome} />
             </div>
         </HashRouter>
     </MuiThemeProvider>, document.getElementById('root'));

@@ -66,7 +66,7 @@ export default class Rel extends React.Component{
                 <Sidebar activeComponent = "home" type={type}/>
               <div className='row main-content' style = {{backgroundColor:"#f5f6fa",width:"94.5%"}}>
                 <div className='col-9' >
-                <Banner accounts = {this.state.debitData.length} amount = {amount} accSumary = {this.state.accSumary} history = {this.props.history} type={type}/>
+                <Banner accounts = {this.state.debitData.length} amount = {amount} accSumary = {this.state.accSumary} history = {this.props.history} />
                 <Balance creditData = {this.state.creditData} history = {this.props.history}
                 debitData = {this.state.debitData}/>
                 </div>

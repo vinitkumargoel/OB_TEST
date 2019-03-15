@@ -1,0 +1,77 @@
+.card_savings{
+    background-color: #2d8158;
+    color: white;
+    width: 100%;
+    padding: 15px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+
+.saving_label_account_name{
+    font-size: 13px;
+    font-weight: 600;
+    color: #5fb14e;
+}
+
+.saving_sub_label_conatiner{
+    display: flex;
+    margin-top: 10px;
+}
+
+.saving_label_account_number{
+    font-size: 18px;
+}
+
+.saving_sub_label_individual_conatiner{
+    width: 60%;
+}
+
+.saving_sub_lable_heading{
+    font-size: 12px;
+    font-weight: 600;
+    color: #5fb14e;
+   
+}
+
+.saving_sub_lable_value{
+    font-size: 24px;
+}
+
+
+.current_sub_label_conatiner{
+    display: flex;
+    margin-top: 10px;
+}
+
+.current_label_account_number{
+    font-size: 18px;
+}
+
+.current_sub_label_individual_conatiner{
+    width: 60%;
+}
+
+.current_sub_lable_heading{
+    font-size: 12px;
+    font-weight: 600;
+    color: #61b34e;
+}
+
+.current_sub_lable_value{
+    font-size: 15px;
+}
+
+.current_sub_lable_value_2{
+    font-size: 24px;
+    color: #61b34e;
+}
+
+.card_current{
+    width: 100%;
+    padding: 15px;
+    display: flex;
+    border-bottom: 1px solid #e0dede;
+}
+
+/* #61b34e */

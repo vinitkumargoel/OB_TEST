@@ -1,0 +1,131 @@
+
+{
+	"peter-instructions":
+		
+			{"currentInstructions":
+				[
+					{
+						"instructionId": 100000,
+						"controlBankAccountNumber":"60161331926817",
+						"contraBankAccountNumber":"60161331926818",
+						"target":"0",
+						"instructionType":"Target Balance",
+						"priorityId":"1",
+						"executionMode":"Manual",
+						"reversal":"false",
+						"forceDebitControlAccount":"false",
+						"forceDebitContraAccount":"false"
+							
+					},
+					{
+						"instructionId": 100001,
+						"controlBankAccountNumber":"60161331926818",
+						"contraBankAccountNumber":"60161331926816",
+						"target":"0",
+						"instructionType":"Target Balance",
+						"priorityId":"2",
+						"executionMode":"Manual",
+						"reversal":"false",
+						"forceDebitControlAccount":"false",
+						"forceDebitContraAccount":"false"
+						
+						
+					},
+					{
+						"instructionId": 100002,
+						"controlBankAccountNumber":"60161331926816",
+						"contraBankAccountNumber":"60161331926815",
+						"target":"0",
+						"instructionType":"Target Balance",
+						"priorityId":"3",
+						"executionMode":"Manual",
+						"reversal":"false",
+						"forceDebitControlAccount":"false",
+						"forceDebitContraAccount":"false"
+							
+					},
+					{
+						"instructionId": 100003,
+						"controlBankAccountNumber":"60161331926821",
+						"contraBankAccountNumber":"60161331926822",
+						"target":"0",
+						"instructionType":"Target Balance",
+						"priorityId":"4",
+						"executionMode":"Manual",
+						"reversal":"false",
+						"forceDebitControlAccount":"false",
+						"forceDebitContraAccount":"false"
+					
+					},
+					{
+						"instructionId": 100004,
+						"controlBankAccountNumber":"60161331926822",
+						"contraBankAccountNumber":"60161331926820",
+						"target":"0",
+						"instructionType":"Target Balance",
+						"priorityId":"5",
+						"executionMode":"Manual",
+						"reversal":"false",
+						"forceDebitControlAccount":"false",
+						"forceDebitContraAccount":"false"
+				
+							
+					},
+					{
+						"instructionId": 100005,
+						"controlBankAccountNumber":"60161331926820",
+						"contraBankAccountNumber":"60161331926819",
+						"target":"0",
+						"instructionType":"Target Balance",
+						"priorityId":"6",
+						"executionMode":"Manual",
+						"reversal":"false",
+						"forceDebitControlAccount":"false",
+						"forceDebitContraAccount":"false"
+				
+					},
+					{
+						"instructionId": 100006,
+						"controlBankAccountNumber":"60161331926825",
+						"contraBankAccountNumber":"60161331926826",
+						"target":"0",
+						"instructionType":"Target Balance",
+						"priorityId":"7",
+						"executionMode":"Manual",
+						"reversal":"false",
+						"forceDebitControlAccount":"false",
+						"forceDebitContraAccount":"false"
+				
+							
+					},
+					{
+						"instructionId": 100007,
+						"controlBankAccountNumber":"60161331926826",
+						"contraBankAccountNumber":"60161331926824",
+						"target":"0",
+						"instructionType":"Target Balance",
+						"priorityId":"8",
+						"executionMode":"Manual",
+						"reversal":"false",
+						"forceDebitControlAccount":"false",
+						"forceDebitContraAccount":"false"
+				
+					},
+					{
+						"instructionId": 100008,
+						"controlBankAccountNumber":"60161331926824",
+						"contraBankAccountNumber":"60161331926823",
+						"target":"0",
+						"instructionType":"Target Balance",
+						"priorityId":"9",
+						"executionMode":"Manual",
+						"reversal":"false",
+						"forceDebitControlAccount":"false",
+						"forceDebitContraAccount":"false"
+				
+					}
+
+				]
+			}
+		
+}

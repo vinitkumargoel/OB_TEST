@@ -45,6 +45,16 @@ commercialDebitCall: function(queryData,successCb,errorCb) {
     error : errorCb
   })
 },
+commercialDebitCall: function(queryData,successCb,errorCb) {
+  $.ajax({
+    type :"GET",
+    url : config.accountUrl+"/commercialDebit",
+    headers: {"x-access-token": queryData},
+    contentType : "application/json",
+    success : successCb,
+    error : errorCb
+  })
+},
 commercialCreditCall: function(queryData,successCb,errorCb) {
   console.log("Call",queryData)
   $.ajax({

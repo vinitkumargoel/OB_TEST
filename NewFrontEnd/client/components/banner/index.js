@@ -10,12 +10,7 @@ export default class Rel extends React.Component{
   }
     render(){
       console.log(this.props.accSumary, 'accSumary');
-      let bannerImage;
-      if(this.props.type ==="retail"){
-        bannerImage = 'url("../../../../images/Banners/img-banner.png")'
-      } else if(this.props.type === "commercial"){
-        bannerImage = 'url("../../../../images/financialAdvisory/img-banner1.png")'
-      }
+      let bannerImage = 'url("../../../../images/Banners/img-banner.png")'
       console.log(bannerImage)
         return(
           <div>
