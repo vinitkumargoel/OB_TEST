@@ -1,6 +1,6 @@
 import React from 'react';
-import {render }from 'react-dom';
-import {HashRouter, Route} from 'react-router-dom';
+import { render } from 'react-dom';
+import { HashRouter, Route } from 'react-router-dom';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import Offerings from './components/offer';
 import Optimizings from './components/Optimizings';
@@ -21,32 +21,33 @@ import ManagePayments from './components/managePayments/managedPayments/index'
 import ManagePaymentsSucceed from './components/managePayments/managePaymentsSucceed/index'
 import Options from './components/comm-options/index'
 import TwoWay from './components/two-way/set-instruction/index'
+import History from './components/history/index';
 
 render(
-<MuiThemeProvider>
-<HashRouter>
-    <div >
-    <Route exact path='/' component={Login} />
-    <Route exact path='/home' component={Home} />
-    <Route exact path='/payout' component={Payout} />
-    <Route exact path='/offerings' component={Offerings} />
-    <Route exact path='/wallet' component={Wallet} />
-    <Route exact path='/optimizings' component={Optimizings} />
-    <Route exact path='/poolfrom' component={PoolingFromCard} />
-    <Route exact path='/poolto' component={PoolingToCard} />
-    <Route exact path='/portfrom' component={PortingFromCard} />
-    <Route exact path='/portto' component={PortingToCard} />
-    <Route exact path='/confirmPool' component={ConfirmPooling} />
-    <Route exact path='/confirmPort' component={ConfirmPorting} />
-    <Route exact path='/poolingSucceed' component={PoolingSucceed} />
-    <Route exact path='/portingSucceed' component={PortingSucceed} />
-    <Route exact path='/si' component={ManagePayments} />
-    <Route exact path='/managePaymentsSucceed' component={ManagePaymentsSucceed} />
-    <Route exact path='/financialAdvice' component={FinancialAdvice} />
-    <Route exact path="/commercialOptimizations" component={Options} />
-    <Route exact path="/setInstructions" component={TwoWay} />
+    <MuiThemeProvider>
+        <HashRouter>
+            <div >
+                <Route exact path='/' component={Login} />
+                <Route exact path='/home' component={Home} />
+                <Route exact path='/payout' component={Payout} />
+                <Route exact path='/offerings' component={Offerings} />
+                <Route exact path='/wallet' component={Wallet} />
+                <Route exact path='/optimizings' component={Optimizings} />
+                <Route exact path='/poolfrom' component={PoolingFromCard} />
+                <Route exact path='/poolto' component={PoolingToCard} />
+                <Route exact path='/portfrom' component={PortingFromCard} />
+                <Route exact path='/portto' component={PortingToCard} />
+                <Route exact path='/confirmPool' component={ConfirmPooling} />
+                <Route exact path='/confirmPort' component={ConfirmPorting} />
+                <Route exact path='/poolingSucceed' component={PoolingSucceed} />
+                <Route exact path='/portingSucceed' component={PortingSucceed} />
+                <Route exact path='/si' component={ManagePayments} />
+                <Route exact path='/managePaymentsSucceed' component={ManagePaymentsSucceed} />
+                <Route exact path='/financialAdvice' component={FinancialAdvice} />
+                <Route exact path="/commercialOptimizations" component={Options} />
+                <Route exact path="/setInstructions" component={TwoWay} />
+                <Route exact path="/history" component={History} />
 
-
-    </div>
-</HashRouter>
-</MuiThemeProvider>, document.getElementById('root'));
+            </div>
+        </HashRouter>
+    </MuiThemeProvider>, document.getElementById('root'));
