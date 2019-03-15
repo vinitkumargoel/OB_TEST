@@ -11,7 +11,7 @@ class ViewInstructionModal extends Component {
     handleClose = () => this.setState({ modalOpen: false });
 
     render() {
-        return (<Modal trigger={<Icon name='eye' className="eyeIcon" onClick={this.handleOpen} />} open={this.state.modalOpen} onClose={this.handleClose} basic size='large' style={{ width: '100%' }}>
+        return (<Modal trigger={<span onClick={this.handleOpen}>{this.props.tag}</span>} open={this.state.modalOpen} onClose={this.handleClose} basic size='large' style={{ width: '100%' }}>
             <div className="viewInstMainContainer">
                 <div className="viewInstContainer">
                     <div className="ui viewInstContainerCard">
@@ -115,7 +115,7 @@ class ViewInstructionModal extends Component {
                     </div>
                 </div>
 
-                <div style={{width: '74%'}}>
+                <div style={{ width: '74%' }}>
                     <button className="ui button modalBtn closeBtn" onClick={this.handleClose}>CLOSE</button>
                 </div>
             </div>

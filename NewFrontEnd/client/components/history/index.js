@@ -76,7 +76,7 @@ class History extends Component {
     render() {
         return (
             <React.Fragment>
-                2324444
+                3445455
                 <div className="tableContainer">
                     <table className="ui striped table">
                         <thead>
@@ -106,7 +106,7 @@ class History extends Component {
                                     {/* <td>{this.dateConvertor(instruction.executionDateTime)}</td> */}
                                     <td>{instruction.executionDateTime}</td>
                                     <td>{this.checkStatus(instruction.status)}</td>
-                                    <td><ViewInstructionModal></ViewInstructionModal></td>
+                                    <td><ViewInstructionModal tag={<Icon name='eye' className="eyeIcon"/>}></ViewInstructionModal></td>
                                 </tr>
                             )}
                         </tbody>

@@ -22,6 +22,7 @@ import ManagePaymentsSucceed from './components/managePayments/managePaymentsSuc
 import Options from './components/comm-options/index'
 import TwoWay from './components/two-way/set-instruction/index'
 import History from './components/history/index';
+import commercialHome from './components/commercialHome/index'
 
 render(
     <MuiThemeProvider>
