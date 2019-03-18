@@ -14,7 +14,7 @@ export default class Rel extends React.Component{
             <div className="title">
               <p className = 'My-financials'>My business</p>
             </div>
-            <div style={{display:'flex',paddingLeft:'7%',width:'1250px',backgroundImage: bannerImage}} >
+            <div style={{display:'flex',paddingLeft:'7%',width:'1150px',backgroundImage: bannerImage,backgroundRepeat:'no-repeat'}} >
               <div className='flex-container'>
                 <span><div className="header-title">Total Balance</div><div className="header-value">£ {this.props.accSummary.totalBalance}</div></span>
               </div>

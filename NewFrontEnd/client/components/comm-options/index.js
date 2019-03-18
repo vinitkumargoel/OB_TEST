@@ -58,9 +58,6 @@ export default class Options extends React.Component{
                 <h1 style = {{fontWeight: '300',marginTop:'20PX'}}>Commercial Services</h1>
                 </div>
                 <div className = 'optimizingsModal'>
-                    <div className = 'optimizingsModalHeader'>
-                    What would you like OPTIMA to do?
-                    </div>
                     <div className = 'option' style = {{backgroundColor: (this.state.value === 'two-way') ? 'rgba(0, 106, 77, 0.14)' : 'rgba(196, 198, 205, 0.08)'}}>
                       <div className = 'optionHeader'>
                       Cash Pooling
