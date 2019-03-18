@@ -8,85 +8,79 @@ class History extends Component {
     state = {
         instructionArray: [
             {
-                "instExeModalOpen": false,
-                "viewInstModalOpen": false,
                 "executionId": 1234,
                 "instructionId": 100005,
                 "controlAccount": {
                     "controlAccountNumber": "60161331926820",
                     "balanceBeforeExecution": "5000",
                     "balanceAfterExecution": "2000",
-                    "forceDebitAccount": false
                 },
                 "contraAccount": {
                     "contraAccountNumber": "60161331926819",
                     "balanceBeforeExecution": "7000",
                     "balanceAfterExecution": "4000",
-                    "forceDebitAccount": true
                 },
                 "executionDateTime": "20/03/2019",
-                "status": 'success', // or fail
+                "status": 'success',
                 "failureReason": null,
                 "target": "0",
                 "poolingAmmount": '3000',
                 "instructionType": "Target Balance",
                 "priorityId": "6",
                 "executionMode": "Manual",
-                "reversal": "No"
+                "reversal": "No",
+                "forceDebitControlAccount": "false",
+                "forceDebitContraAccount": "false"
             },
             {
-                "instExeModalOpen": false,
-                "viewInstModalOpen": false,
                 "executionId": 5667,
                 "instructionId": 100006,
                 "controlAccount": {
                     "controlAccountNumber": "60161331926820",
                     "balanceBeforeExecution": "5000",
                     "balanceAfterExecution": "2000",
-                    "forceDebitAccount": true
                 },
                 "contraAccount": {
                     "contraAccountNumber": "60161331926819",
                     "balanceBeforeExecution": "7000",
                     "balanceAfterExecution": "4000",
-                    "forceDebitAccount": false
                 },
                 "executionDateTime": "22/03/2019",
-                "status": 'fail', // or fail
+                "status": 'fail',
                 "failureReason": "As insufficient contra account balance",
                 "target": "0",
                 "poolingAmmount": '3000',
                 "instructionType": "Target Balance",
                 "priorityId": "6",
                 "executionMode": "Manual",
-                "reversal": "Yes"
+                "reversal": "Yes",
+                "forceDebitControlAccount": "false",
+                "forceDebitContraAccount": "false"
             },
             {
-                "instExeModalOpen": false,
-                "viewInstModalOpen": false,
                 "executionId": 454,
                 "instructionId": 100008,
                 "controlAccount": {
                     "controlAccountNumber": "60161331926820",
                     "balanceBeforeExecution": "5000",
                     "balanceAfterExecution": "2000",
-                    "forceDebitAccount": true
                 },
                 "contraAccount": {
                     "contraAccountNumber": "60161331926819",
                     "balanceBeforeExecution": "7000",
                     "balanceAfterExecution": "4000",
-                    "forceDebitAccount": false
                 },
                 "executionDateTime": "22/03/2019",
-                "status": 'fail', // or fail
+                "status": 'fail',
                 "failureReason": "As insufficient contra account balance",
                 "target": "0",
                 "poolingAmmount": '3000',
                 "instructionType": "Target Balance",
                 "priorityId": "6",
                 "executionMode": "Manual",
-                "reversal": "Yes"
+                "reversal": "Yes",
+                "forceDebitControlAccount": "true",
+                "forceDebitContraAccount": "false"
             }
         ]
     }

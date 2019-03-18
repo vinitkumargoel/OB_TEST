@@ -23,7 +23,7 @@ class ViewInstructionModal extends Component {
     }
 
     isForceDebitAccount = (forceDebitAccount) => {
-        if (forceDebitAccount) {
+        if (forceDebitAccount === 'true') {
             return <Icon name='check' className="eyeIcon" style={{ fontSize: '12px', color: '#00864f', marginRight: '8px' }} />
         }
         return <Icon name='ban' className="eyeIcon" style={{ fontSize: '12px', color: 'grey', marginRight: '8px' }} />
@@ -66,7 +66,7 @@ class ViewInstructionModal extends Component {
                                         <div style={{ marginBottom: '8px', fontSize: '11px', color: 'blue', fontWeight: 'bold' }}>CONTROL ACCOUNT</div>
                                         <div style={{ marginBottom: '10px', fontSize: '22px', color: 'black' }}>{this.manipulateAccountNumber(this.props.instructionData.controlAccount.controlAccountNumber)}</div>
                                         <div style={{ marginBottom: '15px', color: 'black' }}>
-                                            {this.isForceDebitAccount(this.props.instructionData.controlAccount.forceDebitAccount)}
+                                            {this.isForceDebitAccount(this.props.instructionData.forceDebitControlAccount)}
                                             <span style={{ color: 'grey' }}>Force debit account</span>
                                         </div>
                                         <div style={{ marginBottom: '15px' }}>
@@ -82,7 +82,7 @@ class ViewInstructionModal extends Component {
                                         <div style={{ marginBottom: '8px', fontSize: '11px', color: 'blue', fontWeight: 'bold' }}>CONTRA ACCOUNT</div>
                                         <div style={{ marginBottom: '10px', fontSize: '22px', color: 'black' }}>{this.manipulateAccountNumber(this.props.instructionData.contraAccount.contraAccountNumber)}</div>
                                         <div style={{ marginBottom: '15px', color: 'black' }}>
-                                            {this.isForceDebitAccount(this.props.instructionData.contraAccount.forceDebitAccount)}
+                                            {this.isForceDebitAccount(this.props.instructionData.forceDebitContraAccount)}
                                             <span style={{ color: 'grey' }}>Force debit account</span>
                                         </div>
                                         <div style={{ marginBottom: '15px' }}>
