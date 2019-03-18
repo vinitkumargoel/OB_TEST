@@ -1,0 +1,30 @@
+{
+    "peter-history": {
+        "history": [
+            {
+                "instructionId": 100005,
+                "controlAccount": {
+                    "controlAccountNumber": "60161331926820",
+                    "balanceBeforeExecution": "5000",
+                    "balanceAfterExecution": "2000"
+                },
+                "contraAccount": {
+                    "contraAccountNumber": "60161331926819",
+                    "balanceBeforeExecution": "7000",
+                    "balanceAfterExecution": "4000"
+                },
+                "executionDateTime": "20:11:2019:01:30:42",
+                "status": "success",
+                "failureReason": "As insufficient contra account balance",
+                "target": "0",
+                "poolingAmmount": "3000",
+                "instructionType": "Target Balance",
+                "priorityId": "6",
+                "executionMode": "Manual",
+                "reversal": "No",
+                "forceDebitControlAccount": "false",
+                "forceDebitContraAccount": "false"
+            }
+        ]
+    }
+}
