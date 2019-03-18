@@ -185,9 +185,10 @@ instructionCall: function(queryData,successCb,errorCb) {
 transact: function(queryData,successCb,errorCb) {
   console.log("Call ",queryData)
   $.ajax({
-    type :"GET",
+    type :"POST",
     url : config.instructionUrl+"/transaction",
-    headers: {"x-access-token": queryData},
+    data:JSON.stringify(queryData.data),
+    headers: {"x-access-token": queryData.token},
     contentType : "application/json",
     success : successCb,
     error : errorCb

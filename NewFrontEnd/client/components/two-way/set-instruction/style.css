@@ -9,14 +9,14 @@
   padding-right: 200px;
 } */
 .optimizingsModal{
-  width: 1000px!important;
-  height: 788.3px;
+  width: 1200px!important;
+  height: 367px;
   border-radius: 9px!important;
-  background-color: #ffffff;
-  margin-left: 130px!important;
+  /* background-color: red; */
+  margin-left: 26px!important;
   margin-top: 20px;
-  padding-left: 200px!important;
-  padding-right: 185px!important;
+  padding-left: 283px!important;
+  padding-right: 302px!important;
   margin-right: 50px !important;
   }
   .optimizingsModalHeader{
@@ -123,6 +123,11 @@
       line-height:40px;
       background:#f4f4f4;
   }
+  input {
+      height:40px;
+      line-height:40px;
+      background:#f4f4f4;
+  }
   .tableContainer {
     padding: 15px 50px;
   }
@@ -177,6 +182,7 @@
     margin-left: 94px !important; 
     /* box-shadow: rgba(43, 63, 8, 0.38) 0px 9px 19px 0px !important;  */
     background-color: rgb(0, 134, 79) !important;
+        border-radius: 8px!important;
   }
   th, td {
     padding-top: 5px!important;
@@ -185,7 +191,8 @@
     padding-left: 15px!important;
   }
   .delete1{
-    margin-left: -14px !important;
+    margin-left: -30px !important;
+    float: left;
   }
   .chkBox1{
     outline: 2px solid white!important;
@@ -194,11 +201,12 @@
     outline: 2px solid rgb(114, 111, 111)!important;
   }
   .executeBtn{
-    width: 200px;
+    width: 160px;
     height: 42px;
-    background-color: #66980c;
-    margin-top: 250px;
-    margin-left: -510px;
+    background-color: #00864f;
+    margin-top: 85px;
+    margin-left: 1001px;
+    border-radius: 8px!important;
   }
   .colorbtn2{
     width: 260px;
@@ -208,13 +216,15 @@
   }
   .tab1
   {
-      width: 177px;
-      height: 25px;
-      color:#00864f !important;
+    font-size: 20px;
+    font-weight: bold;
+    width: 249px;
+    color:#00864f !important;
   }
   .tab2
   {
-    width: 177px;
+    width: 249px;
+    font-size: 20px;
     height: 25px;
   }
   .dropDwn{
@@ -228,4 +238,109 @@
     padding-left: 0px;
     padding-right: 0px;
   }
+   .heading2{
+    font-weight: 200;
+    margin-top: 20px;
+    height: 4px;
+    margin-left: 50px;
+  }
+  .addInstr{
+    width: 1250px;
+    height: 514px;
+    /* background-color: blue; */
+    border: solid 1px var(--white);
+  }
+  .accounts
+  {
+    color: rgb(0, 134, 79);
+    margin-top: 10px;
+  }
+  .chkBoxDebit{
+    margin-left: 190px;
+    margin-top: 47px;
+  }
+  chkBox3{
+    margin-left: 645px ;
+    margin-top: -56px ;
+  }
+  .contraAcc
+  {
+    margin-left: 85px;
+  }
+  .currInstr
+  {
+    margin-left: 300px;
+  }
+  .tablCntr{
+    margin-left: 246px;
+    width: 1250px;
+  }
+  .curr_instruction{
+    font-weight: 200;
+    /* margin-top: 66px !important; */
+    margin-left: 16px;
+    width: 270px;
+    height: 41px;
+  }
+  .table_heading
+  {
+    margin-left: -280px !important;
+    width: 1150px !important;
+    /* margin-top: 10px; */
+    text-align: center!important;
+    vertical-align: middle;
+    /* background-color: black !important; */
+    /* margin-left: -15px; */
+    height: 48px;
+  }
+  .tblBody{
+    text-align: center!important;
+    vertical-align: middle;
+  }
+  .modalAdd
+  {
+    /* background-image: url("./Added1.png") !important; */
+    /* background-color: red; */
+    margin-top: 250px;
+    width: 665px;
+    height: 280px;
+    margin-left: 180px;
+  }
+  .okBtn
+  {
+    margin-top: 70px;
+  }
+  .btn2{
+    width: 115px !important;
+    height: 40px !important;
+    margin-top: -13px !important;
+    margin-left: 80px !important;
+  }
+  .modalCon{
+    width: 1028px !important;
+    height: 800px !important;
+  
+  }
+  .headStyle{
+    margin-left: 80px !important;
+    /* margin-top: 164px !important; */
+    padding-top: 58px !important;
+  }
+  /* input.reversal:hover{
+    cursor:not-allowed;
+  } */
+  
+  .revsl:hover{
+    cursor:not-allowed;
+  }
+  /* .revsl{
+    opacity: 0.3;
+  } */
+  input.forceDebitControlAccount:hover{
+    cursor:not-allowed;
+  }
+  input.forceDebitContraAccount:hover{
+    cursor:not-allowed;
+  }
+  
   }
