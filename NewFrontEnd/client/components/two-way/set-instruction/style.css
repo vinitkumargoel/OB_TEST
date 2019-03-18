@@ -127,28 +127,26 @@
     padding: 15px 50px;
   }
   
-  tr th {
+  .currentInstruction th {
     background-image: linear-gradient( #474547, black) !important;
     color: white !important;
   }
   
-  tr th:first-child,
-  tr th:nth-child(4),
-  tr th:nth-child(7) {
+  .currentInstruction th:first-child,
+  .currentInstruction th:nth-child(4),
+  .currentInstruction th:nth-child(7) {
     border-right: solid 1px #585858;
   }
   
-  tr td:first-child,
-  tr td:nth-child(4),
-  tr td:nth-child(7) {
+  .currentInstruction td:first-child,
+  .currentInstruction td:nth-child(4),
+  .currentInstruction td:nth-child(7) {
     border-right: solid 1px rgba(98, 179, 79, 0.19);
   }
   
-  tr td:nth-child(9), tr td:nth-child(10) {
+  .currentInstruction td:nth-child(9), currentInstruction td:nth-child(10) {
     text-align: center !important;
   }
-  
-  
   
   .checkIcon {
     color: #00864f;

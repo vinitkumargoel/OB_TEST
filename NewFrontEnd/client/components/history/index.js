@@ -1,49 +1,55 @@
 import React, { Component } from 'react';
-import { Modal, Icon, Divider } from 'semantic-ui-react';
-// import image1 from './img-banner-funds-copy@3x.png';
-import './style.css';
+import { Icon } from 'semantic-ui-react';
 import InstructionModal from './instExeModal/index';
-import ViewInstructionModal from './viewInstModal/index'
+import ViewInstructionModal from './viewInstModal/index';
+import './style.css';
 
 class History extends Component {
-    // state = { instExeModalOpen: false, viewInstModalOpen: false }
     state = {
         instructionArray: [
             {
+                "instExeModalOpen": false,
+                "viewInstModalOpen": false,
+                "executionId": 1234,
                 "instructionId": 100005,
                 "controlAccount": {
                     "controlAccountNumber": "60161331926820",
                     "balanceBeforeExecution": "5000",
-                    "balanceAfterExecution": "2000"
+                    "balanceAfterExecution": "2000",
+                    "forceDebitAccount": false
                 },
                 "contraAccount": {
                     "contraAccountNumber": "60161331926819",
                     "balanceBeforeExecution": "7000",
-                    "balanceAfterExecution": "4000"
+                    "balanceAfterExecution": "4000",
+                    "forceDebitAccount": true
                 },
                 "executionDateTime": "20/03/2019",
                 "status": 'success', // or fail
-                "failureReason": "As insufficient contra account balance",
+                "failureReason": null,
                 "target": "0",
                 "poolingAmmount": '3000',
                 "instructionType": "Target Balance",
                 "priorityId": "6",
                 "executionMode": "Manual",
-                "reversal": "No",
-                "forceDebitControlAccount": "false",
-                "forceDebitContraAccount": "false",
+                "reversal": "No"
             },
             {
-                "instructionId": 34343434,
+                "instExeModalOpen": false,
+                "viewInstModalOpen": false,
+                "executionId": 5667,
+                "instructionId": 100006,
                 "controlAccount": {
                     "controlAccountNumber": "60161331926820",
                     "balanceBeforeExecution": "5000",
-                    "balanceAfterExecution": "2000"
+                    "balanceAfterExecution": "2000",
+                    "forceDebitAccount": true
                 },
                 "contraAccount": {
                     "contraAccountNumber": "60161331926819",
                     "balanceBeforeExecution": "7000",
-                    "balanceAfterExecution": "4000"
+                    "balanceAfterExecution": "4000",
+                    "forceDebitAccount": false
                 },
                 "executionDateTime": "22/03/2019",
                 "status": 'fail', // or fail
@@ -53,11 +59,69 @@ class History extends Component {
                 "instructionType": "Target Balance",
                 "priorityId": "6",
                 "executionMode": "Manual",
-                "reversal": "No",
-                "forceDebitControlAccount": "false",
-                "forceDebitContraAccount": "false",
+                "reversal": "Yes"
+            },
+            {
+                "instExeModalOpen": false,
+                "viewInstModalOpen": false,
+                "executionId": 454,
+                "instructionId": 100008,
+                "controlAccount": {
+                    "controlAccountNumber": "60161331926820",
+                    "balanceBeforeExecution": "5000",
+                    "balanceAfterExecution": "2000",
+                    "forceDebitAccount": true
+                },
+                "contraAccount": {
+                    "contraAccountNumber": "60161331926819",
+                    "balanceBeforeExecution": "7000",
+                    "balanceAfterExecution": "4000",
+                    "forceDebitAccount": false
+                },
+                "executionDateTime": "22/03/2019",
+                "status": 'fail', // or fail
+                "failureReason": "As insufficient contra account balance",
+                "target": "0",
+                "poolingAmmount": '3000',
+                "instructionType": "Target Balance",
+                "priorityId": "6",
+                "executionMode": "Manual",
+                "reversal": "Yes"
             }
         ]
+    }
+
+    handleInstExeModalOpen = (instId) => {
+        const instructionArray = [...this.state.instructionArray];
+        const index = instructionArray.findIndex(inst => inst.instructionId === instId);
+        instructionArray[index].instExeModalOpen = true;
+        this.setState({ instructionArray });
+    };
+
+    handleInstExeModalClose = (instId) => {
+        const instructionArray = [...this.state.instructionArray];
+        const index = instructionArray.findIndex(inst => inst.instructionId === instId);
+        instructionArray[index].instExeModalOpen = false;
+        this.setState({ instructionArray });
+    }
+
+    handleViewInstModalOpen = (instId) => {
+        const instructionArray = [...this.state.instructionArray];
+        const index = instructionArray.findIndex(inst => inst.instructionId === instId);
+        instructionArray[index].viewInstModalOpen = true;
+        this.setState({ instructionArray });
+    };
+
+    handleViewInstModalClose = (instId) => {
+        const instructionArray = [...this.state.instructionArray];
+        const index = instructionArray.findIndex(inst => inst.instructionId === instId);
+        instructionArray[index].viewInstModalOpen = false;
+        this.setState({ instructionArray });
+    }
+
+    handleViewEventInstExeModal = (instruction) => {
+        this.handleInstExeModalClose(instruction.instructionId);
+        this.handleViewInstModalOpen(instruction.instructionId);
     }
 
     dateConvertor = (date) => {
@@ -66,9 +130,11 @@ class History extends Component {
         console.log(d.toLocaleString());
     }
 
-    checkStatus = (status) => {
-        if (status === 'fail') {
-            return <InstructionModal></InstructionModal>
+    checkStatus = (instruction) => {
+        if (instruction.status === 'fail') {
+            return <InstructionModal instructionData={instruction} open={instruction.instExeModalOpen}
+                onOpen={this.handleInstExeModalOpen} onClose={this.handleInstExeModalClose} handleView={this.handleViewEventInstExeModal}
+                onViewOpen={this.handleViewInstModalOpen} onViewClose={this.handleViewInstModalClose}></InstructionModal>
         }
         return < Icon name='check' className="checkIcon" />
     }
@@ -76,12 +142,12 @@ class History extends Component {
     render() {
         return (
             <React.Fragment>
-                3445455
                 <div className="tableContainer">
                     <table className="ui striped table">
                         <thead>
-                            <tr>
+                            <tr className="history">
                                 <th>Instruction ID</th>
+                                <th>Execution ID</th>
                                 <th>Control Account</th>
                                 <th>Balance <div>(Before Execution)</div></th>
                                 <th>Balance <div>(After Execution)</div></th>
@@ -95,8 +161,9 @@ class History extends Component {
                         </thead>
                         <tbody>
                             {this.state.instructionArray.map(instruction =>
-                                <tr key={instruction.instructionId}>
+                                <tr key={instruction.executionId} className="history">
                                     <td>{instruction.instructionId}</td>
+                                    <td>{instruction.executionId}</td>
                                     <td>{instruction.controlAccount.controlAccountNumber}</td>
                                     <td>&#163; {instruction.controlAccount.balanceBeforeExecution}</td>
                                     <td>&#163; {instruction.controlAccount.balanceAfterExecution}</td>
@@ -105,8 +172,9 @@ class History extends Component {
                                     <td>&#163; {instruction.contraAccount.balanceAfterExecution}</td>
                                     {/* <td>{this.dateConvertor(instruction.executionDateTime)}</td> */}
                                     <td>{instruction.executionDateTime}</td>
-                                    <td>{this.checkStatus(instruction.status)}</td>
-                                    <td><ViewInstructionModal tag={<Icon name='eye' className="eyeIcon"/>}></ViewInstructionModal></td>
+                                    <td>{this.checkStatus(instruction)}</td>
+                                    <td><ViewInstructionModal instructionData={instruction} tag={<Icon name='eye' className="eyeIcon" />}
+                                        open={instruction.viewInstModalOpen} onOpen={this.handleViewInstModalOpen} onClose={this.handleViewInstModalClose}></ViewInstructionModal></td>
                                 </tr>
                             )}
                         </tbody>

@@ -284,7 +284,7 @@ export default class TwoWay extends React.Component {
                 <div className="tableContainer">
                   <table className="ui single line table table_heading">
                     <thead>
-                      <tr>
+                      <tr className="currentInstruction">
                         <th>
                           <div className='ui checkbox chkBox1'>
                             <input type="checkbox" />
@@ -304,7 +304,7 @@ export default class TwoWay extends React.Component {
                     </thead>
                     <tbody>
                       {this.state.instructionData!==null?this.state.instructionData.currentInstructions.map((instruction,index)=>
-                        <tr>
+                        <tr className="currentInstruction">
                         <td><div className='ui checkbox chkBox2'>
                           <input type="checkbox" checked="true" />
                         </div></td>
