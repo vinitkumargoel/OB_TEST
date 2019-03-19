@@ -322,7 +322,7 @@ this.setState({instructionSelected:instructionSelected})
                       <label className='availBal'>Available balance: {this.state.availableBalance.controlBankAccountBalance} </label></div>
 
                   </div>
-                  <div className='col-sm-3 ui checkbox chkBoxDebit' style={{ marginLeft: '173px', marginTop: '38px' }} >
+                  <div className='col-sm-3 ui checkbox chkBoxDebit' style={{ marginLeft: '180px', marginTop: '47px' }} >
 
                     <input name="forceDebitControlAccount" onChange={this.changeSetInstructionValues} type="checkbox" style={{ backgroundColor: '#00864f' }} checked={this.state.newInstruction.forceDebitControlAccount} disabled />
                     <label>Force debit</label>
@@ -452,7 +452,7 @@ this.setState({instructionSelected:instructionSelected})
                         <td>{instruction.instructionType}</td>
                         <td>{instruction.priorityId}</td>
                         <td>{instruction.executionMode}</td>
-                        <td>{instruction.reversal}</td>
+                        <td>No</td>
                         <td><img src ={'images/ic-edit-copy-7.png'} onClick ={this.handleOk}/></td>
                         <td className = 'delete1'><img src ={'images/ic-delete-copy-7.png'} onClick ={this.handleOk}/></td>
                         
@@ -470,7 +470,7 @@ this.setState({instructionSelected:instructionSelected})
               </React.Fragment>
 
               <div>
-                <button onClick = {this.executeInstructions} className="executeBtn">EXECUTE SELECTED
+                <button onClick = {this.executeInstructions} className="executeBtn">EXECUTE
                <Icon name="arrow right icon"></Icon>
                 </button>
               </div>
