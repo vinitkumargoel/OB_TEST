@@ -9,10 +9,11 @@
                 "name": "CAFE WILSON",
                 "address": "93, Stone Cellar Road, Kingston Seymour, BS1 8HR",
                 "contactNumber": "079 6536 2681",
+                "sortCode": "77-95-34",
                 "accounts": [{
                         "accountName": "Business Saving Account",
                         "accountType": "Savings",
-                        "accountNumber": "60161331926815",
+                        "accountNumber": "77953466666615",
                         "availableBalance": "15000",
                         "minimumBalance": "1000",
                         "interestRate": "0.8"
@@ -20,21 +21,21 @@
                     {
                         "accountName": "Business Current Account",
                         "accountType": "Current",
-                        "accountNumber": "60161331926816",
+                        "accountNumber": "77953466666616",
                         "availableBalance": "20000",
                         "minimumBalance": "0",
                         "interestRate": "0"
                     }, {
                         "accountName": "Payable Account",
                         "accountType": "Current",
-                        "accountNumber": "60161331926817",
+                        "accountNumber": "77953466666617",
                         "availableBalance": "-500",
                         "minimumBalance": "0",
                         "interestRate": "0"
                     }, {
                         "accountName": "Receivables Account",
                         "accountType": "Current",
-                        "accountNumber": "60161331926818",
+                        "accountNumber": "77953466666618",
                         "availableBalance": "1500",
                         "minimumBalance": "0",
                         "interestRate": "0"
@@ -45,32 +46,33 @@
                 "name": "SPOTLESS CLEAN CO.",
                 "address": "41, Thompsons Lane, Mellor, BB2 4AE",
                 "contactNumber": "078 0939 0737",
+                "sortCode": "77-95-33",
                 "accounts": [{
                         "accountName": "Business Saving Account",
                         "accountType": "Savings",
-                        "accountNumber": "60161331926819",
+                        "accountNumber": "77953377777715",
                         "availableBalance": "10000",
                         "minimumBalance": "2000",
-                        "interestRate": "0.8"
+                        "interestRate": "0.85"
                     },
                     {
                         "accountName": "Business Current Account",
                         "accountType": "Current",
-                        "accountNumber": "60161331926820",
+                        "accountNumber": "77953377777716",
                         "availableBalance": "15000",
                         "minimumBalance": "0",
                         "interestRate": "0"
                     }, {
                         "accountName": "Payable Account",
                         "accountType": "Current",
-                        "accountNumber": "60161331926821",
+                        "accountNumber": "77953377777717",
                         "availableBalance": "-1000",
                         "minimumBalance": "0",
                         "interestRate": "0"
                     }, {
                         "accountName": "Receivables Account",
                         "accountType": "Current",
-                        "accountNumber": "60161331926822",
+                        "accountNumber": "77953377777718",
                         "availableBalance": "1200",
                         "minimumBalance": "0",
                         "interestRate": "0"
@@ -81,32 +83,33 @@
                 "name": "SECURITY SOLUTIONS LTD.",
                 "address": "79, Sloe Lane, Croxton, IP4 1GW",
                 "contactNumber": "079 2266 3750",
+                "sortCode": "77-95-31",
                 "accounts": [{
                         "accountName": "Business Saving Account",
                         "accountType": "Savings",
-                        "accountNumber": "60161331926823",
+                        "accountNumber": "77953188888815",
                         "availableBalance": "20000",
                         "minimumBalance": "1000",
-                        "interestRate": "0.8"
+                        "interestRate": "0.9"
                     },
                     {
                         "accountName": "Business Current Account",
                         "accountType": "Current",
-                        "accountNumber": "60161331926824",
+                        "accountNumber": "77953188888816",
                         "availableBalance": "40000",
                         "minimumBalance": "2000",
                         "interestRate": "2.5"
                     }, {
                         "accountName": "Payable Account",
                         "accountType": "Current",
-                        "accountNumber": "60161331926825",
+                        "accountNumber": "77953188888817",
                         "availableBalance": "-1500",
                         "minimumBalance": "0",
                         "interestRate": "0"
                     }, {
                         "accountName": "Receivables Account",
                         "accountType": "Current",
-                        "accountNumber": "60161331926826",
+                        "accountNumber": "77953188888818",
                         "availableBalance": "1400",
                         "minimumBalance": "0",
                         "interestRate": "0"
