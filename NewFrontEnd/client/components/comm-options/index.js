@@ -57,18 +57,57 @@ export default class Options extends React.Component{
                 <div>
                 <h1 style = {{fontWeight: '300',marginTop:'20PX'}}>Commercial Services</h1>
                 </div>
-                <div className = 'optimizingsModal'>
+                <div className = 'optionsModal'>
                     <div className = 'option' style = {{backgroundColor: (this.state.value === 'two-way') ? 'rgba(0, 106, 77, 0.14)' : 'rgba(196, 198, 205, 0.08)'}}>
                       <div className = 'optionHeader'>
-                      Cash Pooling
+                      Intra Company Cash Pooling
                       </div>
                         <Radio value = 'two-way' className = 'radioStyle' checked={this.state.value === 'two-way'}
                           onChange={this.handleChange}/>
                       <div className = 'optionMeta'>
-                      Manage Cash Pooling transactions for your businesses.
+                      Manage Cash Pooling transactions for different accounts of your business.
                       </div>
                     </div>
-                    
+                    <div className = 'option' style = {{backgroundColor: 'rgba(196, 198, 205, 0.08)'}}>
+                      <div className = 'optionHeader'>
+                      Inter Company Cash Pooling
+                      </div>
+                        <Radio value = 'two-way' className = 'radioStyle' checked= {false}
+                        />
+                      <div className = 'optionMeta'>
+                      Manage Cash Pooling transactions between your businesses.
+                      </div>
+                    </div>
+                    <div className = 'option' style = {{backgroundColor: 'rgba(196, 198, 205, 0.08)'}}>
+                      <div className = 'optionHeader'>
+                      Business Forecasting
+                      </div>
+                        <Radio value = 'two-way' className = 'radioStyle' checked= {false}
+                        />
+                      <div className = 'optionMeta'>
+                      Predict the growth of your businesses.
+                      </div>
+                    </div>
+                    <div className = 'option' style = {{backgroundColor: 'rgba(196, 198, 205, 0.08)'}}>
+                      <div className = 'optionHeader'>
+                      Investment Management
+                      </div>
+                        <Radio value = 'two-way' className = 'radioStyle' checked= {false}
+                        />
+                      <div className = 'optionMeta'>
+                      
+                      </div>
+                    </div>
+                    <div className = 'option' style = {{backgroundColor: 'rgba(196, 198, 205, 0.08)'}}>
+                      <div className = 'optionHeader'>
+                      Fixed Payment Instruction
+                      </div>
+                        <Radio value = 'two-way' className = 'radioStyle' checked= {false}
+                        />
+                      <div className = 'optionMeta'>
+                      
+                      </div>
+                    </div> 
                     <div className = "flex-container">
                       <Link to='/commercialOptimizations'><button className="flex-item" onClick = {this.onCancelClick}>CANCEL</button></Link>
                       <button className="flex-item1" style = {{marginLeft: '310px', display: (this.state.value != '') ? '' : 'none'}}

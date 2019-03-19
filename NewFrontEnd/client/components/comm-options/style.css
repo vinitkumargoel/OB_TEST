@@ -1,6 +1,6 @@
-.optimizingsModal{
+.optionsModal{
   width: 1145px;
-  height: 788.3px;
+  height: 90%;
   border-radius: 9px;
   background-color: #ffffff;
   margin-left: 4%;
@@ -10,7 +10,7 @@
 }
 .optimizingsModalHeader{
   width: 413px;
-  height: 36px;
+  height: 360px;
   font-family: Open Sans;
   font-size: 24px;
   font-weight: 300;
