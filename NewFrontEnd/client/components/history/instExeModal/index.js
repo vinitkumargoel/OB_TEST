@@ -12,7 +12,7 @@ class InstructionModal extends Component {
     // handleClose = () => this.setState({ modalOpen: false });
 
     render() {
-        return (<Modal trigger={< Icon name='exclamation circle' className="exclamationIcon" onClick={() => this.props.onOpen(this.props.instructionData.instructionId)} />}
+        return (<Modal trigger={<span onClick={() => this.props.onOpen()}>{this.props.tag}</span>}
             open={this.props.open} basic size='large' style={{ width: '100%' }}>
             <div className="InstModalContainer">
                 <div className="modalInstructionExecution" style={{ backgroundImage: "url(images/img-banner-funds-copy@3x.png)" }}>
@@ -26,8 +26,8 @@ class InstructionModal extends Component {
                     </div>
 
                     <div className="modalButtonContainer">
-                        <button className="ui button modalBtn viewButton" onClick={() => this.props.handleView(this.props.instructionData)}> View</button>
-                        <button className="ui button modalBtn okButton" onClick={() => this.props.onClose(this.props.instructionData.instructionId)}>OK</button>
+                        <button className="ui button modalBtn viewButton" onClick={() => this.props.handleView()}> View</button>
+                        <button className="ui button modalBtn okButton" onClick={() => this.props.onClose()}>OK</button>
                     </div>
                 </div>
             </div>

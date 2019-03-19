@@ -85,19 +85,19 @@ class History extends Component {
         ]
     }
 
-    handleInstExeModalOpen = (instId) => {
-        const instructionArray = [...this.state.instructionArray];
-        const index = instructionArray.findIndex(inst => inst.instructionId === instId);
-        instructionArray[index].instExeModalOpen = true;
-        this.setState({ instructionArray });
-    };
+    // handleInstExeModalOpen = (instId) => {
+    //     const instructionArray = [...this.state.instructionArray];
+    //     const index = instructionArray.findIndex(inst => inst.instructionId === instId);
+    //     instructionArray[index].instExeModalOpen = true;
+    //     this.setState({ instructionArray });
+    // };
 
-    handleInstExeModalClose = (instId) => {
-        const instructionArray = [...this.state.instructionArray];
-        const index = instructionArray.findIndex(inst => inst.instructionId === instId);
-        instructionArray[index].instExeModalOpen = false;
-        this.setState({ instructionArray });
-    }
+    // handleInstExeModalClose = (instId) => {
+    //     const instructionArray = [...this.state.instructionArray];
+    //     const index = instructionArray.findIndex(inst => inst.instructionId === instId);
+    //     instructionArray[index].instExeModalOpen = false;
+    //     this.setState({ instructionArray });
+    // }
 
     handleViewInstModalOpen = (instId) => {
         const instructionArray = [...this.state.instructionArray];
@@ -126,9 +126,10 @@ class History extends Component {
 
     checkStatus = (instruction) => {
         if (instruction.status === 'fail') {
-            return <InstructionModal instructionData={instruction} open={instruction.instExeModalOpen}
-                onOpen={this.handleInstExeModalOpen} onClose={this.handleInstExeModalClose} handleView={this.handleViewEventInstExeModal}
-                onViewOpen={this.handleViewInstModalOpen} onViewClose={this.handleViewInstModalClose}></InstructionModal>
+            return < Icon name='exclamation circle' className="exclamationIcon" />
+            // return <InstructionModal instructionData={instruction} open={instruction.instExeModalOpen}
+            //     onOpen={this.handleInstExeModalOpen} onClose={this.handleInstExeModalClose} handleView={this.handleViewEventInstExeModal}
+            //     onViewOpen={this.handleViewInstModalOpen} onViewClose={this.handleViewInstModalClose}></InstructionModal>
         }
         return < Icon name='check' className="checkIcon" />
     }
