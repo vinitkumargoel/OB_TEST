@@ -201,12 +201,19 @@
     outline: 2px solid rgb(114, 111, 111)!important;
   }
   .executeBtn{
-    width: 160px;
+    margin-top: 20px;
+    width: 190px;
+    height: 40px;
+    background-color: #00864f;
+    color: white;
+    border-radius: 8px!important;
+    float: right;
+    /* width: 160px;
     height: 42px;
     background-color: #00864f;
     margin-top: 85px;
     margin-left: 1001px;
-    border-radius: 8px!important;
+    border-radius: 8px!important; */
   }
   .colorbtn2{
     width: 260px;
@@ -214,19 +221,26 @@
     box-shadow: 0 9px 19px 0 rgba(43, 63, 8, 0.38)!important;
     background-color: #00864f !important;
   }
-  .tab1
-  {
+
+  .tab1 {
+    padding: 10px;
     font-size: 20px;
-    font-weight: bold;
     width: 249px;
-    color:#00864f !important;
+    text-align: center !important;
+    cursor: pointer;
   }
-  .tab2
-  {
+
+  .active {
+    color:#00864f !important;
+    border-bottom: 3px solid #00864f !important;
+  }
+
+  .tab2 {
     width: 249px;
     font-size: 20px;
     height: 25px;
   }
+
   .dropDwn{
     width: 310px; 
     height: 40px; 

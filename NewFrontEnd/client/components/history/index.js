@@ -1,88 +1,30 @@
 import React, { Component } from 'react';
 import { Icon } from 'semantic-ui-react';
-import InstructionModal from './instExeModal/index';
+import Services from '../../services/index';
 import ViewInstructionModal from './viewInstModal/index';
+import moment from 'moment';
 import './style.css';
 
 class History extends Component {
     state = {
-        instructionArray: [
-            {
-                "executionId": 1234,
-                "instructionId": 100005,
-                "controlAccount": {
-                    "controlAccountNumber": "60161331926820",
-                    "balanceBeforeExecution": "5000",
-                    "balanceAfterExecution": "2000",
-                },
-                "contraAccount": {
-                    "contraAccountNumber": "60161331926819",
-                    "balanceBeforeExecution": "7000",
-                    "balanceAfterExecution": "4000",
-                },
-                "executionDateTime": "20/03/2019",
-                "status": 'success',
-                "failureReason": null,
-                "target": "0",
-                "poolingAmmount": '3000',
-                "instructionType": "Target Balance",
-                "priorityId": "6",
-                "executionMode": "Manual",
-                "reversal": "No",
-                "forceDebitControlAccount": "false",
-                "forceDebitContraAccount": "false"
-            },
-            {
-                "executionId": 5667,
-                "instructionId": 100006,
-                "controlAccount": {
-                    "controlAccountNumber": "60161331926820",
-                    "balanceBeforeExecution": "5000",
-                    "balanceAfterExecution": "2000",
-                },
-                "contraAccount": {
-                    "contraAccountNumber": "60161331926819",
-                    "balanceBeforeExecution": "7000",
-                    "balanceAfterExecution": "4000",
-                },
-                "executionDateTime": "22/03/2019",
-                "status": 'fail',
-                "failureReason": "As insufficient contra account balance",
-                "target": "0",
-                "poolingAmmount": '3000',
-                "instructionType": "Target Balance",
-                "priorityId": "6",
-                "executionMode": "Manual",
-                "reversal": "Yes",
-                "forceDebitControlAccount": "false",
-                "forceDebitContraAccount": "false"
-            },
-            {
-                "executionId": 454,
-                "instructionId": 100008,
-                "controlAccount": {
-                    "controlAccountNumber": "60161331926820",
-                    "balanceBeforeExecution": "5000",
-                    "balanceAfterExecution": "2000",
-                },
-                "contraAccount": {
-                    "contraAccountNumber": "60161331926819",
-                    "balanceBeforeExecution": "7000",
-                    "balanceAfterExecution": "4000",
-                },
-                "executionDateTime": "22/03/2019",
-                "status": 'fail',
-                "failureReason": "As insufficient contra account balance",
-                "target": "0",
-                "poolingAmmount": '3000',
-                "instructionType": "Target Balance",
-                "priorityId": "6",
-                "executionMode": "Manual",
-                "reversal": "Yes",
-                "forceDebitControlAccount": "true",
-                "forceDebitContraAccount": "false"
-            }
-        ]
+        instructionArray: [],
+        pagginationArray: []
+    }
+
+    componentDidMount() {
+        var token = sessionStorage.getItem("token");
+
+        Services.history(token, function (data) {
+            data.shift();
+            this.setState({ instructionArray: data });
+            this.pagginator();
+        }.bind(this), function (err) {
+            // console.log(err);
+        })
+    }
+
+    pagginator = () => {
+        this.setState({ pagginationArray: this.state.instructionArray });
     }
 
     // handleInstExeModalOpen = (instId) => {
@@ -99,30 +41,24 @@ class History extends Component {
     //     this.setState({ instructionArray });
     // }
 
-    handleViewInstModalOpen = (instId) => {
-        const instructionArray = [...this.state.instructionArray];
-        const index = instructionArray.findIndex(inst => inst.instructionId === instId);
-        instructionArray[index].viewInstModalOpen = true;
-        this.setState({ instructionArray });
+    handleViewInstModalOpen = (exeID) => {
+        const pagginationArray = [...this.state.pagginationArray];
+        const index = pagginationArray.findIndex(inst => inst.executionId === exeID);
+        pagginationArray[index].viewInstModalOpen = true;
+        this.setState({ pagginationArray });
     };
 
-    handleViewInstModalClose = (instId) => {
-        const instructionArray = [...this.state.instructionArray];
-        const index = instructionArray.findIndex(inst => inst.instructionId === instId);
-        instructionArray[index].viewInstModalOpen = false;
-        this.setState({ instructionArray });
+    handleViewInstModalClose = (exeID) => {
+        const pagginationArray = [...this.state.pagginationArray];
+        const index = pagginationArray.findIndex(inst => inst.executionId === exeID);
+        pagginationArray[index].viewInstModalOpen = false;
+        this.setState({ pagginationArray });
     }
 
-    handleViewEventInstExeModal = (instruction) => {
-        this.handleInstExeModalClose(instruction.instructionId);
-        this.handleViewInstModalOpen(instruction.instructionId);
-    }
-
-    dateConvertor = (date) => {
-        console.log(date);
-        var d = new Date("2017-03-16T17:46:53.677");
-        console.log(d.toLocaleString());
-    }
+    // handleViewEventInstExeModal = (instruction) => {
+    //     this.handleInstExeModalClose(instruction.instructionId);
+    //     this.handleViewInstModalOpen(instruction.instructionId);
+    // }
 
     checkStatus = (instruction) => {
         if (instruction.status === 'fail') {
@@ -149,13 +85,14 @@ class History extends Component {
                                 <th>Contra Account</th>
                                 <th>Balance <div>(Before Execution)</div></th>
                                 <th>Balance <div>(After Execution)</div></th>
-                                <th>Date Executed</th>
+                                <th>Executed Date</th>
+                                <th>Executed Time</th>
                                 <th>Status</th>
                                 <th>Details</th>
                             </tr>
                         </thead>
                         <tbody>
-                            {this.state.instructionArray.map(instruction =>
+                            {this.state.pagginationArray.map(instruction =>
                                 <tr key={instruction.executionId} className="history">
                                     <td>{instruction.instructionId}</td>
                                     <td>{instruction.executionId}</td>
@@ -165,8 +102,8 @@ class History extends Component {
                                     <td>{instruction.contraAccount.contraAccountNumber}</td>
                                     <td>&#163; {instruction.contraAccount.balanceBeforeExecution}</td>
                                     <td>&#163; {instruction.contraAccount.balanceAfterExecution}</td>
-                                    {/* <td>{this.dateConvertor(instruction.executionDateTime)}</td> */}
-                                    <td>{instruction.executionDateTime}</td>
+                                    <td>{moment(instruction.executionDateTime).format("DD/MM/YYYY")}</td>
+                                    <td>{moment(instruction.executionDateTime).format('LT')}</td>
                                     <td>{this.checkStatus(instruction)}</td>
                                     <td><ViewInstructionModal instructionData={instruction} tag={<Icon name='eye' className="eyeIcon" />}
                                         open={instruction.viewInstModalOpen} onOpen={this.handleViewInstModalOpen} onClose={this.handleViewInstModalClose}></ViewInstructionModal></td>
@@ -174,6 +111,10 @@ class History extends Component {
                             )}
                         </tbody>
                     </table>
+
+                    {/* <div className="pagginator">
+                        {this.pagginator()}
+                    </div> */}
                 </div>
             </React.Fragment>
         );

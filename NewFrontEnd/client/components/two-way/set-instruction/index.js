@@ -13,6 +13,8 @@ export default class TwoWay extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      setInstructionTabActive: true,
+      historyTabActive: false,
       showHistory: false,
       instExeModalOpen: false,
       modalOpen: true,
@@ -188,12 +190,10 @@ export default class TwoWay extends React.Component {
       accountList.push(instruction.instructionId.toString())
     })
     let data = {}
-    data.accountList = accountList
-    console.log(data)
-
+    data.accountList = accountList;
     accountList.length !== 0 ? this.execute(data) : alert("Please select an instruction")
-
   }
+
   onPreviousClick = () => {
     this.setState({
       value: ''
@@ -258,11 +258,14 @@ export default class TwoWay extends React.Component {
       token: token,
       data: data
     }
-    console.log(data)
-    Services.transact(query, function (data) {
-      // console.log(data);
-      console.log(data)
-    })
+
+    Services.transact(query, response => {
+      if (response.success) {
+        this.setState({ showModal: true });
+      } else if (!response.success) {
+        this.setState({ instExeModalOpen: true });
+      }
+    });
   }
 
   popup = () => {
@@ -287,6 +290,10 @@ export default class TwoWay extends React.Component {
     this.setState({ showHistory: true });
   }
 
+  openModal = () => {
+    this.setState({ instExeModalOpen: true });
+  }
+
   renderScreen() {
     if (this.state.showHistory) {
       return <History></History>
@@ -295,7 +302,7 @@ export default class TwoWay extends React.Component {
       return (
         <div>
           <div className='addInstr'>
-            {/* <div class="ui segment active tab">
+            {/* <div className="ui segment active tab">
         <button className='colorbtn2'>ADD NEW INSTRUCTION</button>
       </div> */}
             <div>
@@ -373,16 +380,16 @@ export default class TwoWay extends React.Component {
                   </div>
                 </div>
                 <div style={{ marginTop: '82px', marginLeft: '209px' }}>
-                  <div class="ui grid">
-                    <div class="four wide column"> <div className='ui checkbox revsl' style={{ marginLeft: '-490px' }}>
+                  <div className="ui grid">
+                    <div className="four wide column"> <div className='ui checkbox revsl' style={{ marginLeft: '-490px' }}>
 
                       <input name="reversal" type="checkbox" onChange={this.changeSetInstructionValues} checked={this.state.newInstruction.reversal} disabled />
                       <label>Reversal</label>
                     </div></div>
-                    <div class="four wide column"> <button className="ui secondary basic button" style={{ width: '139px', marginLeft: '-34px', height: '42px', border: 'solid 1px #979797' }}>CANCEL</button></div>
-                    <div class="four wide column">
+                    <div className="four wide column"> <button className="ui secondary basic button" style={{ width: '139px', marginLeft: '-34px', height: '42px', border: 'solid 1px #979797' }}>CANCEL</button></div>
+                    <div className="four wide column">
                       <button onClick={this.resetAddNewInstruction} className="ui secondary basic button" style={{ width: '139px', height: '42px', marginLeft: '30px', border: 'solid 1px #979797' }}>RESET</button></div>
-                    <div class="four wide column">
+                    <div className="four wide column">
                       {/* <button className="colorbtn" onClick={this.addInstruction}>ADD</button></div> */}
                       <Modal className='modalCon' open={this.state.showModal} onClose={this.closeModal} trigger={<button className="colorbtn" onClick={this.addInstruction}>ADD</button>} basic size='small' >
                         {/* () => this.setState({ showModal: true })} */}
@@ -392,19 +399,19 @@ export default class TwoWay extends React.Component {
                             <div className='headStyle'>
                               <h1>
                                 Instruction added!
-                  </h1>
+                              </h1>
                             </div>
                           </Modal.Content>
                           <Modal.Actions className='okBtn'>
 
                             <Button color='green' className='btn2' onClick={(evt) => this.handleOk(evt)}>
                               OK
-                  </Button>
+                            </Button>
                           </Modal.Actions>
                         </div>
                       </Modal>
                     </div>
-                    {/* <div class="four wide column"> <button className="colorbtn" onClick={this.popup}>ADD</button></div> */}
+                    {/* <div className="four wide column"> <button className="colorbtn" onClick={this.popup}>ADD</button></div> */}
                   </div>
 
                 </div>
@@ -467,22 +474,34 @@ export default class TwoWay extends React.Component {
 
           </React.Fragment>
 
-          <div>
-            <InstructionModal open={this.state.instExeModalOpen}
-              onOpen={this.handleInstExeModalOpen} onClose={this.handleInstExeModalClose} handleView={this.handleViewEventInstExeModal}
-              tag={<button className="executeBtn">EXECUTE SELECTED <Icon name="arrow right icon"></Icon></button>}></InstructionModal>
+          <div style={{ width: '100%' }}>
+            <button className="executeBtn" onClick={this.executeInstructions}>EXECUTE SELECTED<Icon name="arrow right icon" style={{ marginLeft: '15px' }}></Icon></button>
           </div>
+
+          <InstructionModal open={this.state.instExeModalOpen}
+            onOpen={this.handleInstExeModalOpen} onClose={this.handleInstExeModalClose} handleView={this.handleViewEventInstExeModal}
+          ></InstructionModal>
         </div>
       )
     }
   }
 
   showHistory = () => {
+    this.setState({ setInstructionTabActive: false, historyTabActive: true })
     this.setState({ showHistory: true });
   }
 
   showInstruction = () => {
+    this.setState({ setInstructionTabActive: true, historyTabActive: false })
     this.setState({ showHistory: false });
+  }
+
+  setActiveClass = (value) => {
+    if (value) {
+      return "active tab1";
+    }
+
+    return "tab1";
   }
 
   render() {
@@ -493,9 +512,9 @@ export default class TwoWay extends React.Component {
           <Sidebar activeComponent="wallet" />
           <div className='main-content' style={{ backgroundColor: "#f5f6fa", width: "90%", paddingBottom: '20px' }}>
             <div>
-              <div class="ui pointing secondary menu">
-                <a class="active item tab1" onClick={this.showInstruction}><b>SET INSTRUCTIONS</b></a>
-                <a class="item tab2" onClick={this.showHistory}><b>HISTORY</b></a>
+              <div className="ui pointing secondary menu">
+                <a className={this.setActiveClass(this.state.setInstructionTabActive)} onClick={this.showInstruction}><b>SET INSTRUCTIONS</b></a>
+                <a className={this.setActiveClass(this.state.historyTabActive)} onClick={this.showHistory}><b>HISTORY</b></a>
               </div>
               {this.renderScreen()}
             </div>

@@ -1,5 +1,5 @@
 .tableContainer {
-    padding: 15px 50px;
+    padding: 15px 0;
 }
 
 .history th {
@@ -9,6 +9,7 @@
 
 .history th, .history td {
     padding: 10px !important;
+    font-size: 13px !important;
 }
 
 .history th:first-child,
@@ -25,8 +26,11 @@
     border-right: solid 1px rgba(98, 179, 79, 0.19);
 }
 
-.history td:nth-child(10), .history td:nth-child(11) {
+.history td:nth-child(11), .history td:nth-child(12){
     text-align: center !important;
+}
+
+.history td:nth-child(12) {
     cursor: pointer !important;
 }
 

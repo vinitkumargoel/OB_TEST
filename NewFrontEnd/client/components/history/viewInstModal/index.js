@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Modal, Icon } from 'semantic-ui-react';
 import './style.css';
+import moment from 'moment';
 
 class ViewInstructionModal extends Component {
     // state = {
@@ -41,29 +42,29 @@ class ViewInstructionModal extends Component {
     }
 
     render() {
-        return (<Modal trigger={<span onClick={() => this.props.onOpen(this.props.instructionData.instructionId)}>{this.props.tag}</span>} open={this.props.open} basic size='large' style={{ width: '100%' }}>
+        return (<Modal trigger={<span onClick={() => this.props.onOpen(this.props.instructionData.executionId)}>{this.props.tag}</span>} open={this.props.open} basic size='large' style={{ width: '100%' }}>
             <div className="viewInstMainContainer">
                 <div className="viewInstContainer">
                     <div className="ui viewInstContainerCard">
                         <div className="mainColumn_1" style={{ backgroundImage: "url(images/group-20@3x.png)" }}>
                             <div className="mainColumn_1-Container1">
-                                <div className="colum1_container_font">Instruction</div>
-                                <div className="colum1_container_font">Execution</div>
-                                <div className="colum1_container_font">Details</div>
+                                <div className="colum1_container_font" style={{color: 'white'}}>Instruction</div>
+                                <div className="colum1_container_font" style={{color: 'white'}}>Execution</div>
+                                <div className="colum1_container_font" style={{color: 'white'}}>Details</div>
                             </div>
 
                             <div className="mainColumn_1-Container2">
-                                <div style={{ fontSize: '11px', marginBottom: '8px', color: '#5c9af1' }}>ID</div>
-                                <div style={{ fontSize: '14px', marginBottom: '25px' }}>{this.props.instructionData.instructionId}</div>
-                                <div style={{ fontSize: '11px', marginBottom: '8px', color: '#5c9af1' }}>EXECUTED ON</div>
-                                <div style={{ fontSize: '14px' }}>{this.props.instructionData.executionDateTime}</div>
+                                <div style={{ fontSize: '11px', marginBottom: '8px', color: '#529bff' }}>ID</div>
+                                <div style={{ fontSize: '14px', marginBottom: '25px', color: 'white' }}>{this.props.instructionData.instructionId}</div>
+                                <div style={{ fontSize: '11px', marginBottom: '8px', color: '#529bff' }}>EXECUTED ON</div>
+                                <div style={{ fontSize: '14px', color: 'white' }}>{moment(this.props.instructionData.executionDateTime).format('DD/MM/YYYY')}</div>
                             </div>
                         </div>
                         <div className="mainColumn_2">
                             <div className="column2Container">
                                 <div className="upperSection">
                                     <div className="leftSection" style={{ borderRight: '1px solid lightgrey' }}>
-                                        <div style={{ marginBottom: '8px', fontSize: '11px', color: 'blue', fontWeight: 'bold' }}>CONTROL ACCOUNT</div>
+                                        <div style={{ marginBottom: '8px', fontSize: '11px', color: '#18509d', fontWeight: 'bold' }}>CONTROL ACCOUNT</div>
                                         <div style={{ marginBottom: '10px', fontSize: '22px', color: 'black' }}>{this.manipulateAccountNumber(this.props.instructionData.controlAccount.controlAccountNumber)}</div>
                                         <div style={{ marginBottom: '15px', color: 'black' }}>
                                             {this.isForceDebitAccount(this.props.instructionData.forceDebitControlAccount)}
@@ -79,7 +80,7 @@ class ViewInstructionModal extends Component {
                                         </div>
                                     </div>
                                     <div className="rightSection">
-                                        <div style={{ marginBottom: '8px', fontSize: '11px', color: 'blue', fontWeight: 'bold' }}>CONTRA ACCOUNT</div>
+                                        <div style={{ marginBottom: '8px', fontSize: '11px', color: '#18509d', fontWeight: 'bold' }}>CONTRA ACCOUNT</div>
                                         <div style={{ marginBottom: '10px', fontSize: '22px', color: 'black' }}>{this.manipulateAccountNumber(this.props.instructionData.contraAccount.contraAccountNumber)}</div>
                                         <div style={{ marginBottom: '15px', color: 'black' }}>
                                             {this.isForceDebitAccount(this.props.instructionData.forceDebitContraAccount)}
@@ -98,11 +99,11 @@ class ViewInstructionModal extends Component {
                                 <div className="lowerSection">
                                     <div className="leftSection" style={{ paddingTop: '30px' }}>
                                         <div style={{ marginBottom: '20px' }}>
-                                            <span style={{ fontSize: '11px', color: 'blue', fontWeight: 'bold', marginRight: '20px' }}>VALUE</span>
+                                            <span style={{ fontSize: '11px', color: '#18509d', fontWeight: 'bold', marginRight: '20px' }}>VALUE</span>
                                             <span style={{ color: 'grey' }}>&#163; {this.props.instructionData.target}</span>
                                         </div>
                                         <div style={{ marginBottom: '20px' }}>
-                                            <span style={{ marginBottom: '10px', fontSize: '11px', color: 'blue', fontWeight: 'bold', marginRight: '20px' }}>POOLING AMMOUNT</span>
+                                            <span style={{ marginBottom: '10px', fontSize: '11px', color: '#18509d', fontWeight: 'bold', marginRight: '20px' }}>POOLING AMMOUNT</span>
                                             <span style={{ color: 'grey' }}>&#163; {this.props.instructionData.poolingAmmount}</span>
                                         </div>
                                         <div>
@@ -113,13 +114,13 @@ class ViewInstructionModal extends Component {
                                     <div className="rightSection rightSectionContainer" style={{ paddingTop: '30px' }}>
                                         <div>
                                             <div style={{ marginBottom: '20px' }}>
-                                                <span style={{ fontSize: '11px', color: 'blue', fontWeight: 'bold', marginRight: '20px' }}>INSTRUCTION TYPE</span>
+                                                <span style={{ fontSize: '11px', color: '#18509d', fontWeight: 'bold', marginRight: '20px' }}>INSTRUCTION TYPE</span>
                                             </div>
                                             <div style={{ marginBottom: '20px' }}>
-                                                <span style={{ marginBottom: '10px', fontSize: '11px', color: 'blue', fontWeight: 'bold', marginRight: '20px' }}>INSTRUCTION PRIORITY</span>
+                                                <span style={{ marginBottom: '10px', fontSize: '11px', color: '#18509d', fontWeight: 'bold', marginRight: '20px' }}>INSTRUCTION PRIORITY</span>
                                             </div>
                                             <div>
-                                                <span style={{ marginBottom: '10px', fontSize: '11px', color: 'blue', fontWeight: 'bold', marginRight: '20px' }}>EXECUTION MODE</span>
+                                                <span style={{ marginBottom: '10px', fontSize: '11px', color: '#18509d', fontWeight: 'bold', marginRight: '20px' }}>EXECUTION MODE</span>
                                             </div>
                                         </div>
                                         <div>
@@ -142,7 +143,7 @@ class ViewInstructionModal extends Component {
                 </div>
 
                 <div style={{ width: '74%' }}>
-                    <button className="ui button modalBtn closeBtn" onClick={() => this.props.onClose(this.props.instructionData.instructionId)}>CLOSE</button>
+                    <button className="ui button modalBtn closeBtn" onClick={() => this.props.onClose(this.props.instructionData.executionId)}>CLOSE</button>
                 </div>
             </div>
         </Modal>);
