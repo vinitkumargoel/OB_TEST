@@ -8,7 +8,7 @@ import Services from '../../../services'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import InstructionModal from '../../history/instExeModal/index';
 import History from '../../history/index';
-
+import Accordian from '../../accordians'
 export default class TwoWay extends React.Component {
   constructor(props) {
     super(props);
@@ -29,7 +29,8 @@ export default class TwoWay extends React.Component {
         reversal: false
       },
       accountInfos: [],
-      availableBalance: { controlBankAccountBalance: "", contraBankAccountBalance: "" }
+      availableBalance: { controlBankAccountBalance: "", contraBankAccountBalance: "" },
+      showAccordians: false
     }
   }
   componentDidMount() {
@@ -287,6 +288,10 @@ export default class TwoWay extends React.Component {
     this.setState({ showHistory: true });
   }
 
+  getAccordian = () => {
+    this.setState({showAccordians:true})
+  }
+
   renderScreen() {
     if (this.state.showHistory) {
       return <History></History>
@@ -294,125 +299,12 @@ export default class TwoWay extends React.Component {
     else {
       return (
         <div>
-          <div className='addInstr'>
-            {/* <div class="ui segment active tab">
-        <button className='colorbtn2'>ADD NEW INSTRUCTION</button>
-      </div> */}
-            <div>
-              <h3 className='heading2'>Add new instruction</h3>
-            </div>
-            <div className='optimizingsModal'>
-              <Link to='/commercialOptimizations'>
-              </Link>
-              <div className="container">
-
-                <div className='row'>
-                  <div className='col-sm-3' style={{ marginLeft: '-280px' }}>
-                    <label className="accounts"> Control account</label>
-                    <select name="controlBankAccountNumber" className="dropdown"
-                      style={{ width: '310px', height: '40px', border: 'solid 1px #d1d1d1', backgroundColor: 'rgba(196, 198, 205, 0.08)' }}
-                      onChange={this.changeSetInstructionValues} value={this.state.newInstruction.controlBankAccountNumber} placeholder="Select a control account">
-                      <option value="none" >----Select an Account------</option>
-                      {this.state.dropDownAccountData.map((accountNumber, index) => {
-                        return (<option value={accountNumber} key={index}>{accountNumber}</option>);
-                      })}
-                    </select>
-                    <div style={{ width: '175px' }}>
-                      <label className='availBal'>Available balance: {this.state.availableBalance.controlBankAccountBalance} </label></div>
-
-                  </div>
-                  <div className='col-sm-3 ui checkbox chkBoxDebit' style={{ marginLeft: '180px', marginTop: '47px' }} >
-
-                    <input name="forceDebitControlAccount" onChange={this.changeSetInstructionValues} type="checkbox" style={{ backgroundColor: '#00864f' }} checked={this.state.newInstruction.forceDebitControlAccount} disabled />
-                    <label>Force debit</label>
-
-                  </div>
-                  <div className='col-sm-3 contraAcc' >
-                    <label className="accounts">Contra account</label>
-
-                    <select name="contraBankAccountNumber" className="dropdown"
-                      style={{ width: '310px', height: '40px', border: 'solid 1px #d1d1d1', backgroundColor: 'rgba(196, 198, 205, 0.08)' }}
-                      onChange={this.changeSetInstructionValues} value={this.state.newInstruction.contraBankAccountNumber} placeholder="Select a contra account">
-                      <option value="none" >----Select an Account------</option> */}
-            {this.state.dropDownAccountData.map((accountNumber, index) => {
-                        return (<option value={accountNumber} key={index}>{accountNumber}</option>);
-                      })}
-                    </select>
-                    <div style={{ width: '200px' }}>
-                      <label className='availBal'>Available balance: {this.state.availableBalance.contraBankAccountBalance}</label></div>
-
-                  </div>
-                  <div className='col-sm-3 ui checkbox' style={{ marginLeft: '645px', marginTop: '-57px' }}>
-                    <input name="forceDebitContraAccount" onChange={this.changeSetInstructionValues} type="checkbox" style={{ backgroundColor: '#00864f' }} checked={this.state.newInstruction.forceDebitContraAccount} disabled />
-                    <label>Force debit</label>
-                  </div>
-                  <div className="col-sm-3 ui form " style={{ marginTop: '60px', marginLeft: '-280px' }}>
-                    <div className="field">
-                      <label style={{ color: '#00864f', width: '200px' }}>VALUE</label>
-                      <input name="target" onChange={this.changeSetInstructionValues} type="text" style={{ width: '200px', height: '40px', border: 'solid 1px #d1d1d1', backgroundColor: 'rgba(196, 198, 205, 0.08)' }}
-                        placeholder="0.000" value={this.state.newInstruction.target} />
-                    </div>
-                  </div>
-                  <div className='col-sm-5' style={{ marginLeft: '92px', marginTop: '60px', width: '175px' }}>
-                    <label style={{ color: '#00864f', width: '132px', height: '19px' }}>INSTRUCTION TYPE</label>
-                    <select name="instructionType" className="dropdown" style={{ width: '250px' }} placeholder="Select an instruction type"
-                      onChange={this.changeSetInstructionValues} value={this.state.newInstruction.instructionType}>
-                      <option value="none" >Target balance</option>
-                    </select>
-                  </div>
-                  <div className='col-sm-3' style={{ marginLeft: '456px', marginTop: '-67px' }}>
-
-                    <label style={{ color: '#00864f', width: '129px', height: '19px' }}>
-                      EXECUTION MODE
-            </label>
-                    <select name="executionMode" className="dropdown" style={{ width: '250px' }} placeholder="Select an execution mode"
-                      onChange={this.changeSetInstructionValues} value={this.state.newInstruction.executionMode}>
-                      <option value="none" >Manual</option>
-                    </select>
-
-                  </div>
-                </div>
-                <div style={{ marginTop: '82px', marginLeft: '209px' }}>
-                  <div class="ui grid">
-                    <div class="four wide column"> <div className='ui checkbox revsl' style={{ marginLeft: '-490px' }}>
-
-                      <input name="reversal" type="checkbox" onChange={this.changeSetInstructionValues} checked={this.state.newInstruction.reversal} disabled />
-                      <label>Reversal</label>
-                    </div></div>
-                    <div class="four wide column"> <button className="ui secondary basic button" style={{ width: '139px', marginLeft: '-34px', height: '42px', border: 'solid 1px #979797' }}>CANCEL</button></div>
-                    <div class="four wide column">
-                      <button onClick={this.resetAddNewInstruction} className="ui secondary basic button" style={{ width: '139px', height: '42px', marginLeft: '30px', border: 'solid 1px #979797' }}>RESET</button></div>
-                    <div class="four wide column">
-                      {/* <button className="colorbtn" onClick={this.addInstruction}>ADD</button></div> */}
-                      <Modal className='modalCon' open={this.state.showModal} onClose={this.closeModal} trigger={<button className="colorbtn" onClick={this.addInstruction}>ADD</button>} basic size='small' >
-                        {/* () => this.setState({ showModal: true })} */}
-                        <div className='modalAdd' style={{ backgroundImage: 'url(images/Added1.png)', backgroundSize: 'cover' }}>
-
-                          <Modal.Content>
-                            <div className='headStyle'>
-                              <h1>
-                                Instruction added!
-                  </h1>
-                            </div>
-                          </Modal.Content>
-                          <Modal.Actions className='okBtn'>
-
-                            <Button color='green' className='btn2' onClick={(evt) => this.handleOk(evt)}>
-                              OK
-                  </Button>
-                          </Modal.Actions>
-                        </div>
-                      </Modal>
-                    </div>
-                    {/* <div class="four wide column"> <button className="colorbtn" onClick={this.popup}>ADD</button></div> */}
-                  </div>
-
-                </div>
-              </div>
-            </div>
-          </div>
-
-
+          {!this.state.showAccordians ?(
+          <div>
+            <button className='Rect-4' onClick={this.getAccordian}>
+              <div>ADD INSTRUCTION</div>
+            </button>
+          </div>):(<Accordian />)}
           <React.Fragment>
             <div>
               <h2 className='curr_instruction'>Current instructions</h2>

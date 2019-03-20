@@ -109,7 +109,7 @@ export default class Options extends React.Component{
                       </div>
                     </div> 
                     <div className = "flex-container">
-                      <Link to='/commercialOptimizations'><button className="flex-item" onClick = {this.onCancelClick}>CANCEL</button></Link>
+                      <Link to='/homeCommercial'><button className="flex-item" onClick = {this.onCancelClick}>BACK</button></Link>
                       <button className="flex-item1" style = {{marginLeft: '310px', display: (this.state.value != '') ? '' : 'none'}}
                       onClick = {this.onNextClick}>NEXT</button>
                     </div>

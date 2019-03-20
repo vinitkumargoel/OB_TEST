@@ -21,7 +21,7 @@
   display: flex;
   padding-left: 3%;
   color:black;
-  width:30%;
+  width:33%;
 }
 
 .icon{
@@ -46,5 +46,6 @@
   padding-top: 2%;
   padding-bottom: 1%;
   text-align: center;
+  padding-left: 8%;
 }
 
