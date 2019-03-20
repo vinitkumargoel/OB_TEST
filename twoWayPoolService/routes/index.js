@@ -226,7 +226,7 @@ const instrResult=async(userName,accNoList)=>{
              "status": 'success', // or fail
              "failureReason": "nill",
              "target": target,
-             "poolingAmount": poolingAmount,
+             "poolingAmmount": poolingAmount,
              "instructionType": "Target Balance",
              "priorityId": priorityId,
              "executionMode": "Manual",

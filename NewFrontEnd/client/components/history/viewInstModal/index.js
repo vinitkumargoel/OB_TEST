@@ -48,9 +48,9 @@ class ViewInstructionModal extends Component {
                     <div className="ui viewInstContainerCard">
                         <div className="mainColumn_1" style={{ backgroundImage: "url(images/group-20@3x.png)" }}>
                             <div className="mainColumn_1-Container1">
-                                <div className="colum1_container_font" style={{color: 'white'}}>Instruction</div>
-                                <div className="colum1_container_font" style={{color: 'white'}}>Execution</div>
-                                <div className="colum1_container_font" style={{color: 'white'}}>Details</div>
+                                <div className="colum1_container_font" style={{ color: 'white' }}>Instruction</div>
+                                <div className="colum1_container_font" style={{ color: 'white' }}>Execution</div>
+                                <div className="colum1_container_font" style={{ color: 'white' }}>Details</div>
                             </div>
 
                             <div className="mainColumn_1-Container2">

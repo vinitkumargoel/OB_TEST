@@ -4,7 +4,6 @@ import ViewInstructionModal from '../viewInstModal/index';
 import './style.css';
 
 class InstructionModal extends Component {
-
     checkStatus = (status) => {
         if (status === 'fail') {
             return (

@@ -7,8 +7,7 @@ import './style.css';
 
 class History extends Component {
     state = {
-        instructionArray: [],
-        pagginationArray: []
+        instructionArray: []
     }
 
     componentDidMount() {
@@ -17,33 +16,34 @@ class History extends Component {
         Services.history(token, function (data) {
             data.shift();
             this.setState({ instructionArray: data });
-            this.pagginator();
+            // this.pagginator();
         }.bind(this), function (err) {
             // console.log(err);
         })
     }
 
     pagginator = () => {
-        this.setState({ pagginationArray: this.state.instructionArray });
+        this.setState({ instructionArray: this.state.instructionArray });
     }
 
     handleViewInstModalOpen = (exeID) => {
-        const pagginationArray = [...this.state.pagginationArray];
-        const index = pagginationArray.findIndex(inst => inst.executionId === exeID);
-        pagginationArray[index].viewInstModalOpen = true;
-        this.setState({ pagginationArray });
+        const instructionArray = [...this.state.instructionArray];
+        const index = instructionArray.findIndex(inst => inst.executionId === exeID);
+        instructionArray[index].viewInstModalOpen = true;
+        this.setState({ instructionArray });
     };
 
     handleViewInstModalClose = (exeID) => {
-        const pagginationArray = [...this.state.pagginationArray];
-        const index = pagginationArray.findIndex(inst => inst.executionId === exeID);
-        pagginationArray[index].viewInstModalOpen = false;
-        this.setState({ pagginationArray });
+        const instructionArray = [...this.state.instructionArray];
+        const index = instructionArray.findIndex(inst => inst.executionId === exeID);
+        instructionArray[index].viewInstModalOpen = false;
+        this.setState({ instructionArray });
     }
 
     checkStatus = (instruction) => {
         if (instruction.status === 'fail') {
-            return < Icon name='exclamation circle' className="exclamationIcon" />
+            // return < Icon name='exclamation circle' className="exclamationIcon" />
+            return <Img src="images/ic-error-outline-copy-2@3x.png" alt="" className="exclamationIcon"/>
         }
         return < Icon name='check' className="checkIcon" />
     }
@@ -70,7 +70,7 @@ class History extends Component {
                             </tr>
                         </thead>
                         <tbody>
-                            {this.state.pagginationArray.map(instruction =>
+                            {this.state.instructionArray.map(instruction =>
                                 <tr key={instruction.executionId} className="history">
                                     <td>{instruction.instructionId}</td>
                                     <td>{instruction.executionId}</td>
