@@ -52,9 +52,8 @@ export default class Rel extends React.Component{
     }
   }
     render(){
-        console.log(sessionStorage.getItem("type"))
         let type = sessionStorage.getItem("type")
-        console.log(this.state.debitData, "home")
+        console.log(type);
         let amount = 0
         this.state.debitData.forEach((bank) => {
             amount = amount + bank.accounts[0].balance

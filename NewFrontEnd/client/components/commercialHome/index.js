@@ -28,14 +28,14 @@ export default class Rel extends React.Component{
   }
   
     render(){
-        console.log(this.state.accSumary);
+        var type = sessionStorage.getItem("type");
         if(this.state.accSumary !== null){ 
         return(
           
             <div className='container-fluid' style={{paddingLeft:'0px',paddingRight:'0px'}}>
               <Header username = {this.state.accSumary.username} history = {this.props.history}/>
               <div style = {{display:"flex"}}>
-                <Sidebar activeComponent = "home"/>
+                <Sidebar activeComponent = "home" type={type}/>
               <div className='row main-content' style = {{backgroundColor:"#f5f6fa",width:"94.5%"}}>
                 <Banner accSummary ={this.state.accSumary}  history = {this.props.history}/>
                 <AccountDetails  accSummary ={this.state.accSumary}  history = {this.props.history}/>
