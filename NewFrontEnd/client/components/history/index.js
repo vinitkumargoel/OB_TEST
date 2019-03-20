@@ -42,8 +42,8 @@ class History extends Component {
 
     checkStatus = (instruction) => {
         if (instruction.status === 'fail') {
-            // return < Icon name='exclamation circle' className="exclamationIcon" />
-            return <Img src="images/ic-error-outline-copy-2@3x.png" alt="" className="exclamationIcon"/>
+            return < Icon name='exclamation circle' className="exclamationIcon" />
+            // return <Img src="images/ic-error-outline-copy-2@3x.png" alt="" className="exclamationIcon"/>
         }
         return < Icon name='check' className="checkIcon" />
     }
