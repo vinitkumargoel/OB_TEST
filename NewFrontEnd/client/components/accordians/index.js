@@ -1,7 +1,23 @@
 import React from 'react';
 import './style.css';
+import Services from '../../services'
 
 export default class Accordians extends React.Component{
+    constructor(props){
+        super(props);
+        this.state = {
+            selectedBusiness:null
+        }
+    }
+    componentWillMount() {
+        var token = sessionStorage.getItem("token");
+        console.log(token);
+        Services.commercialDebitCall(token,function(data){
+          console.log(token);
+          console.log(data);
+          this.setState({accSumary:data});
+        }.bind(this));
+      }
     render(){
         return(
             <div style={{width:'92%'}}>
