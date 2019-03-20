@@ -8,7 +8,7 @@ import Services from '../../../services'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import InstructionModal from '../../history/instExeModal/index';
 import History from '../../history/index';
-
+import Accordian from '../../accordians'
 export default class TwoWay extends React.Component {
   constructor(props) {
     super(props);
@@ -31,7 +31,8 @@ export default class TwoWay extends React.Component {
         reversal: false
       },
       accountInfos: [],
-      availableBalance: { controlBankAccountBalance: "", contraBankAccountBalance: "" }
+      availableBalance: { controlBankAccountBalance: "", contraBankAccountBalance: "" },
+      showAccordians: false
     }
   }
   componentDidMount() {
@@ -397,7 +398,7 @@ export default class TwoWay extends React.Component {
 
                           <Modal.Content>
                             <div className='headStyle'>
-                              <h1>
+                              <h1 style={{color: 'white'}}>
                                 Instruction added!
                               </h1>
                             </div>

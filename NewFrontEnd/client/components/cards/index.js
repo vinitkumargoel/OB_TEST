@@ -6,6 +6,9 @@ export default class Cards extends React.Component{
         super(props);
         console.log(this.props.accounts,"Cards");
     }
+    numberWithCommas = (x) =>{
+        return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+     }
 
     render(){
         return(
@@ -23,12 +26,12 @@ export default class Cards extends React.Component{
                                     <div className="saving_sub_label_individual_conatiner">
                                         <span className="saving_sub_lable_heading">Available Balance</span>
                                         <br/>
-                                        <span className="saving_sub_lable_value">£ {value.availableBalance}</span>
+                                        <span className="saving_sub_lable_value">£ {this.numberWithCommas(value.availableBalance)}</span>
                                     </div>
                                     <div >
                                         <span className="saving_sub_lable_heading">Interest Rate</span>
                                         <br/>
-                                        <span className="saving_sub_lable_value">{value.interestRate}</span>
+                                        <span className="saving_sub_lable_value">{value.interestRate}%</span>
                                     </div>
                                 </div>
                             </div>
@@ -43,7 +46,7 @@ export default class Cards extends React.Component{
                                         <span className="current_sub_lable_value">{value.accountNumber}</span>
                                     </div>
                                     <div>
-                                        <span className="current_sub_lable_value_2">£ {value.availableBalance}</span>
+                                        <span className="current_sub_lable_value_2">£ {this.numberWithCommas(value.availableBalance)}</span>
                                     </div>
                             </div>
                         )

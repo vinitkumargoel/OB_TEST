@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="298" height="83" viewBox="0 0 298 83">
+    <defs>
+        <rect id="b" width="260" height="45" rx="3"/>
+        <filter id="a" width="125.4%" height="246.7%" x="-12.7%" y="-53.3%" filterUnits="objectBoundingBox">
+            <feOffset dy="9" in="SourceAlpha" result="shadowOffsetOuter1"/>
+            <feGaussianBlur in="shadowOffsetOuter1" result="shadowBlurOuter1" stdDeviation="9.5"/>
+            <feColorMatrix in="shadowBlurOuter1" values="0 0 0 0 0.169097663 0 0 0 0 0.245296556 0 0 0 0 0.0319396557 0 0 0 0.377377717 0"/>
+        </filter>
+    </defs>
+    <g fill="none" fill-rule="evenodd">
+        <g transform="translate(19 10)">
+            <use fill="#000" filter="url(#a)" xlink:href="#b"/>
+            <use fill="#00864F" xlink:href="#b"/>
+        </g>
+        <text fill="#FFF" font-family="AvenirNext-DemiBold, Avenir Next" font-size="14" font-weight="500" letter-spacing="1.5" transform="translate(19 10)">
+            <tspan x="30.505" y="26.857">ADD NEW INSTRUCTION</tspan>
+        </text>
+    </g>
+</svg>
