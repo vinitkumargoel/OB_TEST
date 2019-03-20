@@ -13,6 +13,7 @@ export default class TwoWay extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      exectionInstructionStatus: '',
       setInstructionTabActive: true,
       historyTabActive: false,
       showHistory: false,
@@ -262,9 +263,9 @@ export default class TwoWay extends React.Component {
 
     Services.transact(query, response => {
       if (response.success) {
-        this.setState({ showModal: true });
+        this.setState({ exectionInstructionStatus: 'success', instExeModalOpen: true });
       } else if (!response.success) {
-        this.setState({ instExeModalOpen: true });
+        this.setState({ exectionInstructionStatus: 'fail', instExeModalOpen: true });
       }
     });
   }
@@ -287,8 +288,7 @@ export default class TwoWay extends React.Component {
 
   handleViewEventInstExeModal = () => {
     this.handleInstExeModalClose();
-
-    this.setState({ showHistory: true });
+    this.showHistory();
   }
 
   openModal = () => {
@@ -398,7 +398,7 @@ export default class TwoWay extends React.Component {
 
                           <Modal.Content>
                             <div className='headStyle'>
-                              <h1 style={{color: 'white'}}>
+                              <h1 style={{ color: 'white' }}>
                                 Instruction added!
                               </h1>
                             </div>
@@ -476,10 +476,10 @@ export default class TwoWay extends React.Component {
           </React.Fragment>
 
           <div style={{ width: '100%' }}>
-            <button className="executeBtn" onClick={this.executeInstructions}>EXECUTE SELECTED<Icon name="arrow right icon" style={{ marginLeft: '15px' }}></Icon></button>
+            <button className="executeBtn" onClick={this.executeInstructions}>EXECUTE <Icon name="arrow right icon" style={{ marginLeft: '15px' }}></Icon></button>
           </div>
 
-          <InstructionModal open={this.state.instExeModalOpen}
+          <InstructionModal open={this.state.instExeModalOpen} status={this.state.exectionInstructionStatus}
             onOpen={this.handleInstExeModalOpen} onClose={this.handleInstExeModalClose} handleView={this.handleViewEventInstExeModal}
           ></InstructionModal>
         </div>

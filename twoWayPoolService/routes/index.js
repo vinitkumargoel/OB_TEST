@@ -72,7 +72,7 @@ router.post('/transaction', function (req, res, next) {
       else
         res.send({"success":"false"});
       console.log(data) ;
-      res.send(data);
+      // res.send(data);
    })
    .catch((err)=>{
     console.log(err);
