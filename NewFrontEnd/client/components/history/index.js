@@ -14,7 +14,7 @@ class History extends Component {
         var token = sessionStorage.getItem("token");
 
         Services.history(token, function (data) {
-            data.shift();
+            console.log(data);
             this.setState({ instructionArray: data });
             // this.pagginator();
         }.bind(this), function (err) {
