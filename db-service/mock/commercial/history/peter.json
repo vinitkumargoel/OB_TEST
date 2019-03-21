@@ -3,16 +3,16 @@
         "history": [
             {
                 "executionId": 1000,
-                "instructionId": 99999,
+                "instructionId": 100002,
                 "controlAccount": {
                     "controlAccountNumber": "77953466666616",
                     "balanceBeforeExecution": "21500",
                     "balanceAfterExecution": "20000"
                 },
                 "contraAccount": {
-                    "contraAccountNumber": "77953466666618",
-                    "balanceBeforeExecution": "0",
-                    "balanceAfterExecution": "1500"
+                    "contraAccountNumber": "77953466666615",
+                    "balanceBeforeExecution": "13500",
+                    "balanceAfterExecution": "15000"
                 },
                 "executionDateTime": "2019-03-21T08:09:47.637Z",
                 "status": "success",
