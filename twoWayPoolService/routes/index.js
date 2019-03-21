@@ -72,7 +72,7 @@ router.post('/transaction', function (req, res, next) {
       else
         res.send({"success":"false"});
       console.log(data) ;
-      // res.send(data);
+      //res.send(data);
    })
    .catch((err)=>{
     console.log(err);
@@ -514,97 +514,6 @@ router.get('/getInstruction',(req,res)=>{
 
 
 
-
-router.get('/balances',(req,res)=>{
-  let token = req.headers['x-access-token'];
-  
-
-  jwt.verify(token, config.secret, function (err, decodedObj) {
-     if (err) return res.status(500).json({
-       auth: false,
-     message: 'Failed to authenticate token.'
-     });
-
-     let userName = decodedObj.username;
-   // console.log(userName);
-     getInstruction(userName).then(function(instrObj) {
-       
-        // console.log(instrObj);
-      
-           let len = instrObj["currentInstructions"].length;
-           let result = [];
-        let i=0;
-           
-          let controlBank, contraBank, controlBankAccountNumber, contraBankAccountNumber, target, controlBankBalance, contraBankBalance, contraBankMinBalance;
-      
-          //to get last value of ID	
-          //for (i = 0; i < len; i++) {
-            controlBank = instrObj["currentInstructions"][i].controlBank;
-            contraBank = instrObj["currentInstructions"][i].contraBank;
-            controlBankAccountNumber= instrObj["currentInstructions"][i].controlBankAccountNumber;
-            contraBankAccountNumber= instrObj["currentInstructions"][i].contraBankAccountNumber;
-            target = parseInt(instrObj["currentInstructions"][i].target);
-            priorityID = parseInt(instrObj["currentInstructions"][i].priorityID);
-            //console.log(target);
-      
-            getcommercialAcct(userName).then(function(data) {
-                 // console.log(data) ;
-                 var filteredControlBank = data.banks.filter((bank) => {
-                  return bank.bankName == controlBank;
-               })[0];
-       
-               //console.log(filteredControlBank);
-       
-               var filteredContraBank = data.banks.filter((bank) => {
-                  return bank.bankName == contraBank;
-               })[0];
-               var restBankDetails = data.banks.filter((bank) => {
-                  return bank.bankName != contraBank && bank.bankName != controlBank;
-               });
-       
-               var filteredControlAcc=filteredControlBank["accounts"].filter((acc)=>{
-                 return acc.accountNumber == controlBankAccountNumber;
-               });
-       
-               var filteredContraAcc=filteredContraBank["accounts"].filter((acc)=>{
-                 return acc.accountNumber == contraBankAccountNumber;
-               });
-       
-               
-               // console.log(filteredControlBank);
-               //console.log(filteredControlAcc);
-               // console.log(filteredContraAcc[0].balance);
-               
-               controlBankBalance = filteredControlAcc[0].balance;
-               contraBankBalance = filteredContraAcc[0].balance;
-               contraBankMinBalance = filteredContraAcc[0].minBalance;   
-     
-               res.send({controlBankBalance,contraBankBalance,contraBankMinBalance});
-          
-
-               })
-               .catch((err)=>{
-                console.log(err);
-               });      
-           
-              //console.log(data);
-             
-      //   result.then(function(data) {
-      //    // console.log(data) ;
-      //     res.send(data);
-      //  })
-      //  .catch((err)=>{
-      //   console.log(err);
-      //  })
-    
-        //};   
-          // return(result);
-       })
-       .catch((err)=>{
-        console.log(err);
-      });
-   });
-});
 
 
 module.exports = router;
