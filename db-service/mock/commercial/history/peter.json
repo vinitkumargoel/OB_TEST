@@ -2,23 +2,23 @@
     "peter-history": {
         "history": [
             {
-                "executionId": 1234,
-                "instructionId": 100005,
+                "executionId": 1000,
+                "instructionId": 99999,
                 "controlAccount": {
-                    "controlAccountNumber": "60161331926820",
-                    "balanceBeforeExecution": "5000",
-                    "balanceAfterExecution": "2000"
+                    "controlAccountNumber": "77953466666616",
+                    "balanceBeforeExecution": "21500",
+                    "balanceAfterExecution": "20000"
                 },
                 "contraAccount": {
-                    "contraAccountNumber": "60161331926819",
-                    "balanceBeforeExecution": "7000",
-                    "balanceAfterExecution": "4000"
+                    "contraAccountNumber": "77953466666618",
+                    "balanceBeforeExecution": "0",
+                    "balanceAfterExecution": "1500"
                 },
-                "executionDateTime": "20:11:2019:01:30:42",
+                "executionDateTime": "2019-03-21T08:09:47.637Z",
                 "status": "success",
-                "failureReason": "As insufficient contra account balance",
-                "target": "0",
-                "poolingAmmount": "3000",
+                "failureReason": null,
+                "target": "20000",
+                "poolingAmmount": 1500,
                 "instructionType": "Target Balance",
                 "priorityId": "6",
                 "executionMode": "Manual",
