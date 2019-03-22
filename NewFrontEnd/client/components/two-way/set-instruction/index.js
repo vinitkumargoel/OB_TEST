@@ -1,14 +1,15 @@
 import React from 'react';
 import './style.css';
-import { Link } from 'react-router-dom';
-import { Button, Icon, Modal, Radio } from 'semantic-ui-react'
+import { Icon } from 'semantic-ui-react'
 import Header from '../../headernew'
 import Sidebar from '../../sidebar'
 import Services from '../../../services'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import InstructionModal from '../../history/instExeModal/index';
 import History from '../../history/index';
-import Accordian from '../../accordians'
+import Accordian from '../../accordians/index';
+
+
 export default class TwoWay extends React.Component {
   constructor(props) {
     super(props);
@@ -38,9 +39,10 @@ export default class TwoWay extends React.Component {
   }
   componentDidMount() {
     var token = sessionStorage.getItem("token");
+
     Services.commercialDebitCall(token, function (data) {
       let accountNumbers = this.dropdownList(data["business"]);
-      this.setState({ dropDownAccountData: accountNumbers });
+      this.setState({ dropDownAccountData: accountNumbers, accSumary: data });
       console.log(accountNumbers)
       console.log(data)
     }.bind(this), function (err) {
@@ -262,9 +264,9 @@ export default class TwoWay extends React.Component {
     }
 
     Services.transact(query, response => {
-      if (response.success) {
+      if (response.success === 'true') {
         this.setState({ exectionInstructionStatus: 'success', instExeModalOpen: true });
-      } else if (!response.success) {
+      } else if (response.success === 'false') {
         this.setState({ exectionInstructionStatus: 'fail', instExeModalOpen: true });
       }
     });
@@ -295,6 +297,10 @@ export default class TwoWay extends React.Component {
     this.setState({ instExeModalOpen: true });
   }
 
+  getAccordian = () => {
+    this.setState({showAccordians:true})
+  }
+
   renderScreen() {
     if (this.state.showHistory) {
       return <History></History>
@@ -302,137 +308,18 @@ export default class TwoWay extends React.Component {
     else {
       return (
         <div>
-          <div className='addInstr'>
-            {/* <div className="ui segment active tab">
-        <button className='colorbtn2'>ADD NEW INSTRUCTION</button>
-      </div> */}
+          {!this.state.showAccordians ? (
             <div>
-              <h3 className='heading2'>Add new instruction</h3>
-            </div>
-            <div className='optimizingsModal'>
-              <Link to='/commercialOptimizations'>
-              </Link>
-              <div className="container">
-
-                <div className='row'>
-                  <div className='col-sm-3' style={{ marginLeft: '-280px' }}>
-                    <label className="accounts"> Control account</label>
-                    <select name="controlBankAccountNumber" className="dropdown"
-                      style={{ width: '310px', height: '40px', border: 'solid 1px #d1d1d1', backgroundColor: 'rgba(196, 198, 205, 0.08)' }}
-                      onChange={this.changeSetInstructionValues} value={this.state.newInstruction.controlBankAccountNumber} placeholder="Select a control account">
-                      <option value="none" >----Select an Account------</option>
-                      {this.state.dropDownAccountData.map((accountNumber, index) => {
-                        return (<option value={accountNumber} key={index}>{accountNumber}</option>);
-                      })}
-                    </select>
-                    <div style={{ width: '175px' }}>
-                      <label className='availBal'>Available balance: {this.state.availableBalance.controlBankAccountBalance} </label></div>
-
-                  </div>
-                  <div className='col-sm-3 ui checkbox chkBoxDebit' style={{ marginLeft: '180px', marginTop: '47px' }} >
-
-                    <input name="forceDebitControlAccount" onChange={this.changeSetInstructionValues} type="checkbox" style={{ backgroundColor: '#00864f' }} checked={this.state.newInstruction.forceDebitControlAccount} disabled />
-                    <label>Force debit</label>
-
-                  </div>
-                  <div className='col-sm-3 contraAcc' >
-                    <label className="accounts">Contra account</label>
-
-                    <select name="contraBankAccountNumber" className="dropdown"
-                      style={{ width: '310px', height: '40px', border: 'solid 1px #d1d1d1', backgroundColor: 'rgba(196, 198, 205, 0.08)' }}
-                      onChange={this.changeSetInstructionValues} value={this.state.newInstruction.contraBankAccountNumber} placeholder="Select a contra account">
-                      <option value="none" >----Select an Account------</option> */}
-            {this.state.dropDownAccountData.map((accountNumber, index) => {
-                        return (<option value={accountNumber} key={index}>{accountNumber}</option>);
-                      })}
-                    </select>
-                    <div style={{ width: '200px' }}>
-                      <label className='availBal'>Available balance: {this.state.availableBalance.contraBankAccountBalance}</label></div>
-
-                  </div>
-                  <div className='col-sm-3 ui checkbox' style={{ marginLeft: '645px', marginTop: '-57px' }}>
-                    <input name="forceDebitContraAccount" onChange={this.changeSetInstructionValues} type="checkbox" style={{ backgroundColor: '#00864f' }} checked={this.state.newInstruction.forceDebitContraAccount} disabled />
-                    <label>Force debit</label>
-                  </div>
-                  <div className="col-sm-3 ui form " style={{ marginTop: '60px', marginLeft: '-280px' }}>
-                    <div className="field">
-                      <label style={{ color: '#00864f', width: '200px' }}>VALUE</label>
-                      <input name="target" onChange={this.changeSetInstructionValues} type="text" style={{ width: '200px', height: '40px', border: 'solid 1px #d1d1d1', backgroundColor: 'rgba(196, 198, 205, 0.08)' }}
-                        placeholder="0.000" value={this.state.newInstruction.target} />
-                    </div>
-                  </div>
-                  <div className='col-sm-5' style={{ marginLeft: '92px', marginTop: '60px', width: '175px' }}>
-                    <label style={{ color: '#00864f', width: '132px', height: '19px' }}>INSTRUCTION TYPE</label>
-                    <select name="instructionType" className="dropdown" style={{ width: '250px' }} placeholder="Select an instruction type"
-                      onChange={this.changeSetInstructionValues} value={this.state.newInstruction.instructionType}>
-                      <option value="none" >Target balance</option>
-                    </select>
-                  </div>
-                  <div className='col-sm-3' style={{ marginLeft: '456px', marginTop: '-67px' }}>
-
-                    <label style={{ color: '#00864f', width: '129px', height: '19px' }}>
-                      EXECUTION MODE
-            </label>
-                    <select name="executionMode" className="dropdown" style={{ width: '250px' }} placeholder="Select an execution mode"
-                      onChange={this.changeSetInstructionValues} value={this.state.newInstruction.executionMode}>
-                      <option value="none" >Manual</option>
-                    </select>
-
-                  </div>
-                </div>
-                <div style={{ marginTop: '82px', marginLeft: '209px' }}>
-                  <div className="ui grid">
-                    <div className="four wide column"> <div className='ui checkbox revsl' style={{ marginLeft: '-490px' }}>
-
-                      <input name="reversal" type="checkbox" onChange={this.changeSetInstructionValues} checked={this.state.newInstruction.reversal} disabled />
-                      <label>Reversal</label>
-                    </div></div>
-                    <div className="four wide column"> <button className="ui secondary basic button" style={{ width: '139px', marginLeft: '-34px', height: '42px', border: 'solid 1px #979797' }}>CANCEL</button></div>
-                    <div className="four wide column">
-                      <button onClick={this.resetAddNewInstruction} className="ui secondary basic button" style={{ width: '139px', height: '42px', marginLeft: '30px', border: 'solid 1px #979797' }}>RESET</button></div>
-                    <div className="four wide column">
-                      {/* <button className="colorbtn" onClick={this.addInstruction}>ADD</button></div> */}
-                      <Modal className='modalCon' open={this.state.showModal} onClose={this.closeModal} trigger={<button className="colorbtn" onClick={this.addInstruction}>ADD</button>} basic size='small' >
-                        {/* () => this.setState({ showModal: true })} */}
-                        <div className='modalAdd' style={{ backgroundImage: 'url(images/Added1.png)', backgroundSize: 'cover' }}>
-
-                          <Modal.Content>
-                            <div className='headStyle'>
-                              <h1 style={{ color: 'white' }}>
-                                Instruction added!
-                              </h1>
-                            </div>
-                          </Modal.Content>
-                          <Modal.Actions className='okBtn'>
-
-                            <Button color='green' className='btn2' onClick={(evt) => this.handleOk(evt)}>
-                              OK
-                            </Button>
-                          </Modal.Actions>
-                        </div>
-                      </Modal>
-                    </div>
-                    {/* <div className="four wide column"> <button className="colorbtn" onClick={this.popup}>ADD</button></div> */}
-                  </div>
-
-                </div>
-              </div>
-            </div>
-          </div>
-
+              <div><img style={{ cursor: 'pointer' }} src='../../../../images/addInstruction/add_new_btn.png' onClick={this.getAccordian} /></div>
+            </div>) : (<Accordian />)}
 
           <React.Fragment>
             <div>
-              <h2 className='curr_instruction'>Current instructions</h2>
-            </div>
-            <div className="tableContainer tablCntr">
-              <table className="ui striped table table_heading">
+              <table className="ui striped table">
                 <thead>
                   <tr className="currentInstruction">
                     <th>
-
                       <input onChange={this.selectAllInstructionsHandler} type="checkbox" />
-
                     </th>
                     <th>Control A/C</th>
                     <th>Contra A/C </th>
@@ -443,12 +330,11 @@ export default class TwoWay extends React.Component {
                     <th>Reversal</th>
                     <th>Actions</th>
                     <th></th>
-                    <th></th>
                   </tr>
                 </thead>
                 <tbody>
                   {this.state.instructionData !== null && this.state.instructionSelected.length !== 0 && this.state.instructionSelected.length === this.state.instructionData.currentInstructions.length ? this.state.instructionData.currentInstructions.map((instruction, index) =>
-                    <tr>
+                    <tr key={instruction.executionId} className="currentInstruction">
                       <td>
                         <input onChange={this.changeInstructionSelection.bind(this, index)} type="checkbox" checked={this.state.instructionSelected[index].selected} />
                       </td>
@@ -459,24 +345,20 @@ export default class TwoWay extends React.Component {
                       <td>{instruction.priorityId}</td>
                       <td>{instruction.executionMode}</td>
                       <td>No</td>
-                      <td><img src={'images/ic-edit-copy-7.png'} onClick={this.handleOk} /></td>
-                      <td className='delete1'><img src={'images/ic-delete-copy-7.png'} onClick={this.handleOk} /></td>
-
+                      <td>
+                        <img src={'images/ic-edit-copy-7.png'} onClick={this.handleOk} style={{ marginRight: '20px' }} />
+                        <img src={'images/ic-delete-copy-7.png'} onClick={this.handleOk} />
+                      </td>
                       <td><img src={'images/ic-reorder.png'} onClick={this.handleOk} /></td>
-                      {/* style ={{marginTop: '10px !important',marginLeft: '-16px !important'}} */}
                     </tr>
                   ) : ""}
-
-
                 </tbody>
               </table>
-
             </div>
-
           </React.Fragment>
 
           <div style={{ width: '100%' }}>
-            <button className="executeBtn" onClick={this.executeInstructions}>EXECUTE <Icon name="arrow right icon" style={{ marginLeft: '15px' }}></Icon></button>
+            <button className="executeBtn" onClick={this.executeInstructions}>EXECUTE <Icon name="arrow right icon" style={{ float: 'right', paddingRight: '20px' }}></Icon></button>
           </div>
 
           <InstructionModal open={this.state.instExeModalOpen} status={this.state.exectionInstructionStatus}
@@ -507,18 +389,17 @@ export default class TwoWay extends React.Component {
 
   render() {
     return (
-      <div className='container-fluid contnr1' >
+      <div className="twoWay_container">
         <Header username={this.state.accSumary.username} history={this.props.history} />
-        <div style={{ display: "flex" }}>
+
+        <div className="twoWay_subContainer">
           <Sidebar activeComponent="wallet" />
-          <div className='main-content' style={{ backgroundColor: "#f5f6fa", width: "90%", paddingBottom: '20px' }}>
-            <div>
-              <div className="ui pointing secondary menu">
-                <a className={this.setActiveClass(this.state.setInstructionTabActive)} onClick={this.showInstruction}><b>SET INSTRUCTIONS</b></a>
-                <a className={this.setActiveClass(this.state.historyTabActive)} onClick={this.showHistory}><b>HISTORY</b></a>
-              </div>
-              {this.renderScreen()}
+          <div className="twoWay_tabContainer">
+            <div className="ui pointing secondary menu">
+              <a className={this.setActiveClass(this.state.setInstructionTabActive)} onClick={this.showInstruction}><b>SET INSTRUCTIONS</b></a>
+              <a className={this.setActiveClass(this.state.historyTabActive)} onClick={this.showHistory}><b>HISTORY</b></a>
             </div>
+            {this.renderScreen()}
           </div>
         </div>
       </div>

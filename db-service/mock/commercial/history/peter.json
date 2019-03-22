@@ -2,25 +2,75 @@
     "peter-history": {
         "history": [
             {
-                "executionId": 1234,
-                "instructionId": 100005,
+                "executionId": 1000,
+                "instructionId": 100000,
                 "controlAccount": {
-                    "controlAccountNumber": "60161331926820",
-                    "balanceBeforeExecution": "5000",
-                    "balanceAfterExecution": "2000"
+                    "controlAccountNumber": "77953466666617",
+                    "balanceBeforeExecution": "1000",
+                    "balanceAfterExecution": "0"
                 },
                 "contraAccount": {
-                    "contraAccountNumber": "60161331926819",
-                    "balanceBeforeExecution": "7000",
-                    "balanceAfterExecution": "4000"
+                    "contraAccountNumber": "77953466666618",
+                    "balanceBeforeExecution": "13500",
+                    "balanceAfterExecution": "14500"
                 },
-                "executionDateTime": "20:11:2019:01:30:42",
+                "executionDateTime": "2019-02-02T08:10:51.637Z",
                 "status": "success",
-                "failureReason": "As insufficient contra account balance",
+                "failureReason": null,
                 "target": "0",
-                "poolingAmmount": "3000",
+                "poolingAmmount": 1000,
                 "instructionType": "Target Balance",
-                "priorityId": "6",
+                "priorityId": "1",
+                "executionMode": "Manual",
+                "reversal": "No",
+                "forceDebitControlAccount": "false",
+                "forceDebitContraAccount": "false"
+            },
+            {
+                "executionId": 1001,
+                "instructionId": 100001,
+                "controlAccount": {
+                    "controlAccountNumber": "77953466666618",
+                    "balanceBeforeExecution": "14500",
+                    "balanceAfterExecution": "1500"
+                },
+                "contraAccount": {
+                    "contraAccountNumber": "77953466666616",
+                    "balanceBeforeExecution": "8500",
+                    "balanceAfterExecution": "21500"
+                },
+                "executionDateTime": "2019-03-13T11:09:47.637Z",
+                "status": "success",
+                "failureReason": null,
+                "target": "1500",
+                "poolingAmmount": 13000,
+                "instructionType": "Target Balance",
+                "priorityId": "2",
+                "executionMode": "Manual",
+                "reversal": "No",
+                "forceDebitControlAccount": "false",
+                "forceDebitContraAccount": "false"
+            },
+            {
+                "executionId": 1002,
+                "instructionId": 100002,
+                "controlAccount": {
+                    "controlAccountNumber": "77953466666616",
+                    "balanceBeforeExecution": "21500",
+                    "balanceAfterExecution": "20000"
+                },
+                "contraAccount": {
+                    "contraAccountNumber": "77953466666615",
+                    "balanceBeforeExecution": "13500",
+                    "balanceAfterExecution": "15000"
+                },
+                "executionDateTime": "2019-03-21T09:13:47.637Z",
+                "status": "success",
+                "failureReason": null,
+                "target": "20000",
+                "poolingAmmount": 1500,
+                "instructionType": "Target Balance",
+                "priorityId": "3",
                 "executionMode": "Manual",
                 "reversal": "No",
                 "forceDebitControlAccount": "false",

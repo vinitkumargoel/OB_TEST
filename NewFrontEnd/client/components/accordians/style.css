@@ -1,0 +1,60 @@
+.company-card-button{
+  padding-top: 3%;
+  text-align: left;
+  display: flex;
+  padding-left: 3%;
+  color:black;
+  width:100%;
+}
+
+.icons{
+  width:20%;
+}
+.secondAccordionMain {
+  padding-top: 10px;
+  padding-left: 20px;
+  display: flex;
+  flex-wrap: wrap;
+}
+.accountCard1 {
+  margin-top: 10px;
+  width: 80%;
+  height: 15%;
+  border-radius: 10px !important;
+  border-width: 1px;
+  overflow: hidden;
+}
+
+.accountCard2 {
+  display: none;
+  margin-top: 10px;
+  height: 15%;
+  width: 80%;
+  border-radius: 10px !important;
+  border-width: 1px;
+  overflow: hidden;
+}
+.accountCard1 > p {
+  font-size: 13px;
+}
+
+.accountCard1:hover, .accountCard2:hover {
+  cursor: pointer;
+}
+
+
+.card:first-of-type, .card:not(:first-of-type):not(:last-of-type) {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.125) !important;
+}
+
+.availableBalance {
+  color: rgb(98, 179, 79);
+  margin-left: 60px !important;
+  margin-top: 8px !important;
+  font-size: 20px;
+}
+
+.button{
+  border-radius: 10px; 
+  width:32%;
+}

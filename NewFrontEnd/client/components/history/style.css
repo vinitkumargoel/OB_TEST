@@ -187,3 +187,16 @@
     float: right !important;
     margin-right: 85px !important;
 }
+
+.history th,
+.history td {
+  width: 12% !important;
+  text-align: center !important;
+}
+
+.history th:last-child,
+.history td:last-child,
+.history th:nth-child(11),
+.history td:nth-child(11) {
+  width: 7% !important;
+}

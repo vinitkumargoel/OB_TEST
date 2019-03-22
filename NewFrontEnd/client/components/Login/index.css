@@ -16,9 +16,9 @@
     letter-spacing: normal;
     text-align: left;
     color: #ffffff;
-    padding-top: 77px;
-    padding-left: 140px
-
+    margin: 35px 0 35px 50px;
+    /* padding-top: 77px;
+    padding-left: 140px */
   }
 
   .Login_Background {

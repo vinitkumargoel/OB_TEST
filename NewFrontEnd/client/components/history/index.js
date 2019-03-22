@@ -14,7 +14,6 @@ class History extends Component {
         var token = sessionStorage.getItem("token");
 
         Services.history(token, function (data) {
-            data.shift();
             this.setState({ instructionArray: data });
             // this.pagginator();
         }.bind(this), function (err) {
@@ -52,7 +51,7 @@ class History extends Component {
         return (
             <React.Fragment>
                 <div className="tableContainer">
-                    <table className="ui striped table">
+                    <table className="ui stripped table">
                         <thead>
                             <tr className="history">
                                 <th>Instruction ID</th>
@@ -89,12 +88,11 @@ class History extends Component {
                             )}
                         </tbody>
                     </table>
-
                     {/* <div className="pagginator">
                         {this.pagginator()}
                     </div> */}
                 </div>
-            </React.Fragment>
+            </React.Fragment >
         );
     }
 }
