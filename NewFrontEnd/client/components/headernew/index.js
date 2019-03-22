@@ -21,7 +21,7 @@ export default class Header extends React.Component {
   render() {
     return (
       <React.Fragment>
-        <div style={{ position: 'fixed', width: '100%', top: '0' }}>
+        <div style={{ position: 'fixed', width: '100%', top: '0', zIndex: '10' }}>
           <div className='Rectangle-2' style={{ display: 'flex', justifyContent: 'space-between' }}>
             <div style={{ padding: "20px", cursor: 'pointer' }}
               tabIndex='1' onClick={this.obClick.bind(this)}>

@@ -323,8 +323,8 @@ export default class TwoWay extends React.Component {
                     </th>
                     <th>Control A/C</th>
                     <th>Contra A/C </th>
-                    <th>Value </th>
                     <th>Instruction type</th>
+                    <th>Value </th>
                     <th>Priority</th>
                     <th>Execution mode</th>
                     <th>Reversal</th>
@@ -340,8 +340,8 @@ export default class TwoWay extends React.Component {
                       </td>
                       <td>{instruction.controlBankAccountNumber}</td>
                       <td>{instruction.contraBankAccountNumber}</td>
-                      <td>{instruction.target}</td>
                       <td>{instruction.instructionType}</td>
+                      <td>{instruction.target}</td>
                       <td>{instruction.priorityId}</td>
                       <td>{instruction.executionMode}</td>
                       <td>No</td>
