@@ -11,7 +11,8 @@ export default class Accordians extends React.Component{
             accSumary:null,
             selectedBusiness: 0,
             selectedControlAccount: null,
-            selectedContraAccount: null
+            selectedContraAccount: null,
+            target: 0
         }
     }
     componentWillMount() {
@@ -26,6 +27,31 @@ export default class Accordians extends React.Component{
 
       handleChange= (index) => {
         this.setState({selectedBusiness: index});
+      }
+
+      handleAddInstr = () => {      
+          var token = sessionStorage.getItem("token");
+          let data = {}
+          data.controlBusinessName = this.state.accSumary.business[this.state.selectedBusiness].name;
+          data.contraBusinessName = this.state.accSumary.business[this.state.selectedBusiness].name;
+          data.contraBankAccountNumber = this.state.accSumary.business[this.state.selectedBusiness].accounts[this.state.selectedContraAccount].accountNumber;
+          data.controlBankAccountNumber = this.state.accSumary.business[this.state.selectedBusiness].accounts[this.state.selectedControlAccount].accountNumber;
+          data.target = this.state.target;
+          let query = {
+            token: token,
+            data: data
+          }
+      
+          Services.submitInstruction(query, function (data) {
+            this.props.refresh();
+          }.bind(this))
+      
+        
+        
+      }
+
+      handleTarget = (e) => {
+        this.setState({target: e.target.value});
       }
 
       handleControlAccount = (index) => {
@@ -172,7 +198,7 @@ export default class Accordians extends React.Component{
         <div style={{display:'flex', flexWrap:'wrap'}}>
             <div style={{width: '25%'}}>
               <label htmlFor="numberIP" style={{width: '100%'}}>Value</label>
-              <input style={{borderRadius: '5px', width: '75%'}} type="number" min='0' id="numberIP" />
+              <input type="number" min='0' id="numberIP" onChange={(e) =>this.handleTarget(e)}/>
             </div>
             <div style={{width: '25%'}}>
               <label htmlFor="instType" style={{width: '100%'}}>Instruction Type</label>
@@ -196,7 +222,7 @@ export default class Accordians extends React.Component{
         <hr />
         <div style={{display: 'flex', flexWrap: 'wrap'}}>
           <img src={buttonImages.buttons[0]} style={{margin: '10px 0 28px 69%'}}/>
-          <img src={buttonImages.buttons[1]} />
+          <img src={buttonImages.buttons[1]} onClick={this.handleAddInstr}/>
         </div>
       </div>
     </div>

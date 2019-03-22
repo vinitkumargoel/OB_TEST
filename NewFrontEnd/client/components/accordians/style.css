@@ -58,3 +58,12 @@
   border-radius: 10px; 
   width:32%;
 }
+
+#numberIP {
+  border-radius: 5px;
+  width: 75%;
+  height: 58% !important;
+}
+.instrReversal:hover {
+  cursor: not-allowed;
+}

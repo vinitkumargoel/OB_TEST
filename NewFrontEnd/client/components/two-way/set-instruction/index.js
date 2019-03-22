@@ -155,15 +155,7 @@ export default class TwoWay extends React.Component {
         instruction.contraBusinessName = accountInfo.business
       }
     })
-    if (instruction.controlBankAccountNumber === "none" || instruction.contraBankAccountNumber === "none" || instruction.target === "") {
-      this.setState({ showModal: false })
-      alert("Please fill the required fields")
-    }
-    else {
-      this.setState({ showModal: true })
-      console.log(instruction)
-      this.submitInstruction(instruction)
-    }
+    this.setState({ showModal: true })
   }
   resetAddNewInstruction = () => {
     let instruction = {
@@ -311,7 +303,7 @@ export default class TwoWay extends React.Component {
           {!this.state.showAccordians ? (
             <div>
               <div><img style={{ cursor: 'pointer' }} src='../../../../images/addInstruction/add_new_btn.png' onClick={this.getAccordian} /></div>
-            </div>) : (<Accordian />)}
+            </div>) : (<Accordian refresh={this.refresh}/>)}
 
           <React.Fragment>
             <div>
