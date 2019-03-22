@@ -1,5 +1,6 @@
 .optionsModal{
-  width: 1145px;
+  /* width: 1145px; */
+  margin: 20px 60px;
   height: 90%;
   border-radius: 9px;
   background-color: #ffffff;
@@ -7,6 +8,10 @@
   margin-top: 20px;
   padding-left: 200px;
   padding-right: 186px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
 }
 .optimizingsModalHeader{
   width: 413px;
@@ -26,8 +31,9 @@
   margin-left: 858px;
   padding-top: 35px;
 }
-.option{
-  width: 760px;
+.commServiceOption{
+  /* width: 760px; */
+  width: 90%;
   height: 90px;
   border-radius: 9px;
   background-color: rgba(196, 198, 205, 0.08);
@@ -57,7 +63,8 @@
   font-size: 14px;
   color: #6d6d6d;
 }
-.flex-container{
+.commService_flex-container{
+  width: 90%;
   display: flex;
   justify-content: space-between;
   margin-top: 25px;

@@ -47,7 +47,7 @@ export default class Header extends React.Component {
           </div>
         </div>
 
-        <div style={{ marginBottom: '70px' }}></div>
+        <div style={{ paddingBottom: '70px' }}></div>
       </React.Fragment>
 
     );
