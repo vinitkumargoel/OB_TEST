@@ -189,9 +189,9 @@ export default class Accordians extends React.Component {
                     </div>
                     <div style={{ width: '50%', display: 'flex', flexWrap: 'wrap' }}>
                       <h6 style={{ width: '50%', margin: '15px', fontWeight: 'bold' }}>Select Contra Account</h6>
-                      <input type="checkbox" style={{ marginBottom: '20px', display: 'none' }} checked disabled id="contraCheckbox" />
+                      <input type="checkbox" style={{ marginTop: '15px' }} disabled id="contraCheckbox" />
                       <label htmlFor="controlCheckbox" style={{ margin: '10px', fontWeight: 'lighter' }}>
-                        <img src={buttonImages.buttons[2]} />&nbsp; Force Debit
+                        Force Debit
                       </label>
                       {this.state.accSumary.business[this.state.selectedBusiness].accounts.map((value, index) => {
                         return (
