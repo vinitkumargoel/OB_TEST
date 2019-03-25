@@ -1,31 +1,38 @@
 import React from 'react';
 import './style.css';
 
-export default class Rel extends React.Component{
-  constructor(props){
+export default class Rel extends React.Component {
+  constructor(props) {
     super(props);
   }
-  
-    render(){
-      console.log(this.props.accSummary, 'accSumary');
-      let bannerImage = 'url("../../../../images/commercialBanner/img-banner.png")'
-        return(
-          <div>
-            <div className="title">
-              <p className = 'My-financials'>My business</p>
-            </div>
-            <div style={{display:'flex',paddingLeft:'7%',width:'1150px',backgroundImage: bannerImage,backgroundRepeat:'no-repeat'}} >
-              <div className='flex-container'>
-                <span><div className="header-title">Total Balance</div><div className="header-value">£ {this.props.accSummary.totalBalance}</div></span>
-              </div>
-              <div className='flex-container'>
-                <span><div className="header-title">Total Accounts</div><div className="header-value"> {this.props.accSummary.totalAccounts}</div></span>
-              </div>
-              <div className='flex-container'>
-                <span><div className="header-title">Total Business</div><div className="header-value"> {this.props.accSummary.totalBusinesses}</div></span>
-              </div>  
-            </div>
+
+  numberWithCommas = (x) => {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  }
+
+  render() {
+    console.log(this.props.accSummary, 'accSumary');
+    let bannerImage = 'url("../../../../images/commercialBanner/img-banner.png")'
+    return (
+      <div style={{ width: '100%', padding: '0px' }}>
+        <div style={{ margin: '1.5% 0' }}>
+          <p className='My-financials'>My businesses</p>
+        </div>
+        <div className="row" style={{
+          margin: '0', width: '100%', backgroundImage: bannerImage,
+          backgroundRepeat: 'no-repeat', backgroundSize: 'cover', color: 'white', padding: '20px 30px 10px 30px'
+        }}>
+          <div className='col'>
+            <span><div className="header-title">Total Balance</div><div className="header-value">£ {this.numberWithCommas(this.props.accSummary.totalBalance)}</div></span>
           </div>
-        );
-    }
+          <div className='col'>
+            <span><div className="header-title">Total Accounts</div><div className="header-value"> {this.numberWithCommas(this.props.accSummary.totalAccounts)}</div></span>
+          </div>
+          <div className='col'>
+            <span><div className="header-title">Total Business</div><div className="header-value"> {this.numberWithCommas(this.props.accSummary.totalBusinesses)}</div></span>
+          </div>
+        </div>
+      </div>
+    );
+  }
 }

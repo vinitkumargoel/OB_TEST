@@ -39,8 +39,8 @@ export default class Options extends React.Component {
       value: ''
     })
   }
-  onNextClick = () => {
-    if (this.state.value == 'two-way') {
+  onNextClick = (info) => {
+    if (info == 'intraCompany') {
       this.props.history.push('/setInstructions');
     }
     else {
@@ -49,15 +49,37 @@ export default class Options extends React.Component {
   }
   render() {
     return (
-      <div className='container-fluid' style={{ paddingLeft: '0px', paddingRight: '0px' }}>
+      <div style={{ marginTop: '70px', height: '100%' }}>
         <Header username={this.state.accSumary.username} history={this.props.history} />
-        <div style={{ display: "flex" }}>
+        <div style={{ display: "flex",  height: '100%' }}>
           <Sidebar activeComponent="wallet" type="commercial" />
-          <div className='main-content' style={{ backgroundColor: "#f5f6fa", width: "100%", paddingBottom: '40px' }}>
-            <div>
-              <h1 style={{ fontWeight: '300', marginTop: '20PX' }}>Commercial Services</h1>
+          <div style={{ backgroundColor: "#f5f6fa", width: "100%", padding: '0 4%',  height: '100%' }}>
+            <div style={{ margin: '1.5% 0' }}>
+              <p className='My-financials'>Commercial services</p>
             </div>
-            <div className='optionsModal' style={{ padding: '20px' }}>
+            <div>
+              <div className="commService_container">
+                <div className="card commService_card" onClick={() => this.onNextClick('intraCompany')}>
+                  <h4>Intra Company Cash Pooling</h4>
+                </div>
+                <div className="card commService_card">
+                  <h4>Inter Company Cash Pooling</h4>
+                </div>
+                <div className="card commService_card">
+                  <h4>Business Forecasting</h4>
+                </div>
+              </div>
+
+              <div className="commService_container">
+                <div className="card commService_card">
+                  <h4>Investment Management</h4>
+                </div>
+                <div className="card commService_card">
+                  <h4>Fixed Payment Instruction</h4>
+                </div>
+              </div>
+            </div>
+            {/* <div className='optionsModal' style={{ padding: '20px' }}>
               <div className='commServiceOption' style={{ backgroundColor: (this.state.value === 'two-way') ? 'rgba(0, 106, 77, 0.14)' : 'rgba(196, 198, 205, 0.08)' }}>
                 <div className='optionHeader'>
                   Intra Company Cash Pooling
@@ -115,7 +137,7 @@ export default class Options extends React.Component {
               </div>
             </div>
             <div>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>

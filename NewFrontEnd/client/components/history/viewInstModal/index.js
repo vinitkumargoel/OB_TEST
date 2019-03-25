@@ -37,8 +37,24 @@ class ViewInstructionModal extends Component {
         return <Icon name='ban' className="eyeIcon" style={{ fontSize: '12px', color: 'grey', marginRight: '8px' }} />
     }
 
+    // manipulateAccountNumber = (accountNumber) => {
+    //     return accountNumber.replace(/[^\dA-Z]/g, '').replace(/(.{4})/g, '$1 ').trim();
+    // }
+
     manipulateAccountNumber = (accountNumber) => {
-        return accountNumber.replace(/[^\dA-Z]/g, '').replace(/(.{4})/g, '$1 ').trim();
+        accountNumber.toString();
+        let number = '';
+        for (let index = 0; index < accountNumber.length; index++) {
+            if (index === 1 || index === 3) {
+                number = number + accountNumber[index] + '-';
+            } else if (index === 5) {
+                number = number + accountNumber[index] + ' ';
+            } else {
+                number = number + accountNumber[index];
+            }
+        }
+
+        return number;
     }
 
     render() {

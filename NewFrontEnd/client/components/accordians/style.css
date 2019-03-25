@@ -1,8 +1,6 @@
 .company-card-button{
-  padding-top: 3%;
   text-align: left;
   display: flex;
-  padding-left: 3%;
   color:black;
   width:100%;
 }
@@ -10,12 +8,12 @@
 .icons{
   width:20%;
 }
+
 .secondAccordionMain {
-  padding-top: 10px;
-  padding-left: 20px;
   display: flex;
   flex-wrap: wrap;
 }
+
 .accountCard1 {
   margin-top: 10px;
   width: 80%;
@@ -42,7 +40,6 @@
   cursor: pointer;
 }
 
-
 .card:first-of-type, .card:not(:first-of-type):not(:last-of-type) {
   border-bottom: 1px solid rgba(0, 0, 0, 0.125) !important;
 }
@@ -66,4 +63,34 @@
 }
 .instrReversal:hover {
   cursor: not-allowed;
+}
+
+.cardHeader {
+  cursor: pointer;
+  font-size: 13px;
+  padding: 1.5% 2%; 
+}
+
+.accordianCard {
+  margin-bottom: 1%;
+  border-radius: 9px !important;
+}
+
+.accordianCardBody .accordianSmallCard:not(:last-child) {
+  margin-right: 2%;
+}
+
+.accordianSmallCard {
+  border-radius: 9px !important;
+  padding: 15px 15px;
+  cursor: pointer;
+  border: 1px solid lightgray;
+}
+
+.accordianSmallCardActive {
+  border: 1px solid #00864f !important;
+}
+
+.accordianSmallCard:hover {
+  border: 1px solid #00864f !important;
 }

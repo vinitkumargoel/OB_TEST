@@ -290,7 +290,23 @@ export default class TwoWay extends React.Component {
   }
 
   getAccordian = () => {
-    this.setState({showAccordians:true})
+    this.setState({ showAccordians: true })
+  }
+
+  manipulateAccountNumber = (accountNumber) => {
+    accountNumber.toString();
+    let number = '';
+    for (let index = 0; index < accountNumber.length; index++) {
+      if (index === 1 || index === 3) {
+        number = number + accountNumber[index] + '-';
+      } else if (index === 5) {
+        number = number + accountNumber[index] + ' ';
+      } else {
+        number = number + accountNumber[index];
+      }
+    }
+
+    return number;
   }
 
   renderScreen() {
@@ -302,11 +318,17 @@ export default class TwoWay extends React.Component {
         <div>
           {!this.state.showAccordians ? (
             <div>
-              <div><img style={{ cursor: 'pointer' }} src='../../../../images/addInstruction/add_new_btn.png' onClick={this.getAccordian} /></div>
-            </div>) : (<Accordian refresh={this.refresh}/>)}
+              {/* <div><img style={{ cursor: 'pointer' }} src='../../../../images/addInstruction/add_new_btn.png' onClick={this.getAccordian} /></div> */}
+              <button className="greenBtn addNewInstBtn" onClick={this.getAccordian}>
+                <span>ADD NEW INSTRUCTIONS</span>
+              </button>
+            </div>) : (<Accordian refresh={this.refresh} />)}
 
           <React.Fragment>
             <div>
+              <div style={{ margin: '1.5% 0' }}>
+                <p className='My-financials'>Current instructions</p>
+              </div>
               <table className="ui striped table">
                 <thead>
                   <tr className="currentInstruction">
@@ -330,16 +352,16 @@ export default class TwoWay extends React.Component {
                       <td>
                         <input onChange={this.changeInstructionSelection.bind(this, index)} type="checkbox" checked={this.state.instructionSelected[index].selected} />
                       </td>
-                      <td>{instruction.controlBankAccountNumber}</td>
-                      <td>{instruction.contraBankAccountNumber}</td>
+                      <td>{this.manipulateAccountNumber(instruction.controlBankAccountNumber)}</td>
+                      <td>{this.manipulateAccountNumber(instruction.contraBankAccountNumber)}</td>
                       <td>{instruction.instructionType}</td>
                       <td>{instruction.target}</td>
                       <td>{instruction.priorityId}</td>
                       <td>{instruction.executionMode}</td>
                       <td>No</td>
                       <td>
-                        <img src={'images/ic-edit-copy-7.png'} onClick={this.handleOk} style={{ marginRight: '20px' }} />
-                        <img src={'images/ic-delete-copy-7.png'} onClick={this.handleOk} />
+                        <img src={'images/ic-edit-copy-7.png'} onClick={this.handleOk} style={{ marginRight: '20px', cursor: 'pointer' }} />
+                        <img src={'images/ic-delete-copy-7.png'} onClick={this.handleOk} style={{ cursor: 'pointer' }} />
                       </td>
                       <td><img src={'images/ic-reorder.png'} onClick={this.handleOk} /></td>
                     </tr>
@@ -350,7 +372,12 @@ export default class TwoWay extends React.Component {
           </React.Fragment>
 
           <div style={{ width: '100%' }}>
-            <button className="executeBtn" onClick={this.executeInstructions}>EXECUTE <Icon name="arrow right icon" style={{ float: 'right', paddingRight: '20px' }}></Icon></button>
+            <button className="greenBtn executeBtn" onClick={this.executeInstructions}>
+              <span>EXECUTE</span>
+              <span style={{ paddingLeft: '20px' }}>
+                <i className='fa fa-arrow-right'></i>
+              </span>
+            </button>
           </div>
 
           <InstructionModal open={this.state.instExeModalOpen} status={this.state.exectionInstructionStatus}

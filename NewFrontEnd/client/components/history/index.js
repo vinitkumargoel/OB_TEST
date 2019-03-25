@@ -47,6 +47,22 @@ class History extends Component {
         return < Icon name='check' className="checkIcon" />
     }
 
+    manipulateAccountNumber = (accountNumber) => {
+        accountNumber.toString();
+        let number = '';
+        for (let index = 0; index < accountNumber.length; index++) {
+            if (index === 1 || index === 3) {
+                number = number + accountNumber[index] + '-';
+            } else if (index === 5) {
+                number = number + accountNumber[index] + ' ';
+            } else {
+                number = number + accountNumber[index];
+            }
+        }
+
+        return number;
+    }
+
     render() {
         return (
             <React.Fragment>
@@ -73,10 +89,10 @@ class History extends Component {
                                 <tr key={instruction.executionId} className="history">
                                     <td>{instruction.instructionId}</td>
                                     <td>{instruction.executionId}</td>
-                                    <td>{instruction.controlAccount.controlAccountNumber}</td>
+                                    <td>{this.manipulateAccountNumber(instruction.controlAccount.controlAccountNumber)}</td>
                                     <td>&#163; {instruction.controlAccount.balanceBeforeExecution}</td>
                                     <td>&#163; {instruction.controlAccount.balanceAfterExecution}</td>
-                                    <td>{instruction.contraAccount.contraAccountNumber}</td>
+                                    <td>{this.manipulateAccountNumber(instruction.contraAccount.contraAccountNumber)}</td>
                                     <td>&#163; {instruction.contraAccount.balanceBeforeExecution}</td>
                                     <td>&#163; {instruction.contraAccount.balanceAfterExecution}</td>
                                     <td>{moment(instruction.executionDateTime).format("DD/MM/YYYY")}</td>

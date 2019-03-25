@@ -46,8 +46,6 @@ export default class Header extends React.Component {
             </div>
           </div>
         </div>
-
-        <div style={{ paddingBottom: '70px' }}></div>
       </React.Fragment>
 
     );

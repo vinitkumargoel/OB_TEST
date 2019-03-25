@@ -27,7 +27,7 @@ import commercialHome from './components/commercialHome'
 render(
     <MuiThemeProvider>
         <HashRouter>
-            <div >
+            <div style={{ height: '100%' }}>
                 <Route exact path='/' component={Login} />
                 <Route exact path='/home' component={Home} />
                 <Route exact path='/payout' component={Payout} />
@@ -48,7 +48,7 @@ render(
                 <Route exact path="/commercialOptimizations" component={Options} />
                 <Route exact path="/setInstructions" component={TwoWay} />
                 <Route exact path="/history" component={History} />
-                <Route exact path="/homeCommercial" component = {commercialHome} />
+                <Route exact path="/homeCommercial" component={commercialHome} />
             </div>
         </HashRouter>
     </MuiThemeProvider>, document.getElementById('root'));

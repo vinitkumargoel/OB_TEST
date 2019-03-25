@@ -190,7 +190,7 @@
 
 .history th,
 .history td {
-  width: 12% !important;
+  width: 15% !important;
   text-align: center !important;
 }
 
@@ -199,4 +199,15 @@
 .history th:nth-child(11),
 .history td:nth-child(11) {
   width: 7% !important;
+}
+
+.history th:nth-child(1),
+.history td:nth-child(1),
+.history th:nth-child(2),
+.history td:nth-child(2),
+.history th:nth-child(10),
+.history td:nth-child(10),
+.history th:nth-child(9),
+.history td:nth-child(9) {
+  width: 10% !important;
 }

@@ -207,21 +207,14 @@
     outline: 2px solid rgb(114, 111, 111)!important;
   }
   .executeBtn{
-    margin-top: 20px;
-    width: 120px;
-    height: 40px;
-    background-color: #00864f;
+    margin: 2% 0 4% 0;
     float: right;
-    border-radius: 3px;
-    box-shadow: 0 9px 19px 0 rgba(43, 63, 8, 0.38);
-    border: none;
-    color: white;
   }
   .colorbtn2{
     width: 260px;
     height: 45px;
     box-shadow: 0 9px 19px 0 rgba(43, 63, 8, 0.38)!important;
-    background-color: #00864f !important;
+    background-color: #171d1a !important;
   }
 
   .tab1 {
@@ -364,6 +357,7 @@
   .twoWay_container {
     width: 100%;
     height: 100%;
+    margin-top: 70px;
   }
 
   .twoWay_subContainer {
@@ -376,7 +370,8 @@
     width: 100%;
     height: 100%;
     background: #f5f6fa;
-    padding: 10px 50px 20px 50px;
+    padding: 10px 50px 0 50px;
+    overflow: auto;
   }
 
   .ui.secondary.pointing.menu {
@@ -410,7 +405,7 @@
 
   tbody {
     display:block;
-    max-height:58vh;
+    max-height:60vh;
     overflow:auto;
   }
 
@@ -432,10 +427,18 @@
   }
 
   .currentInstruction th:last-child,
-  .currentInstruction td:last-child {
+  .currentInstruction td:last-child,
+  .currentInstruction th:nth-child(5),
+  .currentInstruction td:nth-child(5),
+  .currentInstruction th:nth-child(6),
+  .currentInstruction td:nth-child(6) {
     width: 5% !important;
   }
 
   .standingInstTable thead, tbody tr {
     border-bottom: none !important;
+  }
+
+  .addNewInstBtn {
+    margin: 1.5% 0;
   }
