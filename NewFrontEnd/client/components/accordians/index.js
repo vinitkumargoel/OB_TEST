@@ -99,6 +99,7 @@ export default class Accordians extends React.Component {
 
   closeModal = () => {
     this.setState({ showModal: false });
+    this.props.getAccordian()
   }
 
   manipulateAccountNumber = (accountNumber) => {

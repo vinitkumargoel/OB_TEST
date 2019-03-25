@@ -290,7 +290,7 @@ export default class TwoWay extends React.Component {
   }
 
   getAccordian = () => {
-    this.setState({ showAccordians: true })
+    this.setState({ showAccordians: !this.state.showAccordians })
   }
 
   manipulateAccountNumber = (accountNumber) => {
@@ -322,7 +322,7 @@ export default class TwoWay extends React.Component {
               <button className="greenBtn addNewInstBtn" onClick={this.getAccordian}>
                 <span>ADD NEW INSTRUCTIONS</span>
               </button>
-            </div>) : (<Accordian refresh={this.refresh} />)}
+            </div>) : (<Accordian refresh={this.refresh} getAccordian={this.getAccordian}/>)}
 
           <React.Fragment>
             <div>
