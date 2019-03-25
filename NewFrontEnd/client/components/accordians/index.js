@@ -3,11 +3,13 @@ import './style.css';
 import Services from '../../services';
 import images from '../accountDetails/config';
 import buttonImages from './config';
+import { Modal, Button } from 'semantic-ui-react';
 
 export default class Accordians extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      showModal: false,
       accSumary: null,
       selectedBusiness: 0,
       selectedControlAccount: null,
@@ -49,10 +51,8 @@ export default class Accordians extends React.Component {
 
     Services.submitInstruction(query, function (data) {
       this.props.refresh();
+      this.setState({ showModal: true });
     }.bind(this))
-
-
-
   }
 
   handleTarget = (e) => {
@@ -90,6 +90,10 @@ export default class Accordians extends React.Component {
         pTags[i].style.color = 'white';
       }
     }
+  }
+
+  closeModal = () => {
+    this.setState({ showModal: false });
   }
 
   render() {
@@ -138,7 +142,7 @@ export default class Accordians extends React.Component {
                 </div>
               </div>
               <div id="collapseTwo" className="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
-                <div className="card-body" style={{ padding: '0 2% 3% 2%'}}>
+                <div className="card-body" style={{ padding: '0 2% 3% 2%' }}>
                   <div className="secondAccordionMain">
                     <div style={{ width: '50%', display: 'flex', flexWrap: 'wrap' }}>
                       <h6 style={{ width: '50%', margin: '15px', fontWeight: 'bold' }}>Select Control Account</h6>
@@ -167,7 +171,7 @@ export default class Accordians extends React.Component {
                       <input type="checkbox" style={{ marginBottom: '20px', display: 'none' }} checked disabled id="contraCheckbox" />
                       <label htmlFor="controlCheckbox" style={{ margin: '10px', fontWeight: 'lighter' }}>
                         <img src={buttonImages.buttons[2]} />&nbsp; Force Debit
-            </label>
+                      </label>
                       {this.state.accSumary.business[this.state.selectedBusiness].accounts.map((value, index) => {
                         return (
                           <div className="card accountCard2" key={index} onClick={() => this.handleContraAccount(index)}>
@@ -218,7 +222,7 @@ export default class Accordians extends React.Component {
                       <input type="checkbox" id="instReversal" checked disabled style={{ display: 'none' }} />
                       <label htmlFor="instReversal" style={{ margin: '30px 0 0 30px' }}>
                         <img src={buttonImages.buttons[2]} />&nbsp; Reversal
-              </label>
+                      </label>
                     </div>
                   </div>
                   <hr />
@@ -230,6 +234,17 @@ export default class Accordians extends React.Component {
               </div>
             </div>
           </div>
+
+          <Modal open={this.state.showModal} onClose={this.closeModal} basic size='tiny' style={{ width: '100%' }}>
+            <div className="instAddModalContainer">
+              <div className="instAddModal" style={{ backgroundImage: 'url(images/Added1.png)', backgroundSize: 'cover' }}>
+                <div className='headStyle'>
+                  <h1 style={{ color: 'white' }}>Instruction added!</h1>
+                </div>
+                <Button color='green' className='btn2' onClick={this.closeModal}>OK</Button>
+              </div>
+            </div>
+          </Modal>
         </div>
       )
     } else {

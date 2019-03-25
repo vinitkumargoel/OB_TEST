@@ -306,6 +306,7 @@
     text-align: center!important;
     vertical-align: middle;
   }
+  
   .modalAdd
   {
     /* background-image: url("./Added1.png") !important; */
@@ -315,16 +316,20 @@
     height: 280px;
     margin-left: 180px;
   }
+
   .okBtn
   {
     margin-top: 70px;
   }
+
   .btn2{
     width: 115px !important;
     height: 40px !important;
     margin-top: -13px !important;
     margin-left: 80px !important;
+    box-shadow: 0 9px 19px 0 rgba(43, 63, 8, 0.38) !important;
   }
+
   .modalCon{
     width: 1028px !important;
     height: 800px !important;
@@ -334,6 +339,7 @@
     margin-left: 80px !important;
     /* margin-top: 164px !important; */
     padding-top: 58px !important;
+    margin-bottom: 8% !important;
   }
   /* input.reversal:hover{
     cursor:not-allowed;
