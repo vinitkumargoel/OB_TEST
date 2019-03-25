@@ -101,6 +101,22 @@ export default class Accordians extends React.Component {
     this.setState({ showModal: false });
   }
 
+  manipulateAccountNumber = (accountNumber) => {
+    accountNumber.toString();
+    let number = '';
+    for (let index = 0; index < accountNumber.length; index++) {
+      if (index === 1 || index === 3) {
+        number = number + accountNumber[index] + '-';
+      } else if (index === 5) {
+        number = number + accountNumber[index] + ' ';
+      } else {
+        number = number + accountNumber[index];
+      }
+    }
+
+    return number;
+  }
+
   render() {
     if (this.state.accSumary) {
       return (
@@ -161,7 +177,7 @@ export default class Accordians extends React.Component {
                             <div className="card-body secondAccordionMain">
                               <div style={{ width: '50%' }}>
                                 <p style={{ color: '#62b34f', marginBottom: '5px' }}>{value.accountName}</p>
-                                <p>{value.accountNumber}</p>
+                                <p style={{ fontSize: '20px' }}>{this.manipulateAccountNumber(value.accountNumber)}</p>
                               </div>
                               <div style={{ width: '50%' }}>
                                 <p className="availableBalance">₤ {this.numberWithCommas(value.availableBalance)}</p>
@@ -183,7 +199,7 @@ export default class Accordians extends React.Component {
                             <div className="card-body secondAccordionMain">
                               <div style={{ width: '50%' }}>
                                 <p style={{ color: '#62b34f', marginBottom: '5px' }}>{value.accountName}</p>
-                                <p>{value.accountNumber}</p>
+                                <p style={{ fontSize: '20px' }}>{this.manipulateAccountNumber(value.accountNumber)}</p>
                               </div>
                               <div style={{ width: '50%' }}>
                                 <p className="availableBalance">₤ {this.numberWithCommas(value.availableBalance)}</p>
@@ -206,10 +222,10 @@ export default class Accordians extends React.Component {
               </div>
               <div id="collapseThree" className="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
                 <div className="card-body">
-                  <div style={{ display: 'flex', flexWrap: 'wrap' }}>
+                  <div style={{ display: 'flex', flexWrap: 'wrap', marginBottom: '4%' }}>
                     <div style={{ width: '25%' }}>
                       <label htmlFor="numberIP" style={{ width: '100%' }}>Value</label>
-                      <input type="number" min='0' id="numberIP" onChange={(e) => this.handleTarget(e)} />
+                      <input type="number" min='0' id="numberIP" onChange={(e) => this.handleTarget(e)} style={{ border: '1px solid rgb(169, 169, 169)', padding: '2%' }} />
                     </div>
                     <div style={{ width: '25%' }}>
                       <label htmlFor="instType" style={{ width: '100%' }}>Instruction Type</label>
@@ -232,8 +248,14 @@ export default class Accordians extends React.Component {
                   </div>
                   <hr />
                   <div style={{ display: 'flex', flexWrap: 'wrap' }}>
-                    <img src={buttonImages.buttons[0]} style={{ margin: '10px 0 28px 69%' }} />
-                    <img src={buttonImages.buttons[1]} onClick={this.handleAddInstr} />
+                    <div style={{ width: '100%' }}>
+                      <button className="greenBtn addInst_addBtn" onClick={this.handleAddInstr}>
+                        <span>ADD</span>
+                      </button>
+                      <button className="greenBtn addInst_resetBtn">
+                        <span>RESET</span>
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>

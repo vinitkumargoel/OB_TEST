@@ -37,10 +37,6 @@ class ViewInstructionModal extends Component {
         return <Icon name='ban' className="eyeIcon" style={{ fontSize: '12px', color: 'grey', marginRight: '8px' }} />
     }
 
-    // manipulateAccountNumber = (accountNumber) => {
-    //     return accountNumber.replace(/[^\dA-Z]/g, '').replace(/(.{4})/g, '$1 ').trim();
-    // }
-
     manipulateAccountNumber = (accountNumber) => {
         accountNumber.toString();
         let number = '';
