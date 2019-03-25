@@ -59,6 +59,11 @@ export default class Accordians extends React.Component {
     this.setState({ target: e.target.value });
   }
 
+  numberWithCommas = (x) => {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  }
+
+
   handleControlAccount = (index) => {
     this.setState({ selectedControlAccount: index });
     let controlAccount = document.getElementsByClassName('accountCard1')[index];
@@ -159,7 +164,7 @@ export default class Accordians extends React.Component {
                                 <p>{value.accountNumber}</p>
                               </div>
                               <div style={{ width: '50%' }}>
-                                <p className="availableBalance">₤ {value.availableBalance}</p>
+                                <p className="availableBalance">₤ {this.numberWithCommas(value.availableBalance)}</p>
                               </div>
                             </div>
                           </div>
@@ -181,7 +186,7 @@ export default class Accordians extends React.Component {
                                 <p>{value.accountNumber}</p>
                               </div>
                               <div style={{ width: '50%' }}>
-                                <p className="availableBalance">₤ {value.availableBalance}</p>
+                                <p className="availableBalance">₤ {this.numberWithCommas(value.availableBalance)}</p>
                               </div>
                             </div>
                           </div>
