@@ -14,6 +14,10 @@
   flex-wrap: wrap;
 }
 
+.accountName {
+  color: #62b34f
+}
+
 .accountCard1 {
   margin-top: 10px;
   width: 80%;
@@ -21,6 +25,21 @@
   border-radius: 10px !important;
   border-width: 1px;
   overflow: hidden;
+}
+
+.accountCard1:hover {
+  background: #00864f;
+  color: white;
+}
+
+.accountCard1:hover .availableBalance,
+.accountCard2:hover .availableBalance   {
+  color: white !important;
+}
+
+.accountCard1:hover .accountName,
+.accountCard2:hover .accountName   {
+  color: white !important;
 }
 
 .accountCard2 {
@@ -32,6 +51,12 @@
   border-width: 1px;
   overflow: hidden;
 }
+
+.accountCard2:hover {
+  background: #66980c;
+  color: white;
+}
+
 .accountCard1 > p {
   font-size: 13px;
 }

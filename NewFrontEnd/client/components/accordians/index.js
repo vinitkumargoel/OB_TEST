@@ -88,7 +88,7 @@ export default class Accordians extends React.Component {
   handleContraAccount = (index) => {
     this.setState({ selectedContraAccount: index });
     let contraAccount = document.getElementsByClassName('accountCard2')[index];
-    contraAccount.style.background = 'rgb(102, 152, 12)';
+    contraAccount.style.background = '#66980c';
     let pTags = contraAccount.getElementsByTagName('p');
     for (let i in pTags) {
       if (pTags[i].tagName === 'P') {
@@ -168,16 +168,16 @@ export default class Accordians extends React.Component {
                   <div className="secondAccordionMain">
                     <div style={{ width: '50%', display: 'flex', flexWrap: 'wrap' }}>
                       <h6 style={{ width: '50%', margin: '15px', fontWeight: 'bold' }}>Select Control Account</h6>
-                      <input type="checkbox" style={{ marginBottom: '20px', display: 'none' }} checked disabled id="controlCheckbox" />
+                      <input type="checkbox" style={{ marginTop: '15px' }} disabled id="controlCheckbox" />
                       <label htmlFor="controlCheckbox" style={{ margin: '10px', fontWeight: 'lighter' }}>
-                        <img src={buttonImages.buttons[2]} />&nbsp; Force Debit
+                        Force Debit
                       </label>
                       {this.state.accSumary.business[this.state.selectedBusiness].accounts.map((value, index) => {
                         return (
                           <div className="card accountCard1" key={index} onClick={() => this.handleControlAccount(index)}>
                             <div className="card-body secondAccordionMain">
                               <div style={{ width: '50%' }}>
-                                <p style={{ color: '#62b34f', marginBottom: '5px' }}>{value.accountName}</p>
+                                <p className="accountName" style={{ marginBottom: '5px' }}>{value.accountName}</p>
                                 <p style={{ fontSize: '20px' }}>{this.manipulateAccountNumber(value.accountNumber)}</p>
                               </div>
                               <div style={{ width: '50%' }}>
@@ -199,7 +199,7 @@ export default class Accordians extends React.Component {
                           <div className="card accountCard2" key={index} onClick={() => this.handleContraAccount(index)}>
                             <div className="card-body secondAccordionMain">
                               <div style={{ width: '50%' }}>
-                                <p style={{ color: '#62b34f', marginBottom: '5px' }}>{value.accountName}</p>
+                                <p className="accountName" style={{ marginBottom: '5px' }}>{value.accountName}</p>
                                 <p style={{ fontSize: '20px' }}>{this.manipulateAccountNumber(value.accountNumber)}</p>
                               </div>
                               <div style={{ width: '50%' }}>
