@@ -37,7 +37,8 @@ export default class TwoWay extends React.Component {
       },
       accountInfos: [],
       availableBalance: { controlBankAccountBalance: "", contraBankAccountBalance: "" },
-      showAccordians: false
+      showAccordians: false,
+      allInstructionForOneBusiness:[]
     }
   }
   componentDidMount() {
@@ -63,6 +64,7 @@ export default class TwoWay extends React.Component {
         let id = instruction.instructionId;
         instructionSelected.instructionId = id
         instructionSelected.selected = false
+        instructionSelected.business = instruction.controlBusinessName
         instList.push(instructionSelected)
       })
       this.setState({ instructionSelected: instList })
@@ -83,7 +85,11 @@ export default class TwoWay extends React.Component {
   dropdownList = (businesses) => {
     let accountNumbers = [];
     let accountInfos = []
+    let allInstructionForOneBusiness=[]
     businesses.map((business, index) => {
+      let allInstructionForOneBusinessValue = {}
+      allInstructionForOneBusinessValue.business = business["name"]
+      allInstructionForOneBusinessValue.selected = false
       business["accounts"].map((account, i) => {
         let accountInfo = {}
         accountInfo.accountNumber = account["accountNumber"]
@@ -92,8 +98,10 @@ export default class TwoWay extends React.Component {
         accountNumbers.push(account["accountNumber"])
         accountInfos.push(accountInfo)
       })
+      allInstructionForOneBusiness.push(allInstructionForOneBusinessValue)
     })
     this.setState({ accountInfos: accountInfos }, () => console.log(this.state.accountInfos))
+    this.setState({allInstructionForOneBusiness:allInstructionForOneBusiness})
     // console.log(data, typeof (data));
     return accountNumbers;
   }
@@ -234,8 +242,9 @@ export default class TwoWay extends React.Component {
       this.setState({ instructionData: data })
       let addedInstruction = data.currentInstructions[data.currentInstructions.length - 1]
       let id = addedInstruction.instructionId
+      let business = addedInstruction.controlBusinessName
       this.setState(prevState => ({
-        instructionSelected: [...prevState.instructionSelected, { instructionId: id, selected: false }]
+        instructionSelected: [...prevState.instructionSelected, { instructionId: id, selected: false ,business:business}]
       }))
       // console.log(data)
     }.bind(this), function (err) {
@@ -251,14 +260,22 @@ export default class TwoWay extends React.Component {
     let instructionSelected = [...this.state.instructionSelected]
     if (event.target.checked === true) {
       instructionSelected.map(instruction => {
-        instruction.selected = true;
+        if(instruction.business===this.state.accSumary.business[this.state.selectedBusiness].name)
+          instruction.selected = true;
       })
     }
     else {
       instructionSelected.map(instruction => {
+        if(instruction.business===this.state.accSumary.business[this.state.selectedBusiness].name)
         instruction.selected = false;
       })
     }
+    let allInstructionForOneBusiness = [...this.state.allInstructionForOneBusiness]
+    let selectedBusinessInstructions = allInstructionForOneBusiness
+    .filter(instruction=>instruction.business === this.state.accSumary.business[this.state.selectedBusiness].name)
+    console.log(selectedBusinessInstructions)
+    selectedBusinessInstructions[0].selected = event.target.checked
+    this.setState({allInstructionForOneBusiness:allInstructionForOneBusiness})
     this.setState({ instructionSelected: instructionSelected })
   }
 
@@ -338,6 +355,12 @@ export default class TwoWay extends React.Component {
     }
     
   }
+  selectAllForOneBusinessCheck=(business)=>
+  { 
+   let selectedBusinessInstructions = this.state.allInstructionForOneBusiness
+   .filter(instruction=>instruction.business === business)
+   return selectedBusinessInstructions[0].selected
+  }
   manipulateAccountNumber = (accountNumber) => {
     accountNumber.toString();
     let number = '';
@@ -411,7 +434,7 @@ export default class TwoWay extends React.Component {
                 <thead>
                   <tr className="currentInstruction">
                     <th>
-                      <input onChange={this.selectAllInstructionsHandler} type="checkbox" />
+                      <input onChange={this.selectAllInstructionsHandler} type="checkbox" checked={this.selectAllForOneBusinessCheck(this.state.accSumary.business[this.state.selectedBusiness].name)} />
                     </th>
                     <th>Control A/C</th>
                     <th>Contra A/C </th>
