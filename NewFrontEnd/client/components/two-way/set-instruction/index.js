@@ -8,12 +8,15 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import InstructionModal from '../../history/instExeModal/index';
 import History from '../../history/index';
 import Accordian from '../../accordians/index';
+import images from '../../accountDetails/config';
 
 
 export default class TwoWay extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      selectedBusiness:0,
+      displayInstructions:null,
       exectionInstructionStatus: '',
       setInstructionTabActive: true,
       historyTabActive: false,
@@ -49,10 +52,12 @@ export default class TwoWay extends React.Component {
       // console.log(err);
     })
 
+    
+
     Services.instructionCall(token, function (data) {
       // data=JSON.parse(data);
       let instList = []
-      this.setState({ instructionData: data })
+      this.setState({ instructionData: data})
       data.currentInstructions.map(instruction => {
         const instructionSelected = {};
         let id = instruction.instructionId;
@@ -66,13 +71,6 @@ export default class TwoWay extends React.Component {
     }.bind(this), function (err) {
       // console.log(err);
     })
-
-    //   Services.getSISuggestions(token, function (data) {
-    //     this.setState({ siSuggest: data });
-    //     console.log(data, "getSI")
-    //   }.bind(this), function (err) {
-    //     console.log(err);
-    //   })
   }
 
   handleChange = (e, { value }) => this.setState({ value })
@@ -138,11 +136,27 @@ export default class TwoWay extends React.Component {
       newInstruction: instruction
     })
   }
-  changeInstructionSelection = (index, event) => {
+  // changeInstructionSelection = (index, event) => {
+  //   const updatedInstructionSelected = [...this.state.instructionSelected]
+  //   const instruction = updatedInstructionSelected[index]
+  //   instruction.selected = event.target.checked
+  //   this.setState({ instructionSelected: updatedInstructionSelected })
+  // }
+
+  changeInstructionSelection =(id,event) =>{
     const updatedInstructionSelected = [...this.state.instructionSelected]
-    const instruction = updatedInstructionSelected[index]
-    instruction.selected = event.target.checked
+    let selectedInstr = updatedInstructionSelected.filter((value) => value.instructionId === id);
+    selectedInstr[0].selected = event.target.checked
     this.setState({ instructionSelected: updatedInstructionSelected })
+    console.log(selectedInstr,id);
+
+  }
+  selectedInstruction=(id)=>
+  {
+    const updatedInstructionSelected = [...this.state.instructionSelected]
+    let selectedInstr = updatedInstructionSelected.filter((value) => value.instructionId === id);
+    console.log(selectedInstr.selected)
+    return selectedInstr[0].selected
   }
   addInstruction = () => {
     let instruction = {}
@@ -297,6 +311,33 @@ export default class TwoWay extends React.Component {
     this.setState({ showAccordians: !this.state.showAccordians })
   }
 
+  getButtons = () => {
+    return (this.state.accSumary.business.map((value, index) => {
+      return (
+        <div className={this.handleChange(null)} onClick={() => this.handleChange(index)} key={index} id={index}>
+          <div className="company-card-button " value={index} >
+            <div className="icons" ><img src={images.Icons[index]} alt="icon" />  </div>
+            <div>
+              <div><b>{value.name}</b></div>
+              <div>{value.address}</div>
+              <div><b style={{ color: 'grey' }}>Contact</b>:{value.contactNumber}</div>
+            </div>
+          </div>
+        </div>
+      )
+    }))
+  }
+  
+  handleButtonChange = (index) => {
+    if (index === null) {
+      return 'col accordianSmallCard';
+    } else {
+      this.setState({ selectedBusiness: index });
+      
+      return 'col accordianSmallCard accordianSmallCardActive';
+    }
+    
+  }
   manipulateAccountNumber = (accountNumber) => {
     accountNumber.toString();
     let number = '';
@@ -314,20 +355,58 @@ export default class TwoWay extends React.Component {
   }
 
   renderScreen() {
+    console.log(this.state.accSumary.business)
     if (this.state.showHistory) {
       return <History></History>
     }
     else {
       return (
         <div>
-          {!this.state.showAccordians ? (
+          {!this.state.showAccordians && this.state.accSumary.business !== undefined ? (
             <div>
               {/* <div><img style={{ cursor: 'pointer' }} src='../../../../images/addInstruction/add_new_btn.png' onClick={this.getAccordian} /></div> */}
+              <div className="accordion" id="accordionExample">
+            <div className="card accordianCard">
+              <div className="cardHeader" id="headingOne" data-toggle="collapse" data-target="#collapseOne">
+                <div style={{ width: '100%', color: '#00864f' }}>
+                  <span><b>CHOOSE BUSINESS</b></span>
+                  <span style={{ float: 'right' }}><i className='fa fa-angle-down'></i></span>
+                </div>
+              </div>
+              <div id="collapseOne" className="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
+                <div style={{ padding: '0 2% 3% 2%' }}>
+                  <div>
+                    <div className="accordianCardBody row" style={{ display: 'flex', width: '100%', margin: '0' }}>
+                    {this.state.accSumary.business.map((value,index) =>{
+                        return (
+                          <div className={this.handleButtonChange(null)} onClick={() => this.handleButtonChange(index)} key={index} id={index}>
+                            <div className="company-card-button " value={index} >
+                              <div className="icons" ><img src={images.Icons[index]} alt="icon" />  </div>
+                              <div>
+                                <div><b>{value.name}</b></div>
+                                <div>{value.address}</div>
+                                <div><b style={{ color: 'grey' }}>Contact</b>:{value.contactNumber}</div>
+                              </div>
+                            </div>
+                          </div>
+                        )
+                      })}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            </div>
               <button className="greenBtn addNewInstBtn" onClick={this.getAccordian}>
                 <span>ADD NEW INSTRUCTIONS</span>
               </button>
+<<<<<<< HEAD
             </div>) : (<Accordian refresh={this.refresh} getAccordian={this.getAccordian} />)}
 
+=======
+            </div>) : (<Accordian refresh={this.refresh} getAccordian={this.getAccordian} index = {this.state.selectedBusiness}/>)}
+            {this.state.accSumary.business !== undefined && this.state.selectedBusiness !== null ? (
+>>>>>>> 19330ddc6fd703bc1dfb9e71f124b6a99ce53e62
           <React.Fragment>
             <div>
               <div style={{ margin: '1.5% 0' }}>
@@ -351,10 +430,10 @@ export default class TwoWay extends React.Component {
                   </tr>
                 </thead>
                 <tbody>
-                  {this.state.instructionData !== null && this.state.instructionSelected.length !== 0 && this.state.instructionSelected.length === this.state.instructionData.currentInstructions.length ? this.state.instructionData.currentInstructions.map((instruction, index) =>
+                  {this.state.instructionData !== null && this.state.instructionSelected.length !== 0 && this.state.instructionSelected.length === this.state.instructionData.currentInstructions.length ? this.state.instructionData.currentInstructions.filter(instr =>instr.controlBusinessName === this.state.accSumary.business[this.state.selectedBusiness].name).map((instruction, index) =>
                     <tr key={instruction.executionId} className="currentInstruction">
                       <td>
-                        <input onChange={this.changeInstructionSelection.bind(this, index)} type="checkbox" checked={this.state.instructionSelected[index].selected} />
+                        <input onChange={this.changeInstructionSelection.bind(this, instruction.instructionId)} type="checkbox" checked={this.selectedInstruction(instruction.instructionId)} />
                       </td>
                       <td>{this.manipulateAccountNumber(instruction.controlBankAccountNumber)}</td>
                       <td>{this.manipulateAccountNumber(instruction.contraBankAccountNumber)}</td>
@@ -373,7 +452,7 @@ export default class TwoWay extends React.Component {
                 </tbody>
               </table>
             </div>
-          </React.Fragment>
+          </React.Fragment>):(null)}
 
           <div style={{ width: '100%' }}>
             <button className="greenBtn executeBtn" onClick={this.executeInstructions}>

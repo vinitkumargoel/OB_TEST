@@ -11,7 +11,7 @@ export default class Accordians extends React.Component {
     this.state = {
       showModal: false,
       accSumary: null,
-      selectedBusiness: 0,
+      selectedBusiness: this.props.index,
       selectedControlAccount: null,
       selectedContraAccount: null,
       target: 0
@@ -27,15 +27,6 @@ export default class Accordians extends React.Component {
     }.bind(this));
   }
 
-  handleChange = (index) => {
-    if (index === null) {
-      return 'col accordianSmallCard';
-    } else {
-      this.setState({ selectedBusiness: index });
-      return 'col accordianSmallCard accordianSmallCardActive';
-    }
-  }
-
   handleAddInstr = () => {
     var token = sessionStorage.getItem("token");
     let data = {}
@@ -44,6 +35,7 @@ export default class Accordians extends React.Component {
     data.contraBankAccountNumber = this.state.accSumary.business[this.state.selectedBusiness].accounts[this.state.selectedContraAccount].accountNumber;
     data.controlBankAccountNumber = this.state.accSumary.business[this.state.selectedBusiness].accounts[this.state.selectedControlAccount].accountNumber;
     data.target = this.state.target;
+    data.index = this.state.selectedBusiness;
     let query = {
       token: token,
       data: data
@@ -126,36 +118,6 @@ export default class Accordians extends React.Component {
             <p className='My-financials'>Add new instruction</p>
           </div>
           <div className="accordion" id="accordionExample">
-            <div className="card accordianCard">
-              <div className="cardHeader" id="headingOne" data-toggle="collapse" data-target="#collapseOne">
-                <div style={{ width: '100%', color: '#00864f' }}>
-                  <span><b>CHOOSE BUSINESS</b></span>
-                  <span style={{ float: 'right' }}><i className='fa fa-angle-down'></i></span>
-                </div>
-              </div>
-              <div id="collapseOne" className="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
-                <div style={{ padding: '0 2% 3% 2%' }}>
-                  <div>
-                    <div className="accordianCardBody row" style={{ display: 'flex', width: '100%', margin: '0' }}>
-                      {this.state.accSumary.business.map((value, index) => {
-                        return (
-                          <div className={this.handleChange(null)} onClick={() => this.handleChange(index)} key={index} id={index}>
-                            <div className="company-card-button " value={index} >
-                              <div className="icons" ><img src={images.Icons[index]} alt="icon" />  </div>
-                              <div>
-                                <div><b>{value.name}</b></div>
-                                <div>{value.address}</div>
-                                <div><b style={{ color: 'grey' }}>Contact</b>:{value.contactNumber}</div>
-                              </div>
-                            </div>
-                          </div>
-                        )
-                      })}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
             <div className="card accordianCard">
               <div className="cardHeader" id="headingTwo" data-toggle="collapse" data-target="#collapseTwo">
                 <div style={{ width: '100%', color: '#00864f' }}>

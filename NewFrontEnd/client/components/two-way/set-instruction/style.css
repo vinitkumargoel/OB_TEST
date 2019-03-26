@@ -448,3 +448,14 @@
   .addNewInstBtn {
     margin: 1.5% 0;
   }
+
+  .company-card-button{
+    text-align: left;
+    display: flex;
+    color:black;
+    width:100%;
+  }
+
+  .icons{
+    width:20%;
+  }
