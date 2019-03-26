@@ -27,7 +27,8 @@ class InstructionModal extends Component {
                     {this.checkStatus(this.props.status)}
 
                     <div className="modalButtonContainer">
-                        <button className="ui button modalBtn viewButton" onClick={() => this.props.handleView()}> View</button>
+                        <button className="ui button modalBtn viewButton" onClick={() => this.props.handleView()}>VIEW</button>
+                        <button className="ui button executeMoreBtn" onClick={() => this.props.handleExectuteMore()}>EXECUTE MORE</button>
                         <button className="ui button modalBtn okButton" onClick={() => this.props.onClose()}>OK</button>
                     </div>
                 </div>

@@ -277,12 +277,16 @@ export default class TwoWay extends React.Component {
   }
 
   handleInstExeModalClose = () => {
-    this.setState({ instExeModalOpen: false });
+    this.props.history.replace('/homeCommercial');
   }
 
   handleViewEventInstExeModal = () => {
-    this.handleInstExeModalClose();
+    this.setState({ instExeModalOpen: false });
     this.showHistory();
+  }
+
+  handleExecuteMoreEvent = () => {
+    this.setState({ instExeModalOpen: false });
   }
 
   openModal = () => {
@@ -322,7 +326,7 @@ export default class TwoWay extends React.Component {
               <button className="greenBtn addNewInstBtn" onClick={this.getAccordian}>
                 <span>ADD NEW INSTRUCTIONS</span>
               </button>
-            </div>) : (<Accordian refresh={this.refresh} getAccordian={this.getAccordian}/>)}
+            </div>) : (<Accordian refresh={this.refresh} getAccordian={this.getAccordian} />)}
 
           <React.Fragment>
             <div>
@@ -382,6 +386,7 @@ export default class TwoWay extends React.Component {
 
           <InstructionModal open={this.state.instExeModalOpen} status={this.state.exectionInstructionStatus}
             onOpen={this.handleInstExeModalOpen} onClose={this.handleInstExeModalClose} handleView={this.handleViewEventInstExeModal}
+            handleExectuteMore={this.handleExecuteMoreEvent}
           ></InstructionModal>
         </div>
       )

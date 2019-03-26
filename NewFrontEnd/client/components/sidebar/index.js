@@ -12,7 +12,6 @@ export default class Header extends React.Component {
   }
 
   render() {
-    console.log(12121212121, this.props.type);
     return (
       <div className="sidebar-wrapper" style={{ display: "flex", flexDirection: 'column', background: 'white' }}>
         <div style={{ padding: "20px", borderLeft: (this.props.activeComponent == 'home') ? 'solid 3px #2d8259' : '', marginTop: '121px' }}>

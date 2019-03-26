@@ -9,3 +9,12 @@
 .exclamationIcon {
     color: #d74e14;
 }
+
+.executeMoreBtn {
+    width: 160px !important;
+    height: 42px !important;
+    margin-right: 20px !important;
+    border: 1px solid #1b73eb !important;
+    background: none !important;
+    color: white !important;
+}
