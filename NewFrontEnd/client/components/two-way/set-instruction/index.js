@@ -399,15 +399,10 @@ export default class TwoWay extends React.Component {
             </div>
               <button className="greenBtn addNewInstBtn" onClick={this.getAccordian}>
                 <span>ADD NEW INSTRUCTIONS</span>
-              </button>
-<<<<<<< HEAD
-            </div>) : (<Accordian refresh={this.refresh} getAccordian={this.getAccordian} />)}
-
-=======
-            </div>) : (<Accordian refresh={this.refresh} getAccordian={this.getAccordian} index = {this.state.selectedBusiness}/>)}
-            {this.state.accSumary.business !== undefined && this.state.selectedBusiness !== null ? (
->>>>>>> 19330ddc6fd703bc1dfb9e71f124b6a99ce53e62
-          <React.Fragment>
+              </button>      </div>) :
+               (<Accordian refresh={this.refresh} getAccordian={this.getAccordian} index = {this.state.selectedBusiness}/>)}
+                {this.state.accSumary.business !== undefined && this.state.selectedBusiness !== null ? 
+               (<React.Fragment>
             <div>
               <div style={{ margin: '1.5% 0' }}>
                 <p className='My-financials'>Current instructions</p>
