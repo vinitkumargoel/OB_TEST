@@ -394,7 +394,7 @@ export default class TwoWay extends React.Component {
   renderScreen() {
     console.log(this.state.accSumary.business)
     if (this.state.showHistory) {
-      return <History></History>
+      return <History type="intra"></History>
     }
     else {
       return (
