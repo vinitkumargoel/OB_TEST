@@ -43,6 +43,10 @@ export default class Options extends React.Component {
     if (info == 'intraCompany') {
       this.props.history.push('/setInstructions');
     }
+    else if(info === "interCompany")
+    {
+      this.props.history.push('/setInstructionsInter')
+    }
     else {
       console.log('Next');
     }
@@ -62,7 +66,7 @@ export default class Options extends React.Component {
                 <div className="card commService_card" onClick={() => this.onNextClick('intraCompany')}>
                   <h4>Intra Company Cash Pooling</h4>
                 </div>
-                <div className="card commService_card">
+                <div className="card commService_card" onClick={()=>this.onNextClick('interCompany')}>
                   <h4>Inter Company Cash Pooling</h4>
                 </div>
                 <div className="card commService_card">

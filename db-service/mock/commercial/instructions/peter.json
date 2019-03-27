@@ -141,6 +141,21 @@
 						"forceDebitControlAccount":"false",
 						"forceDebitContraAccount":"false"
 				
+					},
+					{
+						"instructionId": 100009,
+						"controlBankAccountNumber":"77953188888815",
+						"contraBankAccountNumber":"77953377777715",
+						"controlBusinessName":"SECURITY SOLUTIONS LTD.",
+						"contraBusinessName":"SPOTLESS CLEAN CO.",
+						"target":"0",
+						"instructionType":"Target Balance",
+						"priorityId":"10",			
+						"executionMode":"Manual",
+						"reversal":"false",
+						"forceDebitControlAccount":"false",
+						"forceDebitContraAccount":"false"
+				
 					}
 
 				]
