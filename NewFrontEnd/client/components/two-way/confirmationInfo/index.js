@@ -1,7 +1,7 @@
 import React from 'react';
 import './style.css';
 
-export default class Cards extends React.Component {
+export default class ConfirmantionInfo extends React.Component {
     constructor(props) {
         super(props);
         console.log(this.props.accounts, "Cards");
@@ -29,24 +29,26 @@ export default class Cards extends React.Component {
 
     render() {
         return (
-            <div className="card" style={{ borderRadius: '10px', height: '100%' }}>
+            <div className="card" style={{ borderRadius: '10px' }}>
                 {this.props.accounts.map((value, index) => {
                     if (value.accountType === "Savings") {
                         return (
-                            // <div key={index} className="card_savings" style={{ backgroundImage: `url(images/accountsCard/accounts-card@3x.png)` }}>
-                            <div key={index} className="card_savings" style={{ background: '#2d8259' }}>
+                            <div key={index} className="card_savings" style={{ backgroundImage: `url(images/accountsCard/accounts-card@3x.png)` }}>
                                 <div >
-                                    <div className="saving_label_account_name" style={{ marginBottom: '5px' }}>{value.accountName}</div>
-                                    <div className="saving_label_account_number">{this.manipulateAccountNumber(value.accountNumber)}</div>
+                                    <span className="saving_label_account_name">{value.accountName}</span>
+                                    <br />
+                                    <span className="saving_label_account_number">{this.manipulateAccountNumber(value.accountNumber)}</span>
                                 </div>
                                 <div className="saving_sub_label_conatiner">
                                     <div className="saving_sub_label_individual_conatiner">
-                                        <div className="saving_sub_lable_heading" style={{ marginBottom: '5px' }}>Available Balance</div>
-                                        <div className="saving_sub_lable_value">£ {this.numberWithCommas(value.availableBalance)}</div>
+                                        <span className="saving_sub_lable_heading">Available Balance</span>
+                                        <br />
+                                        <span className="saving_sub_lable_value">£ {this.numberWithCommas(value.availableBalance)}</span>
                                     </div>
                                     <div >
-                                        <div className="saving_sub_lable_heading" style={{ marginBottom: '5px' }}>Interest Rate</div>
-                                        <div className="saving_sub_lable_value">{value.interestRate}%</div>
+                                        <span className="saving_sub_lable_heading">Interest Rate</span>
+                                        <br />
+                                        <span className="saving_sub_lable_value">{value.interestRate}%</span>
                                     </div>
                                 </div>
                             </div>
@@ -57,11 +59,12 @@ export default class Cards extends React.Component {
                             <div style={{ display: 'flex', flexDirection: 'column', padding: '0 15px' }} className="cardCurrentContainer">
                                 <div key={index} className="card_current">
                                     <div className="current_sub_label_individual_conatiner">
-                                        <div className="current_sub_lable_heading" style={{ marginBottom: '10px' }}>{value.accountName}</div>
-                                        <div className="current_sub_lable_value">{this.manipulateAccountNumber(value.accountNumber)}</div>
+                                        <span className="current_sub_lable_heading">{value.accountName}</span>
+                                        <br />
+                                        <span className="current_sub_lable_value">{this.manipulateAccountNumber(value.accountNumber)}</span>
                                     </div>
                                     <div>
-                                        <div className="current_sub_lable_value_2">£ {this.numberWithCommas(value.availableBalance)}</div>
+                                        <span className="current_sub_lable_value_2">£ {this.numberWithCommas(value.availableBalance)}</span>
                                     </div>
                                 </div>
                                 <div className="cardCurrent_bottomBorder"></div>
