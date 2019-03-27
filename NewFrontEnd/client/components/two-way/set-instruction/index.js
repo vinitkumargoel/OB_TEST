@@ -53,7 +53,21 @@ export default class TwoWay extends React.Component {
       // console.log(err);
     })
 
-    
+    //Sample call for prediction API built by Sathish
+    let instructionData = {
+      accountList: [
+          "100001",
+          "100002"
+      ],
+      businessName:"CAFE WILSON"
+  };
+    let someData = {
+      token: token,
+      data: instructionData
+    };
+    Services.prediction(someData ,function(data) {
+      console.log(data);
+    })
 
     Services.instructionCall(token, function (data) {
       // data=JSON.parse(data);
