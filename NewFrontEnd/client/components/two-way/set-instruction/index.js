@@ -76,8 +76,11 @@ export default class TwoWay extends React.Component {
     Services.instructionCall(token, function (data) {
       // data=JSON.parse(data);
       let instList = []
-      this.setState({ instructionData: data })
-      data.currentInstructions.map(instruction => {
+      let intraBusinessDataInstructions = data.currentInstructions.filter(instruction=>instruction.controlBusinessName===instruction.contraBusinessName)
+      let intraBusinessData = {}
+      intraBusinessData.currentInstructions = intraBusinessDataInstructions
+      this.setState({ instructionData: intraBusinessData })
+      intraBusinessData.currentInstructions.map(instruction => {
         const instructionSelected = {};
         let id = instruction.instructionId;
         instructionSelected.instructionId = id
@@ -260,8 +263,11 @@ export default class TwoWay extends React.Component {
     var token = sessionStorage.getItem("token");
     Services.instructionCall(token, function (data) {
       // data=JSON.parse(data);
-      this.setState({ instructionData: data })
-      let addedInstruction = data.currentInstructions[data.currentInstructions.length - 1]
+      let intraBusinessDataInstructions = data.currentInstructions.filter(instruction=>instruction.controlBusinessName===instruction.contraBusinessName)
+      let intraBusinessData = {}
+      intraBusinessData.currentInstructions = intraBusinessDataInstructions
+      this.setState({ instructionData: intraBusinessData})
+      let addedInstruction = intraBusinessData.currentInstructions[intraBusinessData.currentInstructions.length - 1]
       let id = addedInstruction.instructionId
       let business = addedInstruction.controlBusinessName
       this.setState(prevState => ({
