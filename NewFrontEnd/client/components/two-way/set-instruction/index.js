@@ -40,7 +40,9 @@ export default class TwoWay extends React.Component {
       accountInfos: [],
       availableBalance: { controlBankAccountBalance: "", contraBankAccountBalance: "" },
       showAccordians: false,
-      allInstructionForOneBusiness: []
+      allInstructionForOneBusiness: [],
+      accountListData: {},
+      predictionData: {}
     }
   }
   componentDidMount() {
@@ -55,7 +57,21 @@ export default class TwoWay extends React.Component {
       // console.log(err);
     })
 
-
+    // //Sample call for prediction API built by Sathish
+    // let instructionData = {
+    //   accountList: [
+    //     "100001",
+    //     "100002"
+    //   ],
+    //   businessName: "CAFE WILSON"
+    // };
+    // let someData = {
+    //   token: token,
+    //   data: instructionData
+    // };
+    // Services.prediction(someData, function (data) {
+    //   console.log(data);
+    // })
 
     Services.instructionCall(token, function (data) {
       // data=JSON.parse(data);
@@ -213,7 +229,8 @@ export default class TwoWay extends React.Component {
     })
     let data = {}
     data.accountList = accountList;
-    accountList.length !== 0 ? this.execute(data) : alert("Please select an instruction")
+
+    return data;
   }
 
   onPreviousClick = () => {
@@ -284,6 +301,8 @@ export default class TwoWay extends React.Component {
   }
 
   execute = (data) => {
+    this.setState({ confirmationModalOpen: false });
+    
     var token = sessionStorage.getItem("token");
     let query = {
       token: token,
@@ -497,12 +516,35 @@ export default class TwoWay extends React.Component {
   renderConfirmationModal = () => {
     if (this.state.accSumary.business) {
       return <ConfirmationModal open={this.state.confirmationModalOpen} onClose={this.handleConfirmationModalClose}
-        onConfirm={this.executeInstructions} businessData={this.state.accSumary.business[this.state.selectedBusiness]}></ConfirmationModal>
+        onConfirm={() => this.execute(this.state.accountListData)} businessData={this.state.accSumary.business[this.state.selectedBusiness]}
+        predictionData={this.state.predictionData}></ConfirmationModal>
     }
   }
 
   confirmationFunction = () => {
-    this.setState({ confirmationModalOpen: true });
+    let data = this.executeInstructions();
+    let token = sessionStorage.getItem("token");
+
+    if (data.accountList && data.accountList.length > 0) {
+      this.setState({ accountListData: data });
+
+      let instructionData = {
+        accountList: data.accountList,
+        businessName: this.state.accSumary.business[this.state.selectedBusiness].name
+      };
+
+      let someData = {
+        token: token,
+        data: instructionData
+      };
+
+      Services.prediction(someData, (data) => {
+        if (data.accountDetails) {
+          this.setState({ predictionData: data, confirmationModalOpen: true });
+        }
+      });
+
+    } else alert('Please Select an Instruction');
   }
 
   handleConfirmationModalClose = () => {

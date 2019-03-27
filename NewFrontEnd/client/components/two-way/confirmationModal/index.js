@@ -2,29 +2,25 @@ import React, { Component } from 'react';
 import { Modal, Icon } from 'semantic-ui-react';
 import './style.css';
 import moment from 'moment';
-import ConfirmantionInfo from '../confirmationInfo/index';
 import Cards from '../../cards/index';
 
 class ConfirmationModal extends Component {
 
-    manipulateAccountNumber = (accountNumber) => {
-        accountNumber.toString();
-        let number = '';
-        for (let index = 0; index < accountNumber.length; index++) {
-            if (index === 1 || index === 3) {
-                number = number + accountNumber[index] + '-';
-            } else if (index === 5) {
-                number = number + accountNumber[index] + ' ';
-            } else {
-                number = number + accountNumber[index];
-            }
+    renderFailureMessage = (errors) => {
+        if (errors && errors.length > 0) {
+            return (
+                <div style={{ padding: '0 20px 20px 20px' }}>
+                    <div className="confirmationFailureMessage" style={{ marginTop: '0' }}>
+                        <Icon name='exclamation circle' className="exclamationIcon" style={{ fontSize: '12px', marginRight: '10px' }} />
+                        <span style={{ color: '#d74e14', marginRight: '30px', fontSize: '11px', fontWeight: 'bold' }}>FAILURE</span>
+                        <span style={{ color: 'grey' }}>{errors[0].errorMessage}</span>
+                    </div>
+                </div>
+            )
         }
-        return number;
     }
 
     render() {
-        console.log(232323233, this.props.businessData);
-
         return (
             <Modal open={this.props.open} basic size='large' style={{ width: '100%' }}>
                 <div className="viewInstMainContainer">
@@ -38,23 +34,26 @@ class ConfirmationModal extends Component {
 
                                 <div className="mainColumn_1-Container2">
                                     <div style={{ fontSize: '11px', marginBottom: '8px', color: '#529bff' }}>EXECUTED ON</div>
-                                    {/* <div style={{ fontSize: '14px', color: 'white' }}>{moment(this.props.instructionData.executionDateTime).format('DD/MM/YYYY')}</div> */}
+                                    <div style={{ fontSize: '14px', color: 'white' }}>{moment(new Date()).format('DD/MM/YYYY')}</div>
                                 </div>
                             </div>
                             <div className="mainColumn_2">
-                                <div className="mainColumn_2_container">
-                                    <div className="column2Container_part1">
-                                        <div style={{ width: '100%', height: '100%' }}>
+                                <div style={{ display: 'flex', flexDirection: 'column' }}>
+                                    <div className="mainColumn_2_container">
+                                        <div className="column2Container_part1">
+                                            <div style={{ width: '100%', height: '100%' }}>
+                                                <div className='accounts-Card' style={{ width: '100%', height: '100%', padding: '0' }}>
+                                                    <Cards accounts={this.props.businessData.accounts} />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="column2Container_part2">
                                             <div className='accounts-Card' style={{ width: '100%', height: '100%', padding: '0' }}>
-                                                <Cards accounts={this.props.businessData.accounts} />
+                                                <Cards accounts={this.props.predictionData.accountDetails} />
                                             </div>
                                         </div>
                                     </div>
-                                    <div className="column2Container_part2">
-                                        <div className='accounts-Card' style={{ width: '100%', height: '100%', padding: '0' }}>
-                                            <Cards accounts={this.props.businessData.accounts} />
-                                        </div>
-                                    </div>
+                                    {this.renderFailureMessage(this.props.predictionData.errors)}
                                 </div>
                             </div>
                         </div>

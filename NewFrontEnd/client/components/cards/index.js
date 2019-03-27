@@ -34,7 +34,7 @@ export default class Cards extends React.Component {
                     if (value.accountType === "Savings") {
                         return (
                             // <div key={index} className="card_savings" style={{ backgroundImage: `url(images/accountsCard/accounts-card@3x.png)` }}>
-                            <div key={index} className="card_savings" style={{ background: '#2d8259' }}>
+                            <div key={value.accountNumber} className="card_savings" style={{ background: '#2d8259' }}>
                                 <div >
                                     <div className="saving_label_account_name" style={{ marginBottom: '5px' }}>{value.accountName}</div>
                                     <div className="saving_label_account_number">{this.manipulateAccountNumber(value.accountNumber)}</div>
