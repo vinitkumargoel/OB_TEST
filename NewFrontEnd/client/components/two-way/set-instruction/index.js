@@ -39,7 +39,8 @@ export default class TwoWay extends React.Component {
       },
       accountInfos: [],
       availableBalance: { controlBankAccountBalance: "", contraBankAccountBalance: "" },
-      showAccordians: false
+      showAccordians: false,
+      allInstructionForOneBusiness:[]
     }
   }
   componentDidMount() {
@@ -65,6 +66,7 @@ export default class TwoWay extends React.Component {
         let id = instruction.instructionId;
         instructionSelected.instructionId = id
         instructionSelected.selected = false
+        instructionSelected.business = instruction.controlBusinessName
         instList.push(instructionSelected)
       })
       this.setState({ instructionSelected: instList })
@@ -85,7 +87,11 @@ export default class TwoWay extends React.Component {
   dropdownList = (businesses) => {
     let accountNumbers = [];
     let accountInfos = []
+    let allInstructionForOneBusiness=[]
     businesses.map((business, index) => {
+      let allInstructionForOneBusinessValue = {}
+      allInstructionForOneBusinessValue.business = business["name"]
+      allInstructionForOneBusinessValue.selected = false
       business["accounts"].map((account, i) => {
         let accountInfo = {}
         accountInfo.accountNumber = account["accountNumber"]
@@ -94,8 +100,10 @@ export default class TwoWay extends React.Component {
         accountNumbers.push(account["accountNumber"])
         accountInfos.push(accountInfo)
       })
+      allInstructionForOneBusiness.push(allInstructionForOneBusinessValue)
     })
     this.setState({ accountInfos: accountInfos }, () => console.log(this.state.accountInfos))
+    this.setState({allInstructionForOneBusiness:allInstructionForOneBusiness})
     // console.log(data, typeof (data));
     return accountNumbers;
   }
@@ -235,8 +243,9 @@ export default class TwoWay extends React.Component {
       this.setState({ instructionData: data })
       let addedInstruction = data.currentInstructions[data.currentInstructions.length - 1]
       let id = addedInstruction.instructionId
+      let business = addedInstruction.controlBusinessName
       this.setState(prevState => ({
-        instructionSelected: [...prevState.instructionSelected, { instructionId: id, selected: false }]
+        instructionSelected: [...prevState.instructionSelected, { instructionId: id, selected: false ,business:business}]
       }))
       // console.log(data)
     }.bind(this), function (err) {
@@ -252,14 +261,22 @@ export default class TwoWay extends React.Component {
     let instructionSelected = [...this.state.instructionSelected]
     if (event.target.checked === true) {
       instructionSelected.map(instruction => {
-        instruction.selected = true;
+        if(instruction.business===this.state.accSumary.business[this.state.selectedBusiness].name)
+          instruction.selected = true;
       })
     }
     else {
       instructionSelected.map(instruction => {
+        if(instruction.business===this.state.accSumary.business[this.state.selectedBusiness].name)
         instruction.selected = false;
       })
     }
+    let allInstructionForOneBusiness = [...this.state.allInstructionForOneBusiness]
+    let selectedBusinessInstructions = allInstructionForOneBusiness
+    .filter(instruction=>instruction.business === this.state.accSumary.business[this.state.selectedBusiness].name)
+    console.log(selectedBusinessInstructions)
+    selectedBusinessInstructions[0].selected = event.target.checked
+    this.setState({allInstructionForOneBusiness:allInstructionForOneBusiness})
     this.setState({ instructionSelected: instructionSelected })
   }
 
@@ -339,6 +356,12 @@ export default class TwoWay extends React.Component {
     }
 
   }
+  selectAllForOneBusinessCheck=(business)=>
+  { 
+   let selectedBusinessInstructions = this.state.allInstructionForOneBusiness
+   .filter(instruction=>instruction.business === business)
+   return selectedBusinessInstructions[0].selected
+  }
   manipulateAccountNumber = (accountNumber) => {
     accountNumber.toString();
     let number = '';
@@ -400,29 +423,49 @@ export default class TwoWay extends React.Component {
               </div>
               <button className="greenBtn addNewInstBtn" onClick={this.getAccordian}>
                 <span>ADD NEW INSTRUCTIONS</span>
-              </button>
-            </div>) : (<Accordian refresh={this.refresh} getAccordian={this.getAccordian} index={this.state.selectedBusiness} />)}
-          {this.state.accSumary.business !== undefined && this.state.selectedBusiness !== null ? (
-            <React.Fragment>
-              <div>
-                <div style={{ margin: '1.5% 0' }}>
-                  <p className='My-financials'>Current instructions</p>
-                </div>
-                <table className="ui striped table">
-                  <thead>
-                    <tr className="currentInstruction">
-                      <th>
-                        <input onChange={this.selectAllInstructionsHandler} type="checkbox" />
-                      </th>
-                      <th>Control A/C</th>
-                      <th>Contra A/C </th>
-                      <th>Instruction type</th>
-                      <th>Value </th>
-                      <th>Priority</th>
-                      <th>Execution mode</th>
-                      <th>Reversal</th>
-                      <th>Actions</th>
-                      <th></th>
+              </button>      </div>) :
+               (<Accordian refresh={this.refresh} getAccordian={this.getAccordian} index = {this.state.selectedBusiness}/>)}
+                {this.state.accSumary.business !== undefined && this.state.selectedBusiness !== null ? 
+               (<React.Fragment>
+            <div>
+              <div style={{ margin: '1.5% 0' }}>
+                <p className='My-financials'>Current instructions</p>
+              </div>
+              <table className="ui striped table">
+                <thead>
+                  <tr className="currentInstruction">
+                    <th>
+                      <input onChange={this.selectAllInstructionsHandler} type="checkbox" checked={this.selectAllForOneBusinessCheck(this.state.accSumary.business[this.state.selectedBusiness].name)} />
+                    </th>
+                    <th>Control A/C</th>
+                    <th>Contra A/C </th>
+                    <th>Instruction type</th>
+                    <th>Value </th>
+                    <th>Priority</th>
+                    <th>Execution mode</th>
+                    <th>Reversal</th>
+                    <th>Actions</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {this.state.instructionData !== null && this.state.instructionSelected.length !== 0 && this.state.instructionSelected.length === this.state.instructionData.currentInstructions.length ? this.state.instructionData.currentInstructions.filter(instr =>instr.controlBusinessName === this.state.accSumary.business[this.state.selectedBusiness].name).map((instruction, index) =>
+                    <tr key={instruction.executionId} className="currentInstruction">
+                      <td>
+                        <input onChange={this.changeInstructionSelection.bind(this, instruction.instructionId)} type="checkbox" checked={this.selectedInstruction(instruction.instructionId)} />
+                      </td>
+                      <td>{this.manipulateAccountNumber(instruction.controlBankAccountNumber)}</td>
+                      <td>{this.manipulateAccountNumber(instruction.contraBankAccountNumber)}</td>
+                      <td>{instruction.instructionType}</td>
+                      <td>{instruction.target}</td>
+                      <td>{instruction.priorityId}</td>
+                      <td>{instruction.executionMode}</td>
+                      <td>No</td>
+                      <td>
+                        <img src={'images/ic-edit-copy-7.png'} onClick={this.handleOk} style={{ marginRight: '20px', cursor: 'pointer' }} />
+                        <img src={'images/ic-delete-copy-7.png'} onClick={this.handleOk} style={{ cursor: 'pointer' }} />
+                      </td>
+                      <td><img src={'images/ic-reorder.png'} onClick={this.handleOk} /></td>
                     </tr>
                   </thead>
                   <tbody>
