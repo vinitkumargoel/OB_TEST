@@ -3,6 +3,7 @@ import { Modal, Icon } from 'semantic-ui-react';
 import './style.css';
 import moment from 'moment';
 import Cards from '../../cards/index';
+import InterInfoCard from '../InterInfoCard/index';
 
 class ConfirmationModal extends Component {
 
@@ -18,6 +19,27 @@ class ConfirmationModal extends Component {
                 </div>
             )
         }
+    }
+
+    renderBasedOnBusinessType = (dataToSend) => {
+        if (this.props.businessType === 'intra') {
+            return <Cards accounts={dataToSend} />
+        } else if (this.props.businessType === 'inter') {
+            return <InterInfoCard accounts={dataToSend} />
+        }
+    }
+
+    dataForInterAccount = (data) => {
+        const interAccountArray = [];
+
+        data.forEach(interData => {
+            interAccountArray.push({
+                name: interData.name,
+                account: interData.accounts.find(account => account.accountType === "Savings")
+            })
+        });
+
+        return interAccountArray;
     }
 
     render() {
@@ -43,13 +65,21 @@ class ConfirmationModal extends Component {
                                         <div className="column2Container_part1">
                                             <div style={{ width: '100%', height: '100%' }}>
                                                 <div className='accounts-Card' style={{ width: '100%', height: '100%', padding: '0' }}>
-                                                    <Cards accounts={this.props.businessData.accounts} />
+                                                    {
+                                                        this.props.businessType === 'intra' ?
+                                                            this.renderBasedOnBusinessType(this.props.businessData.accounts) :
+                                                            this.renderBasedOnBusinessType(this.dataForInterAccount(this.props.businessData))
+                                                    }
                                                 </div>
                                             </div>
                                         </div>
                                         <div className="column2Container_part2">
                                             <div className='accounts-Card' style={{ width: '100%', height: '100%', padding: '0' }}>
-                                                <Cards accounts={this.props.predictionData.accountDetails} />
+                                                {
+                                                    this.props.businessType === 'intra' ?
+                                                        this.renderBasedOnBusinessType(this.props.predictionData.accountDetails) :
+                                                        this.renderBasedOnBusinessType(this.dataForInterAccount(this.props.businessData))
+                                                }
                                             </div>
                                         </div>
                                     </div>
