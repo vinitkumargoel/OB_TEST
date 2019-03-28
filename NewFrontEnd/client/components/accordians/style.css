@@ -27,10 +27,6 @@
   overflow: hidden;
 }
 
-.accountCard1:hover {
-  background: #00864f;
-  color: white;
-}
 
 .accountCard1:hover .availableBalance,
 .accountCard2:hover .availableBalance   {
@@ -52,10 +48,6 @@
   overflow: hidden;
 }
 
-.accountCard2:hover {
-  background: #66980c;
-  color: white;
-}
 
 .accountCard1 > p {
   font-size: 13px;

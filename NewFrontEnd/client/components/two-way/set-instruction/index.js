@@ -375,14 +375,24 @@ export default class TwoWay extends React.Component {
   }
 
   handleButtonChange = (index) => {
+    
     if (index === null) {
       return 'col accordianSmallCard';
     } else {
       this.setState({ selectedBusiness: index });
-
-      return 'col accordianSmallCard accordianSmallCardActive';
+      let allBoxes = document.getElementsByClassName('col accordianSmallCard');
+      for(let i in allBoxes) {
+        if(i < 3) {
+          if(i == index) {
+            allBoxes[i].style.border = 'solid 2px green';
+          }
+          else {
+            allBoxes[i].style.border = '1px solid lightgrey';
+          }
+        }
+      }
+      // return 'col accordianSmallCard accordianSmallCardActive';
     }
-
   }
   selectAllForOneBusinessCheck = (business) => {
     let selectedBusinessInstructions = this.state.allInstructionForOneBusiness
