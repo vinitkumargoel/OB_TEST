@@ -7,6 +7,7 @@ var axios = require('axios');
 var request = require('request');
 var fs = require('fs');
 
+//Api to add instruction(Inter and Intra-Pooling)
 router.post('/populateInstruction', function (req, res) {
 
   let token = req.headers['x-access-token'];
@@ -52,6 +53,7 @@ router.post('/populateInstruction', function (req, res) {
   });
 });
 
+//Api to execute selected instructions(Inter and Intra-Pooling)
 router.post('/transaction', function (req, res, next) {
   let token = req.headers['x-access-token'];
   let accNoList = req.body.accountList;
@@ -83,6 +85,7 @@ router.post('/transaction', function (req, res, next) {
   
 });
 
+//Api which returns post transaction details of a business(Intra-Pooling)
 router.post('/prediction', function (req, res, next) {
   let token = req.headers['x-access-token'];
   let accNoList = req.body.accountList;
@@ -113,7 +116,7 @@ router.post('/prediction', function (req, res, next) {
   
 });
 
-
+//Api which returns pre and post transaction details of savings account(Inter-Pooling)
 router.post('/preTransaction', function (req, res, next) {
   let token = req.headers['x-access-token'];
   let accNoList = req.body.accountList;
@@ -145,7 +148,7 @@ router.post('/preTransaction', function (req, res, next) {
 });
 
 
-
+//function which executes the selected instructions, updates the account details and history of instructions
 const instrResult=async(userName,accNoList)=>{
   let instrObj=await getInstruction(userName);
   // console.log(instrObj);
@@ -180,8 +183,7 @@ const instrResult=async(userName,accNoList)=>{
       target = parseInt(instructionsToExecute[i].target);
       priorityId = parseInt(instructionsToExecute[i].priorityId);
       instructionId = parseInt(instructionsToExecute[i].instructionId);
-      // console.log(target);
-      // console.log(typeof target);
+      
       let data=await getcommercialAcct(userName)      
      
         //console.log(data);
@@ -206,11 +208,7 @@ const instrResult=async(userName,accNoList)=>{
           return acc.accountNumber == contraBankAccountNumber;
         });
 
-        
-        // console.log(filteredControlBank);
-        //console.log(filteredControlAcc);
-        // console.log(filteredContraAcc[0].balance);
-        
+                
         controlBankBalance = parseInt(filteredControlAcc[0].availableBalance);
         contraBankBalance = parseInt(filteredContraAcc[0].availableBalance);
         contraBankMinBalance = parseInt(filteredContraAcc[0].minimumBalance);
@@ -270,7 +268,7 @@ const instrResult=async(userName,accNoList)=>{
               data.business = [...restBusinessDetails, filteredControlBusiness, filteredContraBusiness];
         //update the transaction  
 
-            let newResult=await updateTransaction(userName,data.business,priorityId,controlBankBalance,contraBankBalance);
+            let newResult=await updateTransaction(userName,data.business);
             if(newResult){
               history = await getHistory(userName);
           history.push({
@@ -350,10 +348,6 @@ const instrResult=async(userName,accNoList)=>{
              contraBankBalance = contraBankBalance-target+controlBankBalance;
              controlBankBalance = target;
 
-             //console.log(contraBankBalance+"dsffsf");
-              //console.log(contraBankBalance,controlBankBalance);
-
-             // console.log(filteredControlAcc);
 
              filteredControlAcc[0].availableBalance = controlBankBalance;
              filteredContraAcc[0].availableBalance = contraBankBalance;
@@ -362,7 +356,7 @@ const instrResult=async(userName,accNoList)=>{
              else
               data.business = [...restBusinessDetails, filteredControlBusiness, filteredContraBusiness];
             //update the transaction  
-            let newResult2=await updateTransaction(userName,data.business,priorityId,controlBankBalance,contraBankBalance);
+            let newResult2=await updateTransaction(userName,data.business);
               if(newResult2){
                 history = await getHistory(userName);
                 history.push({
@@ -443,15 +437,11 @@ const instrResult=async(userName,accNoList)=>{
      return result;
    };
    
-
+//function which returns the savings account details of all businness for pre-transaction and post-transaction(Inter-Pooling)
    const preTransferResult=async(userName,accNoList)=>{
     let instrObj=await getInstruction(userName);
     // console.log(instrObj);
   
-  
-   // let len = instrObj["currentInstructions"].length;
-    let result = [];
-   // let allInstructionIDs = [];
     instrObj = instrObj["currentInstructions"];
     let instructionsToExecute = [];
     let errorDetails=[];
@@ -467,17 +457,15 @@ const instrResult=async(userName,accNoList)=>{
       //console.log(instructionsToExecute);
       let len2= instructionsToExecute.length;
       let controlBankAccountNumber, contraBankAccountNumber, target, controlBankBalance, contraBankBalance, contraBankMinBalance;
-      let controlBankBeforeBalance, contraBankBeforeBalance, history, poolingAmount;
+      //let controlBankBeforeBalance, contraBankBeforeBalance, history, poolingAmount;
   
-      //new changes
+      //To get the account details of the user
       let data=await getcommercialAcct(userName);
 
       let preTransfer = await getBalance(data);
 
-      //to get last value of ID	
       for (i = 0; i < len2; i++) {
         controlBusinessName = instructionsToExecute[i].controlBusinessName;
-        console.log(controlBusinessName);
         contraBusinessName = instructionsToExecute[i].contraBusinessName;
         controlBankAccountNumber= instructionsToExecute[i].controlBankAccountNumber;
         contraBankAccountNumber= instructionsToExecute[i].contraBankAccountNumber;
@@ -519,15 +507,13 @@ const instrResult=async(userName,accNoList)=>{
           }
           //console.log(result);
           if (controlBankBalance > target) {
-            contraBankBeforeBalance = contraBankBalance;
-            controlBankBeforeBalance = controlBankBalance;
             contraBankBalance += controlBankBalance - target;
             controlBankBalance = target;
             //console.log(controlBankBalance,contraBankBalance);
   
               filteredControlAcc[0].availableBalance = controlBankBalance;
               filteredContraAcc[0].availableBalance = contraBankBalance;
-              poolingAmount = controlBankBeforeBalance - target;
+              //poolingAmount = controlBankBeforeBalance - target;
               if(controlBusinessName == contraBusinessName)
                 data.business = [...restBusinessDetails, filteredControlBusiness];
               else
@@ -541,8 +527,6 @@ const instrResult=async(userName,accNoList)=>{
                 //"As insufficient contra account balance
             }
              else if ((contraBankBalance - (target - controlBankBalance)) >= contraBankMinBalance) {
-               controlBankBeforeBalance = controlBankBalance;
-               contraBankBeforeBalance = contraBankBalance;
                contraBankBalance = contraBankBalance-target+controlBankBalance;
                controlBankBalance = target;
     
@@ -556,7 +540,6 @@ const instrResult=async(userName,accNoList)=>{
 
                 errorDetails.push({"failedInstruction":instructionId,"errorMessage":"As insufficient contra account minimum balance"});
                 
-                //"As insufficient contra account minimum balance"
               
           }
         }
@@ -572,12 +555,10 @@ const instrResult=async(userName,accNoList)=>{
 
      
 
-
+     //function which returns the account details of post transation
      const predictionResult=async(userName,accNoList,businessName)=>{
       let instrObj=await getInstruction(userName);
-      // console.log(instrObj);
-    
-      let result = [];
+      
       instrObj = instrObj["currentInstructions"];
       let instructionsToExecute = [];
       let errorDetails=[];
@@ -598,7 +579,6 @@ const instrResult=async(userName,accNoList)=>{
         //new changes
         let data=await getcommercialAcct(userName)
   
-        //to get last value of ID	
         for (i = 0; i < len2; i++) {
           controlBusinessName = instructionsToExecute[i].controlBusinessName;
           console.log(controlBusinessName);
@@ -634,23 +614,20 @@ const instrResult=async(userName,accNoList)=>{
             contraBankBalance = parseInt(filteredContraAcc[0].availableBalance);
             contraBankMinBalance = parseInt(filteredContraAcc[0].minimumBalance);
     
-            console.log(controlBankBalance,contraBankBalance,contraBankMinBalance);
-            console.log(typeof controlBankBalance);
     
             if(controlBankBalance === target){
             
             }
             
             if (controlBankBalance > target) {
-              contraBankBeforeBalance = contraBankBalance;
-              controlBankBeforeBalance = controlBankBalance;
+              
               contraBankBalance += controlBankBalance - target;
               controlBankBalance = target;
               //console.log(controlBankBalance,contraBankBalance);
     
                 filteredControlAcc[0].availableBalance = controlBankBalance;
                 filteredContraAcc[0].availableBalance = contraBankBalance;
-                poolingAmount = controlBankBeforeBalance - target;
+                
                 if(controlBusinessName == contraBusinessName)
                   data.business = [...restBusinessDetails, filteredControlBusiness];
                 else
@@ -697,7 +674,7 @@ const instrResult=async(userName,accNoList)=>{
        
   
 
-
+   //Api to get the history of instructions
    router.get('/history', function (req, res, next) {
     let token = req.headers['x-access-token'];
     
@@ -725,6 +702,7 @@ const instrResult=async(userName,accNoList)=>{
     
   });
 
+  //To get the accounts json file of a user
   router.get('/accounts', function (req, res, next) {
     let token = req.headers['x-access-token'];
     
@@ -752,21 +730,23 @@ const instrResult=async(userName,accNoList)=>{
     
   });
 
+  //To get the balances of the savings account of all businesses
   let getBalance=async(data)=>{
    let businesses = data.business;
    let blength= businesses.length;
    let result = [];
    for(i = 0;i<blength;i++){
    let businessName = (businesses[i].name);
+   let accNo = (businesses[i]["accounts"][0].accountNumber);
    let balance = (businesses[i]["accounts"][0].availableBalance);
-   result.push({"businessName" : businessName, "balance" : balance});
+   result.push({"businessName" : businessName, "accountNumber" : accNo, "balance" : balance});
    }
    console.log(result);
    return result;
    
   }
 
-
+//To get the instructions from the database
 let getInstruction=async(userName)=>{
   try{
     let instrObj=await axios.get(`${serviceUrlConfig.dbUrl}/${userName}-instructions`)
@@ -776,6 +756,7 @@ let getInstruction=async(userName)=>{
   };  
 }
 
+//To get the commercial account details of the user from the database
 let getcommercialAcct=async(userName)=>{
   try{
   let com=await axios.get(serviceUrlConfig.dbUrl + '/' + userName + '-commercial')
@@ -785,6 +766,7 @@ let getcommercialAcct=async(userName)=>{
    };
 };
 
+//To get the history of instruction from the database
 let getHistory=async(userName)=>{
   try{
     let historyObj=await axios.get(`${serviceUrlConfig.dbUrl}/${userName}-history`)
@@ -794,8 +776,8 @@ let getHistory=async(userName)=>{
   };  
 }
 
-let updateTransaction=async(userName,business,priorityId,controlBankBalance,contraBankBalance)=>{
-  //let newObj={};
+//To update the commercial account of the user
+let updateTransaction=async(userName,business)=>{
   try{
   let resp=await axios.patch(serviceUrlConfig.dbUrl + '/' + userName + '-commercial',{'business': business})
   if(resp){
@@ -810,8 +792,8 @@ let updateTransaction=async(userName,business,priorityId,controlBankBalance,cont
   
 };
 
+//To update the history of instructions in the database
 let updateHistory=async(userName,historyList)=>{
-  let newObj={};
   try{
   let resp=await axios.patch(serviceUrlConfig.dbUrl + '/' + userName + '-history',{'history': historyList})
   if(resp){
@@ -819,13 +801,13 @@ let updateHistory=async(userName,historyList)=>{
     return true;
   };
   
-  // return newObj;
   }catch(err){  
     throw new Error('Failed to patch data');
   };
   
 };
 
+//Api to get the instructions
 router.get('/getInstruction',(req,res)=>{
   let token = req.headers['x-access-token'];
   
