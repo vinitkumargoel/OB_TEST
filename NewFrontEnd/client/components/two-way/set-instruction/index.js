@@ -76,7 +76,7 @@ export default class TwoWay extends React.Component {
     Services.instructionCall(token, function (data) {
       // data=JSON.parse(data);
       let instList = []
-      let intraBusinessDataInstructions = data.currentInstructions.filter(instruction=>instruction.controlBusinessName===instruction.contraBusinessName)
+      let intraBusinessDataInstructions = data.currentInstructions.filter(instruction => instruction.controlBusinessName === instruction.contraBusinessName)
       let intraBusinessData = {}
       intraBusinessData.currentInstructions = intraBusinessDataInstructions
       this.setState({ instructionData: intraBusinessData })
@@ -263,10 +263,10 @@ export default class TwoWay extends React.Component {
     var token = sessionStorage.getItem("token");
     Services.instructionCall(token, function (data) {
       // data=JSON.parse(data);
-      let intraBusinessDataInstructions = data.currentInstructions.filter(instruction=>instruction.controlBusinessName===instruction.contraBusinessName)
+      let intraBusinessDataInstructions = data.currentInstructions.filter(instruction => instruction.controlBusinessName === instruction.contraBusinessName)
       let intraBusinessData = {}
       intraBusinessData.currentInstructions = intraBusinessDataInstructions
-      this.setState({ instructionData: intraBusinessData})
+      this.setState({ instructionData: intraBusinessData })
       let addedInstruction = intraBusinessData.currentInstructions[intraBusinessData.currentInstructions.length - 1]
       let id = addedInstruction.instructionId
       let business = addedInstruction.controlBusinessName
@@ -308,7 +308,7 @@ export default class TwoWay extends React.Component {
 
   execute = (data) => {
     this.setState({ confirmationModalOpen: false });
-    
+
     var token = sessionStorage.getItem("token");
     let query = {
       token: token,
@@ -523,7 +523,7 @@ export default class TwoWay extends React.Component {
     if (this.state.accSumary.business) {
       return <ConfirmationModal open={this.state.confirmationModalOpen} onClose={this.handleConfirmationModalClose}
         onConfirm={() => this.execute(this.state.accountListData)} businessData={this.state.accSumary.business[this.state.selectedBusiness]}
-        predictionData={this.state.predictionData}></ConfirmationModal>
+        predictionData={this.state.predictionData} businessType={'intra'}></ConfirmationModal>
     }
   }
 

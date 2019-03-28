@@ -9,17 +9,18 @@ import InstructionModal from '../../history/instExeModal/index';
 import History from '../../history/index';
 import Accordian from '../../accordiansInter/index';
 import images from '../../accountDetails/config';
-
+import ConfirmationModal from '../confirmationModal/index';
 
 export default class TwoWay extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      selectedBusiness:0,
-      displayInstructions:null,
+      selectedBusiness: 0,
+      displayInstructions: null,
       exectionInstructionStatus: '',
       setInstructionTabActive: true,
       historyTabActive: false,
+      confirmationModalOpen: false,
       showHistory: false,
       instExeModalOpen: false,
       modalOpen: true,
@@ -30,7 +31,7 @@ export default class TwoWay extends React.Component {
       instructionSelected: [],
       popupFlag: false,
       dropDownAccountData: [],
-      businessSavingsAccounts:[],
+      businessSavingsAccounts: [],
       newInstruction: {
         controlBankAccountNumber: "none", controlBusinessName: "", forceDebitControlAccount: false, contraBankAccountNumber: "none"
         , contraBusinessName: "", forceDebitContraAccount: false, target: "", instructionType: "Target Balance", executionMode: "Manual",
@@ -39,31 +40,33 @@ export default class TwoWay extends React.Component {
       accountInfos: [],
       availableBalance: { controlBankAccountBalance: "", contraBankAccountBalance: "" },
       showAccordians: false,
-      allInstructionForOneBusiness:[]
+      allInstructionForOneBusiness: [],
+      accountListData: {},
+      predictionData: {}
     }
   }
   componentDidMount() {
     var token = sessionStorage.getItem("token");
 
     Services.commercialDebitCall(token, function (data) {
-      let businessSavingsAccounts  = this.populateBusiness(data["business"]);
-      this.setState({accSumary: data });
-      this.setState({businessSavingsAccounts:businessSavingsAccounts})
+      let businessSavingsAccounts = this.populateBusiness(data["business"]);
+      this.setState({ accSumary: data });
+      this.setState({ businessSavingsAccounts: businessSavingsAccounts })
       console.log(data)
-      console.log("BSA",businessSavingsAccounts)
+      console.log("BSA", businessSavingsAccounts)
     }.bind(this), function (err) {
       // console.log(err);
     })
 
-    
+
 
     Services.instructionCall(token, function (data) {
       // data=JSON.parse(data);
       let instList = []
-      let interBusinessDataInstructions = data.currentInstructions.filter(instruction=>instruction.controlBusinessName!==instruction.contraBusinessName)
+      let interBusinessDataInstructions = data.currentInstructions.filter(instruction => instruction.controlBusinessName !== instruction.contraBusinessName)
       let interBusinessData = {}
       interBusinessData.currentInstructions = interBusinessDataInstructions
-      this.setState({ instructionData: interBusinessData})
+      this.setState({ instructionData: interBusinessData })
       interBusinessData.currentInstructions.map(instruction => {
         const instructionSelected = {};
         let id = instruction.instructionId;
@@ -88,21 +91,20 @@ export default class TwoWay extends React.Component {
   }
 
   populateBusiness = (businesses) => {
-    let businessSavingsAccounts=[]
+    let businessSavingsAccounts = []
     businesses.map((business, index) => {
-    let flag = false;
-     let businessSavingsAccount={}
-     businessSavingsAccount.business = business["name"]
+      let flag = false;
+      let businessSavingsAccount = {}
+      businessSavingsAccount.business = business["name"]
       business["accounts"].map((account, i) => {
-        if(account["accountName"]==="Business Saving Account")
-        {
-        businessSavingsAccount.availableBalance = account["availableBalance"]
-        businessSavingsAccount.accountNumber = account["accountNumber"]
-        flag = true
+        if (account["accountName"] === "Business Saving Account") {
+          businessSavingsAccount.availableBalance = account["availableBalance"]
+          businessSavingsAccount.accountNumber = account["accountNumber"]
+          flag = true
         }
       })
-    if(flag===true)
-      businessSavingsAccounts.push(businessSavingsAccount)
+      if (flag === true)
+        businessSavingsAccounts.push(businessSavingsAccount)
     })
     // console.log(data, typeof (data));
     return businessSavingsAccounts;
@@ -153,16 +155,15 @@ export default class TwoWay extends React.Component {
   //   this.setState({ instructionSelected: updatedInstructionSelected })
   // }
 
-  changeInstructionSelection =(id,event) =>{
+  changeInstructionSelection = (id, event) => {
     const updatedInstructionSelected = [...this.state.instructionSelected]
     let selectedInstr = updatedInstructionSelected.filter((value) => value.instructionId === id);
     selectedInstr[0].selected = event.target.checked
     this.setState({ instructionSelected: updatedInstructionSelected })
-    console.log(selectedInstr,id);
+    console.log(selectedInstr, id);
 
   }
-  selectedInstruction=(id)=>
-  {
+  selectedInstruction = (id) => {
     const updatedInstructionSelected = [...this.state.instructionSelected]
     let selectedInstr = updatedInstructionSelected.filter((value) => value.instructionId === id);
     return selectedInstr[0].selected
@@ -203,15 +204,18 @@ export default class TwoWay extends React.Component {
     }.bind(this))
 
   }
+
   executeInstructions = () => {
+    this.setState({ confirmationModalOpen: false });
+
     let accountList = []
     this.state.instructionSelected.filter(instruction => instruction.selected === true).map(instruction => {
       accountList.push(instruction.instructionId.toString())
     })
     let data = {}
     data.accountList = accountList;
-    accountList.length !== 0 ? this.execute(data) 
-    : alert("Please select an instruction")
+
+    return data;
   }
 
   onPreviousClick = () => {
@@ -241,15 +245,15 @@ export default class TwoWay extends React.Component {
     var token = sessionStorage.getItem("token");
     Services.instructionCall(token, function (data) {
       // data=JSON.parse(data);
-      let interBusinessDataInstructions = data.currentInstructions.filter(instruction=>instruction.controlBusinessName!==instruction.contraBusinessName)
+      let interBusinessDataInstructions = data.currentInstructions.filter(instruction => instruction.controlBusinessName !== instruction.contraBusinessName)
       let interBusinessData = {}
       interBusinessData.currentInstructions = interBusinessDataInstructions
-      this.setState({ instructionData: interBusinessData})
+      this.setState({ instructionData: interBusinessData })
       let addedInstruction = interBusinessData.currentInstructions[interBusinessData.currentInstructions.length - 1]
       let id = addedInstruction.instructionId
       let business = addedInstruction.controlBusinessName
       this.setState(prevState => ({
-        instructionSelected: [...prevState.instructionSelected, { instructionId: id, selected: false ,business:business}]
+        instructionSelected: [...prevState.instructionSelected, { instructionId: id, selected: false, business: business }]
       }))
       // console.log(data)
     }.bind(this), function (err) {
@@ -265,7 +269,7 @@ export default class TwoWay extends React.Component {
     let instructionSelected = [...this.state.instructionSelected]
     if (event.target.checked === true) {
       instructionSelected.map(instruction => {
-          instruction.selected = true;
+        instruction.selected = true;
       })
     }
     else {
@@ -277,6 +281,8 @@ export default class TwoWay extends React.Component {
   }
 
   execute = (data) => {
+    this.setState({ confirmationModalOpen: false });
+
     var token = sessionStorage.getItem("token");
     let query = {
       token: token,
@@ -341,23 +347,23 @@ export default class TwoWay extends React.Component {
       )
     }))
   }
-  
+
   handleButtonChange = (index) => {
     if (index === null) {
       return 'col accordianSmallCard';
     } else {
       this.setState({ selectedBusiness: index });
-      
+
       return 'col accordianSmallCard accordianSmallCardActive';
     }
-    
   }
-  selectAllForOneBusinessCheck=(business)=>
-  { 
-   let selectedBusinessInstructions = this.state.allInstructionForOneBusiness
-   .filter(instruction=>instruction.business === business)
-   return selectedBusinessInstructions[0].selected
+
+  selectAllForOneBusinessCheck = (business) => {
+    let selectedBusinessInstructions = this.state.allInstructionForOneBusiness
+      .filter(instruction => instruction.business === business)
+    return selectedBusinessInstructions[0].selected
   }
+
   manipulateAccountNumber = (accountNumber) => {
     accountNumber.toString();
     let number = '';
@@ -377,19 +383,19 @@ export default class TwoWay extends React.Component {
   renderScreen() {
     console.log(this.state.accSumary.business)
     if (this.state.showHistory) {
-      return <History type = "inter"></History>
+      return <History type="inter"></History>
     }
     else {
       return (
         <div>
-          
-            {!this.state.showAccordians?(
-              <div>
-          <button className="greenBtn addNewInstBtn" onClick={this.getAccordian}>
+
+          {!this.state.showAccordians ? (
+            <div>
+              <button className="greenBtn addNewInstBtn" onClick={this.getAccordian}>
                 <span>ADD NEW INSTRUCTIONS</span>
-              </button>      </div>):(
-               <Accordian refresh={this.refresh} getAccordian={this.getAccordian} index = {this.state.selectedBusiness}/>)}
-               <React.Fragment>
+              </button>      </div>) : (
+              <Accordian refresh={this.refresh} getAccordian={this.getAccordian} index={this.state.selectedBusiness} />)}
+          <React.Fragment>
             <div>
               <div style={{ margin: '1.5% 0' }}>
                 <p className='My-financials'>Current instructions</p>
@@ -412,7 +418,7 @@ export default class TwoWay extends React.Component {
                   </tr>
                 </thead>
                 <tbody>
-                  {this.state.instructionData !== null && this.state.instructionSelected.length !== 0 && this.state.instructionSelected.length === this.state.instructionData.currentInstructions.length?this.state.instructionData.currentInstructions.map((instruction, index) =>
+                  {this.state.instructionData !== null && this.state.instructionSelected.length !== 0 && this.state.instructionSelected.length === this.state.instructionData.currentInstructions.length ? this.state.instructionData.currentInstructions.map((instruction, index) =>
                     <tr key={instruction.executionId} className="currentInstruction">
                       <td>
                         <input onChange={this.changeInstructionSelection.bind(this, instruction.instructionId)} type="checkbox" checked={this.selectedInstruction(instruction.instructionId)} />
@@ -437,7 +443,7 @@ export default class TwoWay extends React.Component {
           </React.Fragment>
 
           <div style={{ width: '100%' }}>
-            <button className="greenBtn executeBtn" onClick={this.executeInstructions}>
+            <button className="greenBtn executeBtn" onClick={this.confirmationFunction}>
               <span>EXECUTE</span>
               <span style={{ paddingLeft: '20px' }}>
                 <i className='fa fa-arrow-right'></i>
@@ -449,9 +455,51 @@ export default class TwoWay extends React.Component {
             onOpen={this.handleInstExeModalOpen} onClose={this.handleInstExeModalClose} handleView={this.handleViewEventInstExeModal}
             handleExectuteMore={this.handleExecuteMoreEvent}
           ></InstructionModal>
+
+          {this.renderConfirmationModal()}
         </div>
       )
     }
+  }
+
+  renderConfirmationModal = () => {
+    if (this.state.accSumary.business) {
+      return <ConfirmationModal open={this.state.confirmationModalOpen} onClose={this.handleConfirmationModalClose}
+        onConfirm={() => this.execute(this.state.accountListData)} businessData={this.state.accSumary.business}
+        predictionData={this.state.predictionData} businessType={'inter'}></ConfirmationModal>
+    }
+  }
+
+  confirmationFunction = () => {
+    let data = this.executeInstructions();
+    let token = sessionStorage.getItem("token");
+
+    if (data.accountList && data.accountList.length > 0) {
+      this.setState({ accountListData: data });
+
+      let instructionData = {
+        accountList: data.accountList,
+        businessName: this.state.accSumary.business[this.state.selectedBusiness].name
+      };
+
+      let someData = {
+        token: token,
+        data: instructionData
+      };
+
+      Services.prediction(someData, (data) => {
+
+        this.setState({ predictionData: data, confirmationModalOpen: true });
+        // if (data.accountDetails) {
+        //   this.setState({ predictionData: data, confirmationModalOpen: true });
+        // }
+      });
+
+    } else alert('Please Select an Instruction');
+  }
+
+  handleConfirmationModalClose = () => {
+    this.setState({ confirmationModalOpen: false });
   }
 
   showHistory = () => {
