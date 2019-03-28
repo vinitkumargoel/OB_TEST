@@ -29,19 +29,6 @@ class ConfirmationModal extends Component {
         }
     }
 
-    dataForInterAccount = (data) => {
-        const interAccountArray = [];
-
-        data.forEach(interData => {
-            interAccountArray.push({
-                name: interData.name,
-                account: interData.accounts.find(account => account.accountType === "Savings")
-            })
-        });
-
-        return interAccountArray;
-    }
-
     render() {
         return (
             <Modal open={this.props.open} basic size='large' style={{ width: '100%' }}>
@@ -68,7 +55,7 @@ class ConfirmationModal extends Component {
                                                     {
                                                         this.props.businessType === 'intra' ?
                                                             this.renderBasedOnBusinessType(this.props.businessData.accounts) :
-                                                            this.renderBasedOnBusinessType(this.dataForInterAccount(this.props.businessData))
+                                                            this.renderBasedOnBusinessType(this.props.predictionData.preTransaction)
                                                     }
                                                 </div>
                                             </div>
@@ -78,7 +65,7 @@ class ConfirmationModal extends Component {
                                                 {
                                                     this.props.businessType === 'intra' ?
                                                         this.renderBasedOnBusinessType(this.props.predictionData.accountDetails) :
-                                                        this.renderBasedOnBusinessType(this.dataForInterAccount(this.props.businessData))
+                                                        this.renderBasedOnBusinessType(this.props.predictionData.postTransaction)
                                                 }
                                             </div>
                                         </div>

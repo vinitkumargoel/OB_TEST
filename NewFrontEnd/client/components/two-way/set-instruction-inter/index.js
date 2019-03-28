@@ -465,8 +465,7 @@ export default class TwoWay extends React.Component {
   renderConfirmationModal = () => {
     if (this.state.accSumary.business) {
       return <ConfirmationModal open={this.state.confirmationModalOpen} onClose={this.handleConfirmationModalClose}
-        onConfirm={() => this.execute(this.state.accountListData)} businessData={this.state.accSumary.business}
-        predictionData={this.state.predictionData} businessType={'inter'}></ConfirmationModal>
+        onConfirm={() => this.execute(this.state.accountListData)} predictionData={this.state.predictionData} businessType={'inter'}></ConfirmationModal>
     }
   }
 
@@ -478,8 +477,7 @@ export default class TwoWay extends React.Component {
       this.setState({ accountListData: data });
 
       let instructionData = {
-        accountList: data.accountList,
-        businessName: this.state.accSumary.business[this.state.selectedBusiness].name
+        accountList: data.accountList
       };
 
       let someData = {
@@ -487,12 +485,10 @@ export default class TwoWay extends React.Component {
         data: instructionData
       };
 
-      Services.prediction(someData, (data) => {
-
-        this.setState({ predictionData: data, confirmationModalOpen: true });
-        // if (data.accountDetails) {
-        //   this.setState({ predictionData: data, confirmationModalOpen: true });
-        // }
+      Services.preTransaction(someData, (data) => {
+        if (data) {
+          this.setState({ predictionData: data, confirmationModalOpen: true });
+        }
       });
 
     } else alert('Please Select an Instruction');

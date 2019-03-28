@@ -31,7 +31,7 @@
 .accountCard1:hover .availableBalance,
 .accountCard2:hover .availableBalance   {
   color: white !important;
-}
+} 
 
 .accountCard1:hover .accountName,
 .accountCard2:hover .accountName   {
