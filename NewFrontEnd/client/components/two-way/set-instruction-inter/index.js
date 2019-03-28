@@ -7,10 +7,9 @@ import Services from '../../../services'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import InstructionModal from '../../history/instExeModal/index';
 import History from '../../history/index';
-import Accordian from '../../accordians/index';
+import Accordian from '../../accordiansInter/index';
 import images from '../../accountDetails/config';
 import ConfirmationModal from '../confirmationModal/index';
-
 
 export default class TwoWay extends React.Component {
   constructor(props) {
@@ -21,9 +20,9 @@ export default class TwoWay extends React.Component {
       exectionInstructionStatus: '',
       setInstructionTabActive: true,
       historyTabActive: false,
+      confirmationModalOpen: false,
       showHistory: false,
       instExeModalOpen: false,
-      confirmationModalOpen: false,
       modalOpen: true,
       accSumary: {},
       value: '',
@@ -32,6 +31,7 @@ export default class TwoWay extends React.Component {
       instructionSelected: [],
       popupFlag: false,
       dropDownAccountData: [],
+      businessSavingsAccounts: [],
       newInstruction: {
         controlBankAccountNumber: "none", controlBusinessName: "", forceDebitControlAccount: false, contraBankAccountNumber: "none"
         , contraBusinessName: "", forceDebitContraAccount: false, target: "", instructionType: "Target Balance", executionMode: "Manual",
@@ -49,38 +49,25 @@ export default class TwoWay extends React.Component {
     var token = sessionStorage.getItem("token");
 
     Services.commercialDebitCall(token, function (data) {
-      let accountNumbers = this.dropdownList(data["business"]);
-      this.setState({ dropDownAccountData: accountNumbers, accSumary: data });
-      console.log(accountNumbers)
+      let businessSavingsAccounts = this.populateBusiness(data["business"]);
+      this.setState({ accSumary: data });
+      this.setState({ businessSavingsAccounts: businessSavingsAccounts })
       console.log(data)
+      console.log("BSA", businessSavingsAccounts)
     }.bind(this), function (err) {
       // console.log(err);
     })
 
-    // //Sample call for prediction API built by Sathish
-    // let instructionData = {
-    //   accountList: [
-    //     "100001",
-    //     "100002"
-    //   ],
-    //   businessName: "CAFE WILSON"
-    // };
-    // let someData = {
-    //   token: token,
-    //   data: instructionData
-    // };
-    // Services.prediction(someData, function (data) {
-    //   console.log(data);
-    // })
+
 
     Services.instructionCall(token, function (data) {
       // data=JSON.parse(data);
       let instList = []
-      let intraBusinessDataInstructions = data.currentInstructions.filter(instruction => instruction.controlBusinessName === instruction.contraBusinessName)
-      let intraBusinessData = {}
-      intraBusinessData.currentInstructions = intraBusinessDataInstructions
-      this.setState({ instructionData: intraBusinessData })
-      intraBusinessData.currentInstructions.map(instruction => {
+      let interBusinessDataInstructions = data.currentInstructions.filter(instruction => instruction.controlBusinessName !== instruction.contraBusinessName)
+      let interBusinessData = {}
+      interBusinessData.currentInstructions = interBusinessDataInstructions
+      this.setState({ instructionData: interBusinessData })
+      interBusinessData.currentInstructions.map(instruction => {
         const instructionSelected = {};
         let id = instruction.instructionId;
         instructionSelected.instructionId = id
@@ -103,28 +90,24 @@ export default class TwoWay extends React.Component {
     })
   }
 
-  dropdownList = (businesses) => {
-    let accountNumbers = [];
-    let accountInfos = []
-    let allInstructionForOneBusiness = []
+  populateBusiness = (businesses) => {
+    let businessSavingsAccounts = []
     businesses.map((business, index) => {
-      let allInstructionForOneBusinessValue = {}
-      allInstructionForOneBusinessValue.business = business["name"]
-      allInstructionForOneBusinessValue.selected = false
+      let flag = false;
+      let businessSavingsAccount = {}
+      businessSavingsAccount.business = business["name"]
       business["accounts"].map((account, i) => {
-        let accountInfo = {}
-        accountInfo.accountNumber = account["accountNumber"]
-        accountInfo.availableBalance = account["availableBalance"]
-        accountInfo.business = business["name"]
-        accountNumbers.push(account["accountNumber"])
-        accountInfos.push(accountInfo)
+        if (account["accountName"] === "Business Saving Account") {
+          businessSavingsAccount.availableBalance = account["availableBalance"]
+          businessSavingsAccount.accountNumber = account["accountNumber"]
+          flag = true
+        }
       })
-      allInstructionForOneBusiness.push(allInstructionForOneBusinessValue)
+      if (flag === true)
+        businessSavingsAccounts.push(businessSavingsAccount)
     })
-    this.setState({ accountInfos: accountInfos }, () => console.log(this.state.accountInfos))
-    this.setState({ allInstructionForOneBusiness: allInstructionForOneBusiness })
     // console.log(data, typeof (data));
-    return accountNumbers;
+    return businessSavingsAccounts;
   }
   loadAvailableBalance(accountNumber) {
 
@@ -183,7 +166,6 @@ export default class TwoWay extends React.Component {
   selectedInstruction = (id) => {
     const updatedInstructionSelected = [...this.state.instructionSelected]
     let selectedInstr = updatedInstructionSelected.filter((value) => value.instructionId === id);
-    console.log(selectedInstr.selected)
     return selectedInstr[0].selected
   }
   addInstruction = () => {
@@ -263,11 +245,11 @@ export default class TwoWay extends React.Component {
     var token = sessionStorage.getItem("token");
     Services.instructionCall(token, function (data) {
       // data=JSON.parse(data);
-      let intraBusinessDataInstructions = data.currentInstructions.filter(instruction => instruction.controlBusinessName === instruction.contraBusinessName)
-      let intraBusinessData = {}
-      intraBusinessData.currentInstructions = intraBusinessDataInstructions
-      this.setState({ instructionData: intraBusinessData })
-      let addedInstruction = intraBusinessData.currentInstructions[intraBusinessData.currentInstructions.length - 1]
+      let interBusinessDataInstructions = data.currentInstructions.filter(instruction => instruction.controlBusinessName !== instruction.contraBusinessName)
+      let interBusinessData = {}
+      interBusinessData.currentInstructions = interBusinessDataInstructions
+      this.setState({ instructionData: interBusinessData })
+      let addedInstruction = interBusinessData.currentInstructions[interBusinessData.currentInstructions.length - 1]
       let id = addedInstruction.instructionId
       let business = addedInstruction.controlBusinessName
       this.setState(prevState => ({
@@ -287,22 +269,14 @@ export default class TwoWay extends React.Component {
     let instructionSelected = [...this.state.instructionSelected]
     if (event.target.checked === true) {
       instructionSelected.map(instruction => {
-        if (instruction.business === this.state.accSumary.business[this.state.selectedBusiness].name)
-          instruction.selected = true;
+        instruction.selected = true;
       })
     }
     else {
       instructionSelected.map(instruction => {
-        if (instruction.business === this.state.accSumary.business[this.state.selectedBusiness].name)
-          instruction.selected = false;
+        instruction.selected = false;
       })
     }
-    let allInstructionForOneBusiness = [...this.state.allInstructionForOneBusiness]
-    let selectedBusinessInstructions = allInstructionForOneBusiness
-      .filter(instruction => instruction.business === this.state.accSumary.business[this.state.selectedBusiness].name)
-    console.log(selectedBusinessInstructions)
-    selectedBusinessInstructions[0].selected = event.target.checked
-    this.setState({ allInstructionForOneBusiness: allInstructionForOneBusiness })
     this.setState({ instructionSelected: instructionSelected })
   }
 
@@ -375,30 +349,21 @@ export default class TwoWay extends React.Component {
   }
 
   handleButtonChange = (index) => {
-    
     if (index === null) {
       return 'col accordianSmallCard';
     } else {
       this.setState({ selectedBusiness: index });
-      let allBoxes = document.getElementsByClassName('col accordianSmallCard');
-      for(let i in allBoxes) {
-        if(i < 3) {
-          if(i == index) {
-            allBoxes[i].style.border = 'solid 2px green';
-          }
-          else {
-            allBoxes[i].style.border = '1px solid lightgrey';
-          }
-        }
-      }
-      // return 'col accordianSmallCard accordianSmallCardActive';
+
+      return 'col accordianSmallCard accordianSmallCardActive';
     }
   }
+
   selectAllForOneBusinessCheck = (business) => {
     let selectedBusinessInstructions = this.state.allInstructionForOneBusiness
       .filter(instruction => instruction.business === business)
     return selectedBusinessInstructions[0].selected
   }
+
   manipulateAccountNumber = (accountNumber) => {
     accountNumber.toString();
     let number = '';
@@ -416,98 +381,66 @@ export default class TwoWay extends React.Component {
   }
 
   renderScreen() {
+    console.log(this.state.accSumary.business)
     if (this.state.showHistory) {
-      return <History type="intra"></History>
+      return <History type="inter"></History>
     }
     else {
       return (
         <div>
-          {!this.state.showAccordians && this.state.accSumary.business !== undefined ? (
+
+          {!this.state.showAccordians ? (
             <div>
-              {/* <div><img style={{ cursor: 'pointer' }} src='../../../../images/addInstruction/add_new_btn.png' onClick={this.getAccordian} /></div> */}
-              <div className="accordion" id="accordionExample">
-                <div className="card accordianCard">
-                  <div className="cardHeader" id="headingOne" data-toggle="collapse" data-target="#collapseOne">
-                    <div style={{ width: '100%', color: '#00864f' }}>
-                      <span><b>CHOOSE BUSINESS</b></span>
-                      <span style={{ float: 'right' }}><i className='fa fa-angle-down'></i></span>
-                    </div>
-                  </div>
-                  <div id="collapseOne" className="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
-                    <div style={{ padding: '0 2% 3% 2%' }}>
-                      <div>
-                        <div className="accordianCardBody row" style={{ display: 'flex', width: '100%', margin: '0' }}>
-                          {this.state.accSumary.business.map((value, index) => {
-                            return (
-                              <div className={this.handleButtonChange(null)} onClick={() => this.handleButtonChange(index)} key={index} id={index}>
-                                <div className="company-card-button " value={index} >
-                                  <div className="icons" ><img src={images.Icons[index]} alt="icon" />  </div>
-                                  <div>
-                                    <div><b>{value.name}</b></div>
-                                    <div>{value.address}</div>
-                                    <div><b style={{ color: 'grey' }}>Contact</b>:{value.contactNumber}</div>
-                                  </div>
-                                </div>
-                              </div>
-                            )
-                          })}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
               <button className="greenBtn addNewInstBtn" onClick={this.getAccordian}>
                 <span>ADD NEW INSTRUCTIONS</span>
-              </button>      </div>) :
-            (<Accordian refresh={this.refresh} getAccordian={this.getAccordian} index={this.state.selectedBusiness} />)}
-          {this.state.accSumary.business !== undefined && this.state.selectedBusiness !== null ?
-            (<React.Fragment>
-              <div>
-                <div style={{ margin: '1.5% 0' }}>
-                  <p className='My-financials'>Current instructions</p>
-                </div>
-                <table className="ui striped table">
-                  <thead>
-                    <tr className="currentInstruction">
-                      <th>
-                        <input onChange={this.selectAllInstructionsHandler} type="checkbox" checked={this.selectAllForOneBusinessCheck(this.state.accSumary.business[this.state.selectedBusiness].name)} />
-                      </th>
-                      <th>Control A/C</th>
-                      <th>Contra A/C </th>
-                      <th>Instruction type</th>
-                      <th>Value </th>
-                      <th>Priority</th>
-                      <th>Execution mode</th>
-                      <th>Reversal</th>
-                      <th>Actions</th>
-                      <th></th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {this.state.instructionData !== null && this.state.instructionSelected.length !== 0 && this.state.instructionSelected.length === this.state.instructionData.currentInstructions.length ? this.state.instructionData.currentInstructions.filter(instr => instr.controlBusinessName === this.state.accSumary.business[this.state.selectedBusiness].name).map((instruction, index) =>
-                      <tr key={instruction.executionId} className="currentInstruction">
-                        <td>
-                          <input onChange={this.changeInstructionSelection.bind(this, instruction.instructionId)} type="checkbox" checked={this.selectedInstruction(instruction.instructionId)} />
-                        </td>
-                        <td>{this.manipulateAccountNumber(instruction.controlBankAccountNumber)}</td>
-                        <td>{this.manipulateAccountNumber(instruction.contraBankAccountNumber)}</td>
-                        <td>{instruction.instructionType}</td>
-                        <td>{instruction.target}</td>
-                        <td>{instruction.priorityId}</td>
-                        <td>{instruction.executionMode}</td>
-                        <td>No</td>
-                        <td>
-                          <img src={'images/ic-edit-copy-7.png'} onClick={this.handleOk} style={{ marginRight: '20px', cursor: 'pointer' }} />
-                          <img src={'images/ic-delete-copy-7.png'} onClick={this.handleOk} style={{ cursor: 'pointer' }} />
-                        </td>
-                        <td><img src={'images/ic-reorder.png'} onClick={this.handleOk} /></td>
-                      </tr>
-                    ) : ""}
-                  </tbody>
-                </table>
+              </button>      </div>) : (
+              <Accordian refresh={this.refresh} getAccordian={this.getAccordian} index={this.state.selectedBusiness} />)}
+          <React.Fragment>
+            <div>
+              <div style={{ margin: '1.5% 0' }}>
+                <p className='My-financials'>Current instructions</p>
               </div>
-            </React.Fragment>) : (null)}
+              <table className="ui striped table">
+                <thead>
+                  <tr className="currentInstruction">
+                    <th>
+                      <input onChange={this.selectAllInstructionsHandler} type="checkbox" />
+                    </th>
+                    <th>Control A/C</th>
+                    <th>Contra A/C </th>
+                    <th>Instruction type</th>
+                    <th>Value </th>
+                    <th>Priority</th>
+                    <th>Execution mode</th>
+                    <th>Reversal</th>
+                    <th>Actions</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {this.state.instructionData !== null && this.state.instructionSelected.length !== 0 && this.state.instructionSelected.length === this.state.instructionData.currentInstructions.length ? this.state.instructionData.currentInstructions.map((instruction, index) =>
+                    <tr key={instruction.executionId} className="currentInstruction">
+                      <td>
+                        <input onChange={this.changeInstructionSelection.bind(this, instruction.instructionId)} type="checkbox" checked={this.selectedInstruction(instruction.instructionId)} />
+                      </td>
+                      <td>{this.manipulateAccountNumber(instruction.controlBankAccountNumber)}</td>
+                      <td>{this.manipulateAccountNumber(instruction.contraBankAccountNumber)}</td>
+                      <td>{instruction.instructionType}</td>
+                      <td>{instruction.target}</td>
+                      <td>{instruction.priorityId}</td>
+                      <td>{instruction.executionMode}</td>
+                      <td>No</td>
+                      <td>
+                        <img src={'images/ic-edit-copy-7.png'} onClick={this.handleOk} style={{ marginRight: '20px', cursor: 'pointer' }} />
+                        <img src={'images/ic-delete-copy-7.png'} onClick={this.handleOk} style={{ cursor: 'pointer' }} />
+                      </td>
+                      <td><img src={'images/ic-reorder.png'} onClick={this.handleOk} /></td>
+                    </tr>
+                  ) : ""}
+                </tbody>
+              </table>
+            </div>
+          </React.Fragment>
 
           <div style={{ width: '100%' }}>
             <button className="greenBtn executeBtn" onClick={this.confirmationFunction}>
@@ -532,8 +465,8 @@ export default class TwoWay extends React.Component {
   renderConfirmationModal = () => {
     if (this.state.accSumary.business) {
       return <ConfirmationModal open={this.state.confirmationModalOpen} onClose={this.handleConfirmationModalClose}
-        onConfirm={() => this.execute(this.state.accountListData)} businessData={this.state.accSumary.business[this.state.selectedBusiness]}
-        predictionData={this.state.predictionData} businessType={'intra'}></ConfirmationModal>
+        onConfirm={() => this.execute(this.state.accountListData)} businessData={this.state.accSumary.business}
+        predictionData={this.state.predictionData} businessType={'inter'}></ConfirmationModal>
     }
   }
 
@@ -555,9 +488,11 @@ export default class TwoWay extends React.Component {
       };
 
       Services.prediction(someData, (data) => {
-        if (data.accountDetails) {
-          this.setState({ predictionData: data, confirmationModalOpen: true });
-        }
+
+        this.setState({ predictionData: data, confirmationModalOpen: true });
+        // if (data.accountDetails) {
+        //   this.setState({ predictionData: data, confirmationModalOpen: true });
+        // }
       });
 
     } else alert('Please Select an Instruction');

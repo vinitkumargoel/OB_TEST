@@ -27,6 +27,10 @@
   overflow: hidden;
 }
 
+.accountCard1:hover {
+  background: #00864f;
+  color: white;
+}
 
 .accountCard1:hover .availableBalance,
 .accountCard2:hover .availableBalance   {
@@ -48,6 +52,10 @@
   overflow: hidden;
 }
 
+.accountCard2:hover {
+  background: #66980c;
+  color: white;
+}
 
 .accountCard1 > p {
   font-size: 13px;
@@ -63,13 +71,6 @@
 
 .availableBalance {
   color: rgb(98, 179, 79);
-  margin-left: 60px !important;
-  margin-top: 8px !important;
-  font-size: 20px;
-}
-
-.availableBalanceDisplay {
-  color: white;
   margin-left: 60px !important;
   margin-top: 8px !important;
   font-size: 20px;

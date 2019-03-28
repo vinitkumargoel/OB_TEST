@@ -223,6 +223,8 @@ const instrResult=async(userName,accNoList)=>{
           history.push({
             "executionId": history.length + 1000,
             "instructionId": instructionId,
+            "controlBusinessName":controlBusinessName,
+            "contraBusinessName":contraBusinessName,
             "controlAccount":{
               "controlAccountNumber": controlBankAccountNumber,
               "balanceBeforeExecution": controlBankBalance,
@@ -274,6 +276,8 @@ const instrResult=async(userName,accNoList)=>{
           history.push({
             "executionId": history.length + 1000,
             "instructionId": instructionId,
+            "controlBusinessName":controlBusinessName,
+            "contraBusinessName":contraBusinessName,
             "controlAccount":{
               "controlAccountNumber": controlBankAccountNumber,
               "balanceBeforeExecution": controlBankBeforeBalance,
@@ -310,6 +314,8 @@ const instrResult=async(userName,accNoList)=>{
             history.push({
               "executionId": history.length + 1000,
               "instructionId": instructionId,
+              "controlBusinessName":controlBusinessName,
+              "contraBusinessName":contraBusinessName,
               "controlAccount":{
                 "controlAccountNumber": controlBankAccountNumber,
                 "balanceBeforeExecution": controlBankBalance,
@@ -362,6 +368,8 @@ const instrResult=async(userName,accNoList)=>{
                 history.push({
                   "executionId": history.length + 1000,
                   "instructionId": instructionId,
+                  "controlBusinessName":controlBusinessName,
+                  "contraBusinessName":contraBusinessName,
                   "controlAccount":{
                     "controlAccountNumber": controlBankAccountNumber,
                     "balanceBeforeExecution": controlBankBeforeBalance,
@@ -395,6 +403,8 @@ const instrResult=async(userName,accNoList)=>{
               history.push({
               "executionId": history.length + 1000,
               "instructionId": instructionId,
+              "controlBusinessName":controlBusinessName,
+              "contraBusinessName":contraBusinessName,
               "controlAccount":{
                 "controlAccountNumber": controlBankAccountNumber,
                 "balanceBeforeExecution": controlBankBalance,

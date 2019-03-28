@@ -204,5 +204,16 @@ module.exports = {
       success: successCb,
       error: errorCb
     })
+  },
+  prediction: function (queryData, successCb, errorCb) {
+    $.ajax({
+      type: "POST",
+      url: config.instructionUrl + "/prediction",
+      data: JSON.stringify(queryData.data),
+      headers: { "x-access-token": queryData.token },
+      contentType: "application/json",
+      success: successCb,
+      error: errorCb
+    })
   }
 }

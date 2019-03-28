@@ -6,15 +6,28 @@ import moment from 'moment';
 import './style.css';
 
 class History extends Component {
-    state = {
-        instructionArray: []
+    constructor(props)
+    {
+        super(props)
+        this.state={
+            instructionArray: []
+        }
     }
 
     componentDidMount() {
         var token = sessionStorage.getItem("token");
 
         Services.history(token, function (data) {
-            this.setState({ instructionArray: data });
+            let instructionArray=[]
+            if(this.props.type==="intra")
+            {
+                instructionArray = data.filter(instruction=>instruction.controlBusinessName===instruction.contraBusinessName)
+            }
+            else{
+                instructionArray = data.filter(instruction=>instruction.controlBusinessName!==instruction.contraBusinessName)
+            }
+            this.setState({ instructionArray: instructionArray });
+            console.log(data)
             // this.pagginator();
         }.bind(this), function (err) {
             // console.log(err);

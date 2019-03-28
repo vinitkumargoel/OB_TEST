@@ -11,7 +11,8 @@ export default class Accordians extends React.Component {
     this.state = {
       showModal: false,
       accSumary: null,
-      selectedBusiness: this.props.index,
+      businessSavingsAccounts:[],
+      selectedBusiness:{first:0,second:1},
       selectedControlAccount: null,
       selectedContraAccount: null,
       target: 0
@@ -20,22 +21,48 @@ export default class Accordians extends React.Component {
   componentWillMount() {
     var token = sessionStorage.getItem("token");
     console.log(token);
-    Services.commercialDebitCall(token, function (data) {
-      console.log(token);
-      console.log(data);
-      this.setState({ accSumary: data });
-    }.bind(this));
+      Services.commercialDebitCall(token, function (data) {
+        let businessSavingsAccounts  = this.populateBusiness(data["business"]);
+        this.setState({accSumary: data });
+        this.setState({businessSavingsAccounts:businessSavingsAccounts})
+        console.log(data)
+        console.log("BSA",businessSavingsAccounts)
+      }.bind(this), function (err) {
+        // console.log(err);
+      })
+  
+      
+  
   }
-
+  populateBusiness = (businesses) => {
+    let businessSavingsAccounts=[]
+    businesses.map((business, index) => {
+      let flag = false
+     let businessSavingsAccount={}
+     businessSavingsAccount.business = business["name"]
+      business["accounts"].map((account, i) => {
+        if(account["accountName"]==="Business Saving Account")
+        {
+        businessSavingsAccount.availableBalance = account["availableBalance"]
+        businessSavingsAccount.accountNumber = account["accountNumber"]
+        flag = true
+        }
+      })
+    if(flag===true)
+      businessSavingsAccounts.push(businessSavingsAccount)
+    })
+    // console.log(data, typeof (data));
+    return businessSavingsAccounts;
+  }
   handleAddInstr = () => {
     var token = sessionStorage.getItem("token");
     let data = {}
-    data.controlBusinessName = this.state.accSumary.business[this.state.selectedBusiness].name;
-    data.contraBusinessName = this.state.accSumary.business[this.state.selectedBusiness].name;
-    data.contraBankAccountNumber = this.state.accSumary.business[this.state.selectedBusiness].accounts[this.state.selectedContraAccount].accountNumber;
-    data.controlBankAccountNumber = this.state.accSumary.business[this.state.selectedBusiness].accounts[this.state.selectedControlAccount].accountNumber;
+    console.log("first",this.state.selectedBusiness.first,"second",this.state.selectedBusiness.second)
+    data.controlBusinessName = this.state.businessSavingsAccounts[this.state.selectedBusiness.first].business;
+    data.contraBusinessName = this.state.businessSavingsAccounts[this.state.selectedBusiness.second].business;
+    data.controlBankAccountNumber = this.state.businessSavingsAccounts[this.state.selectedBusiness.first].accountNumber
+    data.contraBankAccountNumber = this.state.businessSavingsAccounts[this.state.selectedBusiness.second].accountNumber
     data.target = this.state.target;
-    data.index = this.state.selectedBusiness;
     let query = {
       token: token,
       data: data
@@ -57,7 +84,10 @@ export default class Accordians extends React.Component {
 
 
   handleControlAccount = (index) => {
-    this.setState({ selectedControlAccount: index });
+    let selectedBusiness = {}
+    Object.assign(selectedBusiness,this.state.selectedBusiness)
+    selectedBusiness.first = index
+    this.setState({selectedBusiness:selectedBusiness})
     let controlAccount = document.getElementsByClassName('accountCard1')[index];
     controlAccount.style.background = '#00864f';
     let pTags = controlAccount.getElementsByTagName('p');
@@ -78,7 +108,10 @@ export default class Accordians extends React.Component {
   }
 
   handleContraAccount = (index) => {
-    this.setState({ selectedContraAccount: index });
+    let selectedBusiness = {}
+    Object.assign(selectedBusiness,this.state.selectedBusiness)
+    selectedBusiness.second = index
+    this.setState({selectedBusiness:selectedBusiness})
     let contraAccount = document.getElementsByClassName('accountCard2')[index];
     contraAccount.style.background = '#66980c';
     let pTags = contraAccount.getElementsByTagName('p');
@@ -117,38 +150,6 @@ export default class Accordians extends React.Component {
           <div style={{ margin: '1.5% 0' }}>
             <p className='My-financials'>Add new instruction</p>
           </div>
-         
-            {(this.state.selectedContraAccount !==null && this.state.selectedControlAccount !==null) ?
-              (
-                <div style={{ width: '100%', display: 'flex',marginBottom:'2%'}}>
-                          <div className="card accountCard1" style={{width:'40%',background:'#00864f',marginRight:'11%'}}>
-                            <div className="card-body secondAccordionMain">
-                              <div style={{ width: '50%' }}>
-                                <p className="accountName" style={{ marginBottom: '5px',color:'white' }}>{this.state.accSumary.business[this.state.selectedBusiness].accounts[this.state.selectedControlAccount].accountName}</p>
-                                <p style={{ fontSize: '20px',color:'white' }}>{this.manipulateAccountNumber(this.state.accSumary.business[this.state.selectedBusiness].accounts[this.state.selectedControlAccount].accountNumber)}</p>
-                              </div>
-                              <div style={{ width: '50%' }}>
-                                <p className="availableBalanceDisplay">₤ {this.numberWithCommas(this.state.accSumary.business[this.state.selectedBusiness].accounts[this.state.selectedControlAccount].availableBalance)}</p>
-                              </div>
-                            </div>
-                          </div>
-
-                          <div className="card accountCard1" style={{width:'40%',background:'rgb(102,152,12)',marginRight:'2%'}}>
-                            <div className="card-body secondAccordionMain">
-                              <div style={{ width: '50%' }}>
-                                <p className="accountName" style={{ marginBottom: '5px',color:'white' }}>{this.state.accSumary.business[this.state.selectedBusiness].accounts[this.state.selectedContraAccount].accountName}</p>
-                                <p style={{ fontSize: '20px' ,color:'white'}}>{this.manipulateAccountNumber(this.state.accSumary.business[this.state.selectedBusiness].accounts[this.state.selectedContraAccount].accountNumber)}</p>
-                              </div>
-                              <div style={{ width: '50%' }}>
-                                <p className="availableBalanceDisplay">₤ {this.numberWithCommas(this.state.accSumary.business[this.state.selectedBusiness].accounts[this.state.selectedContraAccount].availableBalance)}</p>
-                              </div>
-                            </div>
-                          </div>
-                    </div>
- 
-              ):(null)}
-
-          
           <div className="accordion" id="accordionExample">
             <div className="card accordianCard">
               <div className="cardHeader" id="headingTwo" data-toggle="collapse" data-target="#collapseTwo">
@@ -166,12 +167,12 @@ export default class Accordians extends React.Component {
                       <label htmlFor="controlCheckbox" style={{ margin: '10px', fontWeight: 'lighter' }}>
                         Force Debit
                       </label>
-                      {this.state.accSumary.business[this.state.selectedBusiness].accounts.map((value, index) => {
+                      {this.state.businessSavingsAccounts.map((value, index) => {
                         return (
                           <div className="card accountCard1" key={index} onClick={() => this.handleControlAccount(index)}>
                             <div className="card-body secondAccordionMain">
                               <div style={{ width: '50%' }}>
-                                <p className="accountName" style={{ marginBottom: '5px' }}>{value.accountName}</p>
+                                <p className="accountName" style={{ marginBottom: '5px' }}>{value.business}</p>
                                 <p style={{ fontSize: '20px' }}>{this.manipulateAccountNumber(value.accountNumber)}</p>
                               </div>
                               <div style={{ width: '50%' }}>
@@ -188,12 +189,12 @@ export default class Accordians extends React.Component {
                       <label htmlFor="controlCheckbox" style={{ margin: '10px', fontWeight: 'lighter' }}>
                         Force Debit
                       </label>
-                      {this.state.accSumary.business[this.state.selectedBusiness].accounts.map((value, index) => {
+                      {this.state.businessSavingsAccounts.map((value, index) => {
                         return (
                           <div className="card accountCard2" key={index} onClick={() => this.handleContraAccount(index)}>
                             <div className="card-body secondAccordionMain">
                               <div style={{ width: '50%' }}>
-                                <p className="accountName" style={{ marginBottom: '5px' }}>{value.accountName}</p>
+                                <p className="accountName" style={{ marginBottom: '5px' }}>{value.business}</p>
                                 <p style={{ fontSize: '20px' }}>{this.manipulateAccountNumber(value.accountNumber)}</p>
                               </div>
                               <div style={{ width: '50%' }}>
