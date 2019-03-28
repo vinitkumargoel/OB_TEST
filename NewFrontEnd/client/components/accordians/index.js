@@ -58,6 +58,8 @@ export default class Accordians extends React.Component {
 
   handleControlAccount = (index) => {
     this.setState({ selectedControlAccount: index });
+    let controlBox = document.getElementById('controlBox');
+    controlBox.style.pointerEvents = 'none';
     let controlAccount = document.getElementsByClassName('accountCard1')[index];
     controlAccount.style.background = '#00864f';
     let pTags = controlAccount.getElementsByTagName('p');
@@ -72,9 +74,8 @@ export default class Accordians extends React.Component {
         contraAccount[i].style.display = 'block';
       }
     }
-    if (contraAccount[index]) {
-      contraAccount[index].style.opacity = 0.5;
-    }
+    contraAccount[index].style.opacity = 0.5;
+    contraAccount[index].style.pointerEvents = 'none';
   }
 
   handleContraAccount = (index) => {
@@ -86,6 +87,10 @@ export default class Accordians extends React.Component {
       if (pTags[i].tagName === 'P') {
         pTags[i].style.color = 'white';
       }
+    }
+    let contraAccounts = document.getElementsByClassName('accountCard2');
+    for(let i of contraAccounts) {
+      i.style.pointerEvents = 'none';
     }
   }
 
@@ -160,7 +165,7 @@ export default class Accordians extends React.Component {
               <div id="collapseTwo" className="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
                 <div className="card-body" style={{ padding: '0 2% 3% 2%' }}>
                   <div className="secondAccordionMain">
-                    <div style={{ width: '50%', display: 'flex', flexWrap: 'wrap' }}>
+                    <div id="controlBox" style={{ width: '50%', display: 'flex', flexWrap: 'wrap' }}>
                       <h6 style={{ width: '50%', margin: '15px', fontWeight: 'bold' }}>Select Control Account</h6>
                       <input type="checkbox" style={{ marginTop: '15px' }} disabled id="controlCheckbox" />
                       <label htmlFor="controlCheckbox" style={{ margin: '10px', fontWeight: 'lighter' }}>
@@ -168,11 +173,11 @@ export default class Accordians extends React.Component {
                       </label>
                       {this.state.accSumary.business[this.state.selectedBusiness].accounts.map((value, index) => {
                         return (
-                          <div className="card accountCard1" key={index} onClick={() => this.handleControlAccount(index)}>
+                          <div id="accountCard1" className="card accountCard1" key={index} onClick={() => this.handleControlAccount(index)}>
                             <div className="card-body secondAccordionMain">
                               <div style={{ width: '50%' }}>
                                 <p className="accountName" style={{ marginBottom: '5px' }}>{value.accountName}</p>
-                                <p style={{ fontSize: '20px' }}>{this.manipulateAccountNumber(value.accountNumber)}</p>
+                                <p className="accountNumber" style={{ fontSize: '20px' }}>{this.manipulateAccountNumber(value.accountNumber)}</p>
                               </div>
                               <div style={{ width: '50%' }}>
                                 <p className="availableBalance">₤ {this.numberWithCommas(value.availableBalance)}</p>
@@ -182,7 +187,7 @@ export default class Accordians extends React.Component {
                         )
                       })}
                     </div>
-                    <div style={{ width: '50%', display: 'flex', flexWrap: 'wrap' }}>
+                    <div id="contraBox" style={{ width: '50%', display: 'flex', flexWrap: 'wrap' }}>
                       <h6 style={{ width: '50%', margin: '15px', fontWeight: 'bold' }}>Select Contra Account</h6>
                       <input type="checkbox" style={{ marginTop: '15px' }} disabled id="contraCheckbox" />
                       <label htmlFor="controlCheckbox" style={{ margin: '10px', fontWeight: 'lighter' }}>
@@ -194,7 +199,7 @@ export default class Accordians extends React.Component {
                             <div className="card-body secondAccordionMain">
                               <div style={{ width: '50%' }}>
                                 <p className="accountName" style={{ marginBottom: '5px' }}>{value.accountName}</p>
-                                <p style={{ fontSize: '20px' }}>{this.manipulateAccountNumber(value.accountNumber)}</p>
+                                <p className="accountNumber" style={{ fontSize: '20px' }}>{this.manipulateAccountNumber(value.accountNumber)}</p>
                               </div>
                               <div style={{ width: '50%' }}>
                                 <p className="availableBalance">₤ {this.numberWithCommas(value.availableBalance)}</p>
