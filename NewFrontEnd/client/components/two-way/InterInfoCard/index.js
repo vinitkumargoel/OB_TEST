@@ -28,7 +28,6 @@ export default class InterInfoCard extends React.Component {
     }
 
     render() {
-        console.log(123434454, this.props);
         return (
             <div className="card" style={{ borderRadius: '10px', height: '100%' }}>
                 {this.props.accounts.map((value, index) => {
