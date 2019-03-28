@@ -439,8 +439,7 @@ const instrResult=async(userName,accNoList)=>{
 
         
      };
-    //  console.log(result);
-    //  console.log(typeof result);
+    
      return result;
    };
    
@@ -510,16 +509,10 @@ const instrResult=async(userName,accNoList)=>{
           });
   
           
-          // console.log(filteredControlBank);
-          //console.log(filteredControlAcc);
-          // console.log(filteredContraAcc[0].balance);
-          
           controlBankBalance = parseInt(filteredControlAcc[0].availableBalance);
           contraBankBalance = parseInt(filteredContraAcc[0].availableBalance);
           contraBankMinBalance = parseInt(filteredContraAcc[0].minimumBalance);
   
-          // console.log(controlBankBalance,contraBankBalance,contraBankMinBalance);
-          // console.log(typeof controlBankBalance);
   
           if(controlBankBalance === target){
           
@@ -552,12 +545,7 @@ const instrResult=async(userName,accNoList)=>{
                contraBankBeforeBalance = contraBankBalance;
                contraBankBalance = contraBankBalance-target+controlBankBalance;
                controlBankBalance = target;
-  
-               //console.log(contraBankBalance+"dsffsf");
-                //console.log(contraBankBalance,controlBankBalance);
-  
-               // console.log(filteredControlAcc);
-  
+    
                filteredControlAcc[0].availableBalance = controlBankBalance;
                filteredContraAcc[0].availableBalance = contraBankBalance;
                if(controlBusinessName == contraBusinessName)
@@ -589,10 +577,7 @@ const instrResult=async(userName,accNoList)=>{
       let instrObj=await getInstruction(userName);
       // console.log(instrObj);
     
-    
-     // let len = instrObj["currentInstructions"].length;
       let result = [];
-     // let allInstructionIDs = [];
       instrObj = instrObj["currentInstructions"];
       let instructionsToExecute = [];
       let errorDetails=[];
@@ -623,17 +608,12 @@ const instrResult=async(userName,accNoList)=>{
           target = parseInt(instructionsToExecute[i].target);
           priorityId = parseInt(instructionsToExecute[i].priorityId);
           instructionId = parseInt(instructionsToExecute[i].instructionId);
-          // console.log(target);
-          // console.log(typeof target);
-                
-         
-            //console.log(data);
+          
             var filteredControlBusiness = data.business.filter((businesses) => {
                return businesses.name == controlBusinessName;
             })[0];
     
-            //console.log(filteredControlBusiness);
-    
+                
             var filteredContraBusiness = data.business.filter((businesses) => {
                return businesses.name == contraBusinessName;
             })[0];
@@ -650,10 +630,6 @@ const instrResult=async(userName,accNoList)=>{
             });
     
             
-            // console.log(filteredControlBank);
-            //console.log(filteredControlAcc);
-            // console.log(filteredContraAcc[0].balance);
-            
             controlBankBalance = parseInt(filteredControlAcc[0].availableBalance);
             contraBankBalance = parseInt(filteredContraAcc[0].availableBalance);
             contraBankMinBalance = parseInt(filteredContraAcc[0].minimumBalance);
@@ -664,7 +640,7 @@ const instrResult=async(userName,accNoList)=>{
             if(controlBankBalance === target){
             
             }
-            //console.log(result);
+            
             if (controlBankBalance > target) {
               contraBankBeforeBalance = contraBankBalance;
               controlBankBeforeBalance = controlBankBalance;
@@ -693,10 +669,6 @@ const instrResult=async(userName,accNoList)=>{
                  contraBankBalance = contraBankBalance-target+controlBankBalance;
                  controlBankBalance = target;
     
-                 //console.log(contraBankBalance+"dsffsf");
-                  //console.log(contraBankBalance,controlBankBalance);
-    
-                 // console.log(filteredControlAcc);
     
                  filteredControlAcc[0].availableBalance = controlBankBalance;
                  filteredContraAcc[0].availableBalance = contraBankBalance;
@@ -707,9 +679,7 @@ const instrResult=async(userName,accNoList)=>{
                 }else {
   
                   errorDetails.push({"failedInstruction":instructionId,"errorMessage":"As insufficient contra account minimum balance"});
-                  
-                  //"As insufficient contra account minimum balance"
-                
+                                  
             }
           }
     
