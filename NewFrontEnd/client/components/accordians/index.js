@@ -117,6 +117,38 @@ export default class Accordians extends React.Component {
           <div style={{ margin: '1.5% 0' }}>
             <p className='My-financials'>Add new instruction</p>
           </div>
+         
+            {(this.state.selectedContraAccount !==null && this.state.selectedControlAccount !==null) ?
+              (
+                <div style={{ width: '100%', display: 'flex',marginBottom:'2%'}}>
+                          <div className="card accountCard1" style={{width:'40%',background:'#00864f',marginRight:'11%'}}>
+                            <div className="card-body secondAccordionMain">
+                              <div style={{ width: '50%' }}>
+                                <p className="accountName" style={{ marginBottom: '5px',color:'white' }}>{this.state.accSumary.business[this.state.selectedBusiness].accounts[this.state.selectedControlAccount].accountName}</p>
+                                <p style={{ fontSize: '20px',color:'white' }}>{this.manipulateAccountNumber(this.state.accSumary.business[this.state.selectedBusiness].accounts[this.state.selectedControlAccount].accountNumber)}</p>
+                              </div>
+                              <div style={{ width: '50%' }}>
+                                <p className="availableBalanceDisplay">₤ {this.numberWithCommas(this.state.accSumary.business[this.state.selectedBusiness].accounts[this.state.selectedControlAccount].availableBalance)}</p>
+                              </div>
+                            </div>
+                          </div>
+
+                          <div className="card accountCard1" style={{width:'40%',background:'rgb(102,152,12)',marginRight:'2%'}}>
+                            <div className="card-body secondAccordionMain">
+                              <div style={{ width: '50%' }}>
+                                <p className="accountName" style={{ marginBottom: '5px',color:'white' }}>{this.state.accSumary.business[this.state.selectedBusiness].accounts[this.state.selectedContraAccount].accountName}</p>
+                                <p style={{ fontSize: '20px' ,color:'white'}}>{this.manipulateAccountNumber(this.state.accSumary.business[this.state.selectedBusiness].accounts[this.state.selectedContraAccount].accountNumber)}</p>
+                              </div>
+                              <div style={{ width: '50%' }}>
+                                <p className="availableBalanceDisplay">₤ {this.numberWithCommas(this.state.accSumary.business[this.state.selectedBusiness].accounts[this.state.selectedContraAccount].availableBalance)}</p>
+                              </div>
+                            </div>
+                          </div>
+                    </div>
+ 
+              ):(null)}
+
+          
           <div className="accordion" id="accordionExample">
             <div className="card accordianCard">
               <div className="cardHeader" id="headingTwo" data-toggle="collapse" data-target="#collapseTwo">
