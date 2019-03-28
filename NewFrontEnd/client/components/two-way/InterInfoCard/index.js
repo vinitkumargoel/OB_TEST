@@ -28,6 +28,7 @@ export default class InterInfoCard extends React.Component {
     }
 
     render() {
+        console.log(123434454, this.props);
         return (
             <div className="card" style={{ borderRadius: '10px', height: '100%' }}>
                 {this.props.accounts.map((value, index) => {
@@ -35,11 +36,11 @@ export default class InterInfoCard extends React.Component {
                         <div style={{ display: 'flex', flexDirection: 'column', padding: '0 15px' }} className="cardCurrentContainer">
                             <div key={index} className="card_current">
                                 <div className="current_sub_label_individual_conatiner">
-                                    <div className="current_sub_lable_heading" style={{ marginBottom: '10px' }}>{value.name}</div>
-                                    <div className="current_sub_lable_value">{this.manipulateAccountNumber(value.account.accountNumber)}</div>
+                                    <div className="current_sub_lable_heading" style={{ marginBottom: '10px' }}>{value.businessName}</div>
+                                    <div className="current_sub_lable_value">{this.manipulateAccountNumber(value.accountNumber)}</div>
                                 </div>
                                 <div>
-                                    <div className="current_sub_lable_value_2">£ {this.numberWithCommas(value.account.availableBalance)}</div>
+                                    <div className="current_sub_lable_value_2">£ {this.numberWithCommas(value.balance)}</div>
                                 </div>
                             </div>
                             <div className="cardCurrent_bottomBorder"></div>
