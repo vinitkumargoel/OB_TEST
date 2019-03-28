@@ -8,6 +8,8 @@ var request = require('request');
 router.post('/mergeAccounts', function(req, res, next) {
   var token = req.headers['x-access-token'];
   var postData = req.body;
+  
+ console.log("displaying body",postData);
   jwt.verify(token, config.secret , function(err, decodedObj){
     if (err) return res.status(500).json({ auth: false, message: 'Failed to authenticate token.' });
     var userName = decodedObj.username;
