@@ -114,6 +114,38 @@ router.post('/prediction', function (req, res, next) {
 });
 
 
+router.post('/preTransaction', function (req, res, next) {
+  let token = req.headers['x-access-token'];
+  let accNoList = req.body.accountList;
+  console.log(accNoList);
+  //let businessName = req.body.businessName;
+
+  jwt.verify(token, config.secret, function (err, decodedObj) {
+     if (err) return res.status(500).json({
+       auth: false,
+     message: 'Failed to authenticate token.'
+     });
+    let userName = decodedObj.username;
+   // console.log(userName);
+    let result= preTransferResult(userName,accNoList);
+  
+    
+    result.then(function(data) {
+      
+      console.log(data) ;
+      res.send(data);
+   })
+   .catch((err)=>{
+    console.log(err);
+   })
+   
+      
+  });
+  
+});
+
+
+
 const instrResult=async(userName,accNoList)=>{
   let instrObj=await getInstruction(userName);
   // console.log(instrObj);
@@ -403,7 +435,7 @@ const instrResult=async(userName,accNoList)=>{
    };
    
 
-   const predictionResult=async(userName,accNoList,businessName)=>{
+   const preTransferResult=async(userName,accNoList)=>{
     let instrObj=await getInstruction(userName);
     // console.log(instrObj);
   
@@ -429,7 +461,9 @@ const instrResult=async(userName,accNoList)=>{
       let controlBankBeforeBalance, contraBankBeforeBalance, history, poolingAmount;
   
       //new changes
-      let data=await getcommercialAcct(userName)
+      let data=await getcommercialAcct(userName);
+
+      let preTransfer = await getBalance(data);
 
       //to get last value of ID	
       for (i = 0; i < len2; i++) {
@@ -441,9 +475,7 @@ const instrResult=async(userName,accNoList)=>{
         target = parseInt(instructionsToExecute[i].target);
         priorityId = parseInt(instructionsToExecute[i].priorityId);
         instructionId = parseInt(instructionsToExecute[i].instructionId);
-        // console.log(target);
-        // console.log(typeof target);
-              
+         
        
           //console.log(data);
           var filteredControlBusiness = data.business.filter((businesses) => {
@@ -476,8 +508,8 @@ const instrResult=async(userName,accNoList)=>{
           contraBankBalance = parseInt(filteredContraAcc[0].availableBalance);
           contraBankMinBalance = parseInt(filteredContraAcc[0].minimumBalance);
   
-          console.log(controlBankBalance,contraBankBalance,contraBankMinBalance);
-          console.log(typeof controlBankBalance);
+          // console.log(controlBankBalance,contraBankBalance,contraBankMinBalance);
+          // console.log(typeof controlBankBalance);
   
           if(controlBankBalance === target){
           
@@ -534,15 +566,157 @@ const instrResult=async(userName,accNoList)=>{
           
        };
 
-       var filteredBusiness = data.business.filter((businesses) => {
-        return businesses.name == businessName;
-     })[0];
+       var postTransfer = await getBalance(data);
 
       
-       return {"accountDetails":filteredBusiness["accounts"],"errors":errorDetails};
+       return {"preTransaction": preTransfer, "postTransaction": postTransfer,"errors":errorDetails};
      };
 
      
+
+
+     const predictionResult=async(userName,accNoList,businessName)=>{
+      let instrObj=await getInstruction(userName);
+      // console.log(instrObj);
+    
+    
+     // let len = instrObj["currentInstructions"].length;
+      let result = [];
+     // let allInstructionIDs = [];
+      instrObj = instrObj["currentInstructions"];
+      let instructionsToExecute = [];
+      let errorDetails=[];
+    
+      for(i in instrObj) {
+        for(j in instrObj[i]) {
+          if(j==="instructionId" && accNoList.includes(JSON.stringify(instrObj[i][j]))) {
+            instructionsToExecute.push(instrObj[i]);
+          }
+        }
+      }
+       
+        //console.log(instructionsToExecute);
+        let len2= instructionsToExecute.length;
+        let controlBankAccountNumber, contraBankAccountNumber, target, controlBankBalance, contraBankBalance, contraBankMinBalance;
+        let controlBankBeforeBalance, contraBankBeforeBalance, history, poolingAmount;
+    
+        //new changes
+        let data=await getcommercialAcct(userName)
+  
+        //to get last value of ID	
+        for (i = 0; i < len2; i++) {
+          controlBusinessName = instructionsToExecute[i].controlBusinessName;
+          console.log(controlBusinessName);
+          contraBusinessName = instructionsToExecute[i].contraBusinessName;
+          controlBankAccountNumber= instructionsToExecute[i].controlBankAccountNumber;
+          contraBankAccountNumber= instructionsToExecute[i].contraBankAccountNumber;
+          target = parseInt(instructionsToExecute[i].target);
+          priorityId = parseInt(instructionsToExecute[i].priorityId);
+          instructionId = parseInt(instructionsToExecute[i].instructionId);
+          // console.log(target);
+          // console.log(typeof target);
+                
+         
+            //console.log(data);
+            var filteredControlBusiness = data.business.filter((businesses) => {
+               return businesses.name == controlBusinessName;
+            })[0];
+    
+            //console.log(filteredControlBusiness);
+    
+            var filteredContraBusiness = data.business.filter((businesses) => {
+               return businesses.name == contraBusinessName;
+            })[0];
+            var restBusinessDetails = data.business.filter((businesses) => {
+               return businesses.name != contraBusinessName && businesses.name != controlBusinessName;
+            });
+    
+            var filteredControlAcc=filteredControlBusiness["accounts"].filter((acc)=>{
+              return acc.accountNumber == controlBankAccountNumber;
+            });
+    
+            var filteredContraAcc=filteredContraBusiness["accounts"].filter((acc)=>{
+              return acc.accountNumber == contraBankAccountNumber;
+            });
+    
+            
+            // console.log(filteredControlBank);
+            //console.log(filteredControlAcc);
+            // console.log(filteredContraAcc[0].balance);
+            
+            controlBankBalance = parseInt(filteredControlAcc[0].availableBalance);
+            contraBankBalance = parseInt(filteredContraAcc[0].availableBalance);
+            contraBankMinBalance = parseInt(filteredContraAcc[0].minimumBalance);
+    
+            console.log(controlBankBalance,contraBankBalance,contraBankMinBalance);
+            console.log(typeof controlBankBalance);
+    
+            if(controlBankBalance === target){
+            
+            }
+            //console.log(result);
+            if (controlBankBalance > target) {
+              contraBankBeforeBalance = contraBankBalance;
+              controlBankBeforeBalance = controlBankBalance;
+              contraBankBalance += controlBankBalance - target;
+              controlBankBalance = target;
+              //console.log(controlBankBalance,contraBankBalance);
+    
+                filteredControlAcc[0].availableBalance = controlBankBalance;
+                filteredContraAcc[0].availableBalance = contraBankBalance;
+                poolingAmount = controlBankBeforeBalance - target;
+                if(controlBusinessName == contraBusinessName)
+                  data.business = [...restBusinessDetails, filteredControlBusiness];
+                else
+                  data.business = [...restBusinessDetails, filteredControlBusiness, filteredContraBusiness];
+            
+                
+            }
+            else if(controlBankBalance < target) {
+              if((target - controlBankBalance)>contraBankBalance){
+                  errorDetails.push({"failedInstruction":instructionId,"errorMessage":"As insufficient contra account balance"});
+                  //"As insufficient contra account balance
+              }
+               else if ((contraBankBalance - (target - controlBankBalance)) >= contraBankMinBalance) {
+                 controlBankBeforeBalance = controlBankBalance;
+                 contraBankBeforeBalance = contraBankBalance;
+                 contraBankBalance = contraBankBalance-target+controlBankBalance;
+                 controlBankBalance = target;
+    
+                 //console.log(contraBankBalance+"dsffsf");
+                  //console.log(contraBankBalance,controlBankBalance);
+    
+                 // console.log(filteredControlAcc);
+    
+                 filteredControlAcc[0].availableBalance = controlBankBalance;
+                 filteredContraAcc[0].availableBalance = contraBankBalance;
+                 if(controlBusinessName == contraBusinessName)
+                  data.business = [...restBusinessDetails, filteredControlBusiness];
+                 else
+                  data.business = [...restBusinessDetails, filteredControlBusiness, filteredContraBusiness];
+                }else {
+  
+                  errorDetails.push({"failedInstruction":instructionId,"errorMessage":"As insufficient contra account minimum balance"});
+                  
+                  //"As insufficient contra account minimum balance"
+                
+            }
+          }
+    
+            
+         };
+  
+         var filteredBusiness = data.business.filter((businesses) => {
+          return businesses.name == businessName;
+       })[0];
+  
+        
+         return {"accountDetails":filteredBusiness["accounts"],"errors":errorDetails};
+       };
+  
+       
+  
+
 
    router.get('/history', function (req, res, next) {
     let token = req.headers['x-access-token'];
@@ -597,6 +771,20 @@ const instrResult=async(userName,accNoList)=>{
     });
     
   });
+
+  let getBalance=async(data)=>{
+   let businesses = data.business;
+   let blength= businesses.length;
+   let result = [];
+   for(i = 0;i<blength;i++){
+   let businessName = (businesses[i].name);
+   let balance = (businesses[i]["accounts"][0].availableBalance);
+   result.push({"businessName" : businessName, "balance" : balance});
+   }
+   console.log(result);
+   return result;
+   
+  }
 
 
 let getInstruction=async(userName)=>{
