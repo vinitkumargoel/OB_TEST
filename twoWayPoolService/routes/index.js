@@ -30,6 +30,8 @@ router.post('/populateInstruction', function (req, res) {
           controlBusinessName:instruction.controlBusinessName,
           contraBankAccountNumber: instruction.contraBankAccountNumber,
           contraBusinessName: instruction.contraBusinessName,
+          contraAccountType: instruction.contraAccountType,
+          controlAccountType: instruction.controlAccountType,
           target: instruction.target,
          	instructionType:"Target Balance",
 					executionMode:"Manual",
