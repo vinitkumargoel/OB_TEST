@@ -233,12 +233,15 @@ export default class Accordians extends React.Component {
                       <label htmlFor="instType" style={{ width: '100%' }}>Instruction Type</label>
                       <select style={{ borderRadius: '5px', width: '75%' }} id="instType" name="Instruction Type">
                         <option>Target Balance</option>
+                        <option>Percentage</option>
+                        <option>Fixed Amount</option>
                       </select>
                     </div>
                     <div style={{ width: '25%' }}>
                       <label htmlFor="execMode" style={{ width: '100%' }}>Execution Mode</label>
                       <select style={{ borderRadius: '5px', width: '75%' }} id="execMode" name="Execution Mode">
                         <option>Manual</option>
+                        <option>Auto</option>
                       </select>
                     </div>
                     <div style={{ width: '25%' }}>

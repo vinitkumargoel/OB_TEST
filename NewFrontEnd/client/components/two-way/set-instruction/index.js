@@ -306,10 +306,12 @@ export default class TwoWay extends React.Component {
     selectedBusinessInstructions[0].selected = event.target.checked
     this.setState({ allInstructionForOneBusiness: allInstructionForOneBusiness })
     this.setState({ instructionSelected: instructionSelected })
+    this.confirmationFunction();
   }
 
   execute = () => {
-    this.setState({ confirmationModalOpen: false });
+    this.setState({ confirmationModalOpen: false,predictionData:null });
+
 
     var token = sessionStorage.getItem("token");
     let query = {
@@ -466,13 +468,19 @@ export default class TwoWay extends React.Component {
             (<Accordian refresh={this.refresh} getAccordian={this.getAccordian} index={this.state.selectedBusiness}  />)}
             
             {this.state.accSumary.business !== undefined && this.state.predictionData !== null ? 
-            (
+            (<div>
+              <div><p className='My-financials'>Account Status</p></div>
+              <br/>
               <div style={{display:'flex'}}>
               <div style={{width :'40%'}}>
+              <h6><b>Current Balance</b></h6>
+              
               <Cards accounts= {this.state.accSumary.business[this.state.selectedBusiness].accounts}/>
               </div>
-              <div style={{width :'40%'}}>
+              <div style={{width :'40%',    marginLeft: '7%'}}>
+              <h6><b>Post Execution Balance</b></h6>
               <Cards accounts= {this.state.predictionData.accountDetails}/>
+              </div>
               </div>
               </div>
             ):
@@ -558,7 +566,7 @@ export default class TwoWay extends React.Component {
     let data = this.executeInstructions();
     let token = sessionStorage.getItem("token");
 
-    if (data.accountList && data.accountList.length > 0) {
+    if (data.accountList && data.accountList.length >= 0) {
       this.setState({ accountListData: data });
 
       let instructionData = {
@@ -577,7 +585,7 @@ export default class TwoWay extends React.Component {
         }
         console.log("predicted change",data)
       });
-    } else alert('Please Select an Instruction');
+    }
   }
 
   handleConfirmationModalClose = () => {
