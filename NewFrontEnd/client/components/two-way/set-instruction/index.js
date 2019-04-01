@@ -178,7 +178,7 @@ export default class TwoWay extends React.Component {
     let selectedInstr = updatedInstructionSelected.filter((value) => value.instructionId === id);
     selectedInstr[0].selected = event.target.checked
     this.setState({ instructionSelected: updatedInstructionSelected })
-    this.confirmationFunction()
+    // this.confirmationFunction()
     console.log(selectedInstr, id);
 
   }
@@ -556,27 +556,28 @@ export default class TwoWay extends React.Component {
 
   confirmationFunction = () => {
     let data = this.executeInstructions();
-    let token = sessionStorage.getItem("token");
+    // let token = sessionStorage.getItem("token");
 
     if (data.accountList && data.accountList.length > 0) {
-      this.setState({ accountListData: data });
+      // this.setState({ accountListData: data });
+      this.execute(data);
 
-      let instructionData = {
-        accountList: data.accountList,
-        businessName: this.state.accSumary.business[this.state.selectedBusiness].name
-      };
+      // let instructionData = {
+      //   accountList: data.accountList,
+      //   businessName: this.state.accSumary.business[this.state.selectedBusiness].name
+      // };
 
-      let someData = {
-        token: token,
-        data: instructionData
-      };
+      // let someData = {
+      //   token: token,
+      //   data: instructionData
+      // };
 
-      Services.prediction(someData, (data) => {
-        if (data.accountDetails) {
-          this.setState({ predictionData: data, });
-        }
-        console.log("predicted change",data)
-      });
+      // Services.prediction(someData, (data) => {
+      //   if (data.accountDetails) {
+      //     this.setState({ predictionData: data, });
+      //   }
+      //   console.log("predicted change",data)
+      // });
 
     } else alert('Please Select an Instruction');
   }
