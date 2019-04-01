@@ -10,6 +10,7 @@ import History from '../../history/index';
 import Accordian from '../../accordians/index';
 import images from '../../accountDetails/config';
 import ConfirmationModal from '../confirmationModal/index';
+import Cards from '../../cards'
 
 
 export default class TwoWay extends React.Component {
@@ -42,7 +43,7 @@ export default class TwoWay extends React.Component {
       showAccordians: false,
       allInstructionForOneBusiness: [],
       accountListData: {},
-      predictionData: {}
+      predictionData: null
     }
   }
   componentDidMount() {
@@ -177,6 +178,7 @@ export default class TwoWay extends React.Component {
     let selectedInstr = updatedInstructionSelected.filter((value) => value.instructionId === id);
     selectedInstr[0].selected = event.target.checked
     this.setState({ instructionSelected: updatedInstructionSelected })
+    this.confirmationFunction()
     console.log(selectedInstr, id);
 
   }
@@ -354,7 +356,8 @@ export default class TwoWay extends React.Component {
   }
 
   getAccordian = () => {
-    this.setState({ showAccordians: !this.state.showAccordians })
+      this.setState({ showAccordians: !this.state.showAccordians })
+
   }
 
   getButtons = () => {
@@ -422,7 +425,7 @@ export default class TwoWay extends React.Component {
     else {
       return (
         <div>
-          {!this.state.showAccordians && this.state.accSumary.business !== undefined ? (
+          {!this.state.showAccordians  && this.state.accSumary.business !== undefined ? (
             <div>
               {/* <div><img style={{ cursor: 'pointer' }} src='../../../../images/addInstruction/add_new_btn.png' onClick={this.getAccordian} /></div> */}
               <div className="accordion" id="accordionExample">
@@ -460,7 +463,21 @@ export default class TwoWay extends React.Component {
               <button className="greenBtn addNewInstBtn" onClick={this.getAccordian}>
                 <span>ADD NEW INSTRUCTIONS</span>
               </button>      </div>) :
-            (<Accordian refresh={this.refresh} getAccordian={this.getAccordian} index={this.state.selectedBusiness} />)}
+            (<Accordian refresh={this.refresh} getAccordian={this.getAccordian} index={this.state.selectedBusiness}  />)}
+            
+            {this.state.accSumary.business !== undefined && this.state.predictionData !== null ? 
+            (
+              <div style={{display:'flex'}}>
+              <div style={{width :'40%'}}>
+              <Cards accounts= {this.state.accSumary.business[this.state.selectedBusiness].accounts}/>
+              </div>
+              <div style={{width :'40%'}}>
+              <Cards accounts= {this.state.predictionData.accountDetails}/>
+              </div>
+              </div>
+            ):
+            (null)}
+
           {this.state.accSumary.business !== undefined && this.state.selectedBusiness !== null ?
             (<React.Fragment>
               <div>
@@ -490,8 +507,8 @@ export default class TwoWay extends React.Component {
                         <td>
                           <input onChange={this.changeInstructionSelection.bind(this, instruction.instructionId)} type="checkbox" checked={this.selectedInstruction(instruction.instructionId)} />
                         </td>
-                        <td>{this.manipulateAccountNumber(instruction.controlBankAccountNumber)}</td>
-                        <td>{this.manipulateAccountNumber(instruction.contraBankAccountNumber)}</td>
+                    <td>{this.manipulateAccountNumber(instruction.controlBankAccountNumber)}({instruction.controlAccountType}) </td>
+                        <td>{this.manipulateAccountNumber(instruction.contraBankAccountNumber)}({instruction.contraAccountType})</td>
                         <td>{instruction.instructionType}</td>
                         <td>{instruction.target}</td>
                         <td>{instruction.priorityId}</td>
@@ -523,7 +540,7 @@ export default class TwoWay extends React.Component {
             handleExectuteMore={this.handleExecuteMoreEvent}
           ></InstructionModal>
 
-          {this.renderConfirmationModal()}
+          {/* {this.renderConfirmationModal()} */}
         </div>
       )
     }
@@ -556,8 +573,9 @@ export default class TwoWay extends React.Component {
 
       Services.prediction(someData, (data) => {
         if (data.accountDetails) {
-          this.setState({ predictionData: data, confirmationModalOpen: true });
+          this.setState({ predictionData: data, });
         }
+        console.log("predicted change",data)
       });
 
     } else alert('Please Select an Instruction');

@@ -7,8 +7,10 @@
 					{
 						"instructionId": 100000,
 						"controlBankAccountNumber":"77953466666617",
+						"controlAccountType":"PAY",
 						"controlBusinessName":"CAFE WILSON",
 						"contraBankAccountNumber":"77953466666618",
+						"contraAccountType":"REC",
 						"contraBusinessName":"CAFE WILSON",
 						"target":"0",
 						"instructionType":"Target Balance",
@@ -22,7 +24,9 @@
 					{
 						"instructionId": 100001,
 						"controlBankAccountNumber":"77953466666618",
+						"controlAccountType":"REC",
 						"contraBankAccountNumber":"77953466666616",
+						"contraAccountType":"CC",
 						"controlBusinessName":"CAFE WILSON",
 						"contraBusinessName":"CAFE WILSON",
 						"target":"0",
@@ -38,7 +42,9 @@
 					{
 						"instructionId": 100002,
 						"controlBankAccountNumber":"77953466666616",
+						"controlAccountType":"CC",
 						"contraBankAccountNumber":"77953466666615",
+						"contraAccountType":"SB",
 						"controlBusinessName":"CAFE WILSON",
 						"contraBusinessName":"CAFE WILSON",
 						"target":"0",
@@ -53,7 +59,9 @@
 					{
 						"instructionId": 100003,
 						"controlBankAccountNumber":"77953377777717",
+						"controlAccountType":"PAY",
 						"contraBankAccountNumber":"77953377777718",
+						"contraAccountType":"REC",
 						"controlBusinessName":"SPOTLESS CLEAN CO.",
 						"contraBusinessName":"SPOTLESS CLEAN CO.",
 						"target":"0",
@@ -68,7 +76,9 @@
 					{
 						"instructionId": 100004,
 						"controlBankAccountNumber":"77953377777718",
+						"controlAccountType":"REC",
 						"contraBankAccountNumber":"77953377777716",
+						"contraAccountType":"CC",
 						"controlBusinessName":"SPOTLESS CLEAN CO.",
 						"contraBusinessName":"SPOTLESS CLEAN CO.",
 						"target":"0",
@@ -84,7 +94,9 @@
 					{
 						"instructionId": 100005,
 						"controlBankAccountNumber":"77953377777716",
+						"controlAccountType":"CC",
 						"contraBankAccountNumber":"77953377777715",
+						"contraAccountType":"SB",
 						"controlBusinessName":"SPOTLESS CLEAN CO.",
 						"contraBusinessName":"SPOTLESS CLEAN CO.",
 						"target":"0",
@@ -99,7 +111,9 @@
 					{
 						"instructionId": 100006,
 						"controlBankAccountNumber":"77953188888817",
+						"controlAccountType":"PAY",
 						"contraBankAccountNumber":"77953188888818",
+						"contraAccountType":"REC",
 						"controlBusinessName":"SECURITY SOLUTIONS LTD.",
 						"contraBusinessName":"SECURITY SOLUTIONS LTD.",
 						"target":"0",
@@ -115,7 +129,9 @@
 					{
 						"instructionId": 100007,
 						"controlBankAccountNumber":"77953188888818",
+						"controlAccountType":"REC",
 						"contraBankAccountNumber":"77953188888816",
+						"contraAccountType":"CC",
 						"controlBusinessName":"SECURITY SOLUTIONS LTD.",
 						"contraBusinessName":"SECURITY SOLUTIONS LTD.",
 						"target":"0",
@@ -130,7 +146,9 @@
 					{
 						"instructionId": 100008,
 						"controlBankAccountNumber":"77953188888816",
+						"controlAccountType":"CC",
 						"contraBankAccountNumber":"77953188888815",
+						"contraAccountType":"SB",
 						"controlBusinessName":"SECURITY SOLUTIONS LTD.",
 						"contraBusinessName":"SECURITY SOLUTIONS LTD.",
 						"target":"0",
@@ -145,7 +163,9 @@
 					{
 						"instructionId": 100009,
 						"controlBankAccountNumber":"77953188888815",
+						"controlAccountType":"SB",
 						"contraBankAccountNumber":"77953377777715",
+						"contraAccountType":"SB",
 						"controlBusinessName":"SECURITY SOLUTIONS LTD.",
 						"contraBusinessName":"SPOTLESS CLEAN CO.",
 						"target":"0",
