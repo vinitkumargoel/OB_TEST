@@ -426,9 +426,10 @@ export default class TwoWay extends React.Component {
                     <th>
                       <input onChange={this.selectAllInstructionsHandler} type="checkbox" />
                     </th>
+                    <th>Instruction ID</th>
                     <th>Control A/C</th>
                     <th>Contra A/C </th>
-                    <th>Instruction type</th>
+                    <th>Type</th>
                     <th>Value </th>
                     <th>Priority</th>
                     <th>Execution mode</th>
@@ -443,6 +444,7 @@ export default class TwoWay extends React.Component {
                       <td>
                         <input onChange={this.changeInstructionSelection.bind(this, instruction.instructionId)} type="checkbox" checked={this.selectedInstruction(instruction.instructionId)} />
                       </td>
+                      <td>{instruction.instructionId}</td>
                       <td>{this.manipulateAccountNumber(instruction.controlBankAccountNumber)}</td>
                       <td>{this.manipulateAccountNumber(instruction.contraBankAccountNumber)}</td>
                       <td>{instruction.instructionType}</td>

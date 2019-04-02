@@ -395,7 +395,7 @@ body {
   }
 
   .currentInstruction th, .currentInstruction td {
-      padding: 10px !important;
+      /* padding: 10px !important; */
       font-size: 13px !important;
   }
 
@@ -451,7 +451,7 @@ body {
   }
 
   .addNewInstBtn {
-    margin: 1.5% 0;
+    margin-left: 77.5% !important ;
   }
 
   .company-card-button{

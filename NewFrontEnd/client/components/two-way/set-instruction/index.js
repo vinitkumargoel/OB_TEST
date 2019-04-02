@@ -499,10 +499,10 @@ export default class TwoWay extends React.Component {
                       <th>
                         <input onChange={this.selectAllInstructionsHandler} type="checkbox" checked={this.selectAllForOneBusinessCheck(this.state.accSumary.business[this.state.selectedBusiness].name)} />
                       </th>
-                      
+                      <th>Instruction ID</th>
                       <th>Control A/C</th>
                       <th>Contra A/C </th>
-                      <th>Instruction type</th>
+                      <th>Type</th>
                       <th>Value </th>
                       <th>Priority</th>
                       <th>Execution mode</th>
@@ -517,9 +517,9 @@ export default class TwoWay extends React.Component {
                         <td>
                           <input onChange={this.changeInstructionSelection.bind(this, instruction.instructionId)} type="checkbox" checked={this.selectedInstruction(instruction.instructionId)} />
                         </td>
-                        
-                        <td>{this.manipulateAccountNumber(instruction.controlBankAccountNumber)}({instruction.controlAccountType}) </td>
-                        <td>{this.manipulateAccountNumber(instruction.contraBankAccountNumber)}({instruction.contraAccountType})</td>
+                        <td>{instruction.instructionId}</td>
+                        <td colSpan="3">{this.manipulateAccountNumber(instruction.controlBankAccountNumber)}({instruction.controlAccountType}) </td>
+                        <td colSpan="3">{this.manipulateAccountNumber(instruction.contraBankAccountNumber)}({instruction.contraAccountType})</td>
                         <td>{instruction.instructionType}</td>
                         <td>{instruction.target}</td>
                         <td>{instruction.priorityId}</td>
@@ -569,7 +569,7 @@ export default class TwoWay extends React.Component {
     let data = this.executeInstructions();
     let token = sessionStorage.getItem("token");
 
-    if (data.accountList && data.accountList.length >= 0) {
+    if (data.accountList && data.accountList.length > 0) {
       this.setState({ accountListData: data });
 
       let instructionData = {
@@ -586,8 +586,11 @@ export default class TwoWay extends React.Component {
         if (data.accountDetails) {
           this.setState({ predictionData: data, });
         }
-        console.log("predicted change",data)
+        
       });
+    }
+    else {
+      this.setState({predictionData: null});
     }
   }
 

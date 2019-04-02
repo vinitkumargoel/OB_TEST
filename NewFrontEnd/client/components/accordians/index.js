@@ -128,10 +128,11 @@ export default class Accordians extends React.Component {
     this.setState({execFrequency: e.target.value});
   }
   renderWeeklyList = () => {
-    const WeeklyList = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
+    const WeeklyList = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday',
+      'Saturday', 'Sunday'];
     return (
       <div style={{ width: '25%' }}>
-          <label htmlFor="instType" style={{ width: '100%' }}>Frequency</label>
+          <label htmlFor="instType" style={{ width: '100%' }}>Day</label>
           <select style={{ borderRadius: '5px', width: '75%' }} id="WeeklyDay" name="Day">
             {WeeklyList.map((day) => {
               return <option key={day}>{day}</option>
@@ -180,7 +181,7 @@ export default class Accordians extends React.Component {
 
   //Reset Button. To be handled properly
   handleReset = () => {
-    window.location.reload();
+    this.props.getAccordian()
   }
 
   render() {

@@ -165,7 +165,8 @@ export default class Accordians extends React.Component {
     this.setState({execFrequency: e.target.value});
   }
   renderWeeklyList = () => {
-    const WeeklyList = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
+    const WeeklyList = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday',
+      'Saturday', 'Sunday'];
     return (
       <div style={{ width: '25%' }}>
           <label htmlFor="instType" style={{ width: '100%' }}>Frequency</label>
@@ -328,6 +329,8 @@ export default class Accordians extends React.Component {
                       <label htmlFor="instType" style={{ width: '100%' }}>Instruction Type</label>
                       <select style={{ borderRadius: '5px', width: '75%' }} id="instType" name="Instruction Type">
                         <option>Target Balance</option>
+                        <option>Percentage</option>
+                        <option>Fixed Amount</option>
                       </select>
                     </div>
                     <div style={{ width: '25%' }}>
