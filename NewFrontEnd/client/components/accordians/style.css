@@ -148,3 +148,15 @@
   color: black !important;
   float: right;
 }
+
+.stepsListing {
+  float: right;
+  opacity: 0.7;
+  color: gray;
+}
+
+.monthDate {
+  border-radius: 5px;
+  width: 75%;
+  height: 58% !important;
+}

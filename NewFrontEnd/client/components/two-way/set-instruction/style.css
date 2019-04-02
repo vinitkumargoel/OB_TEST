@@ -14,6 +14,10 @@
   border-radius: 3px;
   background-color: #66980c;
 }
+body {
+  transition-delay: 0.5s;
+  -webkit-transition-delay: 0.5s
+}
 .optimizingsModal{
   width: 1200px!important;
   height: 367px;
@@ -39,6 +43,7 @@
     color: #000000;
     margin-bottom: 10px;
   }
+
   .closeIcon{
     margin-left: 858px;
     padding-top: 35px;

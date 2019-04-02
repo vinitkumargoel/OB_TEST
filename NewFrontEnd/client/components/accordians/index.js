@@ -14,15 +14,14 @@ export default class Accordians extends React.Component {
       selectedBusiness: this.props.index,
       selectedControlAccount: null,
       selectedContraAccount: null,
-      target: 0
+      target: 0,
+      execMode: null,
+      execFrequency: null
     }
   }
   componentWillMount() {
     var token = sessionStorage.getItem("token");
-    console.log(token);
     Services.commercialDebitCall(token, function (data) {
-      console.log(token);
-      console.log(data);
       this.setState({ accSumary: data });
     }.bind(this));
   }
@@ -93,6 +92,11 @@ export default class Accordians extends React.Component {
     for(let i of contraAccounts) {
       i.style.pointerEvents = 'none';
     }
+    let finalAccordion = document.getElementById('collapseThree');
+    let currentAccordion = document.getElementById('collapseTwo');
+    currentAccordion.className = 'collapse';
+    finalAccordion.className = 'collapse show';
+     
   }
 
   closeModal = () => {
@@ -116,6 +120,69 @@ export default class Accordians extends React.Component {
     return number;
   }
 
+  handleExecMode = (e) => {
+    this.setState({execMode: e.target.value})
+  }
+
+  handleFrequencyChange = (e) => {
+    this.setState({execFrequency: e.target.value});
+  }
+  renderWeeklyList = () => {
+    const WeeklyList = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
+    return (
+      <div style={{ width: '25%' }}>
+          <label htmlFor="instType" style={{ width: '100%' }}>Frequency</label>
+          <select style={{ borderRadius: '5px', width: '75%' }} id="WeeklyDay" name="Day">
+            {WeeklyList.map((day) => {
+              return <option key={day}>{day}</option>
+            })}
+          </select>
+        </div>
+    )
+  }
+  renderMonthlyList = () => {
+    return (
+      <div style={{ width: '25%' }}>
+        <label htmlFor="instType" style={{ width: '100%' }}>Day</label>
+        <input type="date" className="monthDate" id="Day" name="Day"/>
+      </div>
+    )
+  }
+
+  renderExtraDropDown = () => {
+    return (
+      <div>
+      <div style={{ display: 'flex', flexWrap: 'wrap', marginBottom: '4%' }}>
+        <div style={{ width: '25%' }}>
+          <label htmlFor="instType" style={{ width: '100%' }}>Frequency</label>
+          <select style={{ borderRadius: '5px', width: '75%' }} id="instType" name="Frequency" onChange={(e) => this.handleFrequencyChange(e)}>
+            <option>Daily</option>
+            <option>Weekly</option>
+            <option>Monthly</option>
+          </select>
+        </div>
+        <div style={{ width: '25%' }}>
+          <label htmlFor="instType" style={{ width: '100%' }}>Time</label>
+          <select style={{ borderRadius: '5px', width: '75%' }} id="instType" name="Time">
+            <option>E.O.D</option>
+            <option>B.O.D</option>
+          </select>
+        </div>
+        {this.state.execFrequency === 'Weekly' ?
+          this.renderWeeklyList() : this.state.execFrequency === 'Monthly' ?
+          this.renderMonthlyList() : <div></div>}
+      </div>
+      <hr />
+      </div>
+    )
+    
+  }
+
+  //Reset Button. To be handled properly
+  handleReset = () => {
+    window.location.reload();
+  }
+
   render() {
     if (this.state.accSumary) {
       return (
@@ -123,16 +190,14 @@ export default class Accordians extends React.Component {
           <div style={{ margin: '1.5% 0' }}>
             <p className='My-financials'>Add new instruction for {this.state.accSumary.business[this.props.index].name}</p>
           </div>
-         
-            
 
-          
           <div className="accordion" id="accordionExample">
             <div className="card accordianCard">
               <div className="cardHeader" id="headingTwo" data-toggle="collapse" data-target="#collapseTwo">
                 <div style={{ width: '100%', color: '#00864f' }}>
                   <span><b>ASSIGN ACCOUNTS</b></span>
                   <span style={{ float: 'right' }}><i className='fa fa-angle-down'></i></span>
+                  <span className="stepsListing">Step 1 of 2 &nbsp; &nbsp;</span>
                 </div>
               </div>
               <div id="collapseTwo" className="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
@@ -220,6 +285,7 @@ export default class Accordians extends React.Component {
                 <div style={{ width: '100%', color: '#00864f' }}>
                   <span><b>SET VALUES AND INSTRUCTION</b></span>
                   <span style={{ float: 'right' }}><i className='fa fa-angle-down'></i></span>
+                  <span className="stepsListing">Step 2 of 2 &nbsp; &nbsp;</span>
                 </div>
               </div>
               <div id="collapseThree" className="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
@@ -231,7 +297,7 @@ export default class Accordians extends React.Component {
                     </div>
                     <div style={{ width: '25%' }}>
                       <label htmlFor="instType" style={{ width: '100%' }}>Instruction Type</label>
-                      <select style={{ borderRadius: '5px', width: '75%' }} id="instType" name="Instruction Type">
+                      <select style={{ borderRadius: '5px', width: '75%' }} id="instType" name="Instruction Type" onChange={(e) => this.handleExecMode(e)}>
                         <option>Target Balance</option>
                         <option>Percentage</option>
                         <option>Fixed Amount</option>
@@ -239,7 +305,7 @@ export default class Accordians extends React.Component {
                     </div>
                     <div style={{ width: '25%' }}>
                       <label htmlFor="execMode" style={{ width: '100%' }}>Execution Mode</label>
-                      <select style={{ borderRadius: '5px', width: '75%' }} id="execMode" name="Execution Mode">
+                      <select onChange={(e) => this.handleExecMode(e)} style={{ borderRadius: '5px', width: '75%' }} id="execMode" name="Execution Mode">
                         <option>Manual</option>
                         <option>Auto</option>
                       </select>
@@ -252,12 +318,13 @@ export default class Accordians extends React.Component {
                     </div>
                   </div>
                   <hr />
+                  {this.state.execMode === 'Auto' ? this.renderExtraDropDown() : <div></div>}
                   <div style={{ display: 'flex', flexWrap: 'wrap' }}>
                     <div style={{ width: '100%' }}>
                       <button className="greenBtn addInst_addBtn" onClick={this.handleAddInstr}>
                         <span>ADD</span>
                       </button>
-                      <button className="greenBtn addInst_resetBtn">
+                      <button className="greenBtn addInst_resetBtn" onClick={this.handleReset}>
                         <span>RESET</span>
                       </button>
                     </div>

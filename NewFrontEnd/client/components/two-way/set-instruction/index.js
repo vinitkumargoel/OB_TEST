@@ -436,6 +436,7 @@ export default class TwoWay extends React.Component {
                     <div style={{ width: '100%', color: '#00864f' }}>
                       <span><b>CHOOSE BUSINESS</b></span>
                       <span style={{ float: 'right' }}><i className='fa fa-angle-down'></i></span>
+                      
                     </div>
                   </div>
                   <div id="collapseOne" className="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
@@ -498,6 +499,7 @@ export default class TwoWay extends React.Component {
                       <th>
                         <input onChange={this.selectAllInstructionsHandler} type="checkbox" checked={this.selectAllForOneBusinessCheck(this.state.accSumary.business[this.state.selectedBusiness].name)} />
                       </th>
+                      
                       <th>Control A/C</th>
                       <th>Contra A/C </th>
                       <th>Instruction type</th>
@@ -515,7 +517,8 @@ export default class TwoWay extends React.Component {
                         <td>
                           <input onChange={this.changeInstructionSelection.bind(this, instruction.instructionId)} type="checkbox" checked={this.selectedInstruction(instruction.instructionId)} />
                         </td>
-                    <td>{this.manipulateAccountNumber(instruction.controlBankAccountNumber)}({instruction.controlAccountType}) </td>
+                        
+                        <td>{this.manipulateAccountNumber(instruction.controlBankAccountNumber)}({instruction.controlAccountType}) </td>
                         <td>{this.manipulateAccountNumber(instruction.contraBankAccountNumber)}({instruction.contraAccountType})</td>
                         <td>{instruction.instructionType}</td>
                         <td>{instruction.target}</td>
