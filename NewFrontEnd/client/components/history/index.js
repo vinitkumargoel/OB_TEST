@@ -6,11 +6,12 @@ import moment from 'moment';
 import './style.css';
 
 class History extends Component {
-    constructor(props)
-    {
+    constructor(props) {
         super(props)
-        this.state={
-            instructionArray: []
+        this.state = {
+            modelOpen: false,
+            instructionArray: [],
+            selectedInstruction: {}
         }
     }
 
@@ -18,13 +19,12 @@ class History extends Component {
         var token = sessionStorage.getItem("token");
 
         Services.history(token, function (data) {
-            let instructionArray=[]
-            if(this.props.type==="intra")
-            {
-                instructionArray = data.filter(instruction=>instruction.controlBusinessName===instruction.contraBusinessName)
+            let instructionArray = []
+            if (this.props.type === "intra") {
+                instructionArray = data.filter(instruction => instruction.controlBusinessName === instruction.contraBusinessName)
             }
-            else{
-                instructionArray = data.filter(instruction=>instruction.controlBusinessName!==instruction.contraBusinessName)
+            else {
+                instructionArray = data.filter(instruction => instruction.controlBusinessName !== instruction.contraBusinessName)
             }
             this.setState({ instructionArray: instructionArray });
             console.log(data)
@@ -41,15 +41,15 @@ class History extends Component {
     handleViewInstModalOpen = (exeID) => {
         const instructionArray = [...this.state.instructionArray];
         const index = instructionArray.findIndex(inst => inst.executionId === exeID);
-        instructionArray[index].viewInstModalOpen = true;
-        this.setState({ instructionArray });
+        // instructionArray[index].viewInstModalOpen = true;
+        this.setState({ selectedInstruction: instructionArray[index], modelOpen: true });
     };
 
     handleViewInstModalClose = (exeID) => {
         const instructionArray = [...this.state.instructionArray];
         const index = instructionArray.findIndex(inst => inst.executionId === exeID);
-        instructionArray[index].viewInstModalOpen = false;
-        this.setState({ instructionArray });
+        // instructionArray[index].viewInstModalOpen = false;
+        this.setState({ selectedInstruction: instructionArray[index], modelOpen: false });
     }
 
     checkStatus = (instruction) => {
@@ -83,8 +83,6 @@ class History extends Component {
                     <table className="ui stripped table">
                         <thead>
                             <tr className="history">
-                                <th>Instruction ID</th>
-                                <th>Execution ID</th>
                                 <th>Control Account</th>
                                 <th>Balance <div>(Before Execution)</div></th>
                                 <th>Balance <div>(After Execution)</div></th>
@@ -94,14 +92,11 @@ class History extends Component {
                                 <th>Executed Date</th>
                                 <th>Executed Time</th>
                                 <th>Status</th>
-                                <th>Details</th>
                             </tr>
                         </thead>
                         <tbody>
                             {this.state.instructionArray.map(instruction =>
-                                <tr key={instruction.executionId} className="history">
-                                    <td>{instruction.instructionId}</td>
-                                    <td>{instruction.executionId}</td>
+                                <tr key={instruction.executionId} className="history" onClick={() => this.handleViewInstModalOpen(instruction.executionId)}>
                                     <td>{this.manipulateAccountNumber(instruction.controlAccount.controlAccountNumber)}</td>
                                     <td>&#163; {instruction.controlAccount.balanceBeforeExecution}</td>
                                     <td>&#163; {instruction.controlAccount.balanceAfterExecution}</td>
@@ -111,15 +106,14 @@ class History extends Component {
                                     <td>{moment(instruction.executionDateTime).format("DD/MM/YYYY")}</td>
                                     <td>{moment(instruction.executionDateTime).format('LT')}</td>
                                     <td>{this.checkStatus(instruction)}</td>
-                                    <td><ViewInstructionModal instructionData={instruction} tag={<Icon name='eye' className="eyeIcon" />}
-                                        open={instruction.viewInstModalOpen} onOpen={this.handleViewInstModalOpen} onClose={this.handleViewInstModalClose}></ViewInstructionModal></td>
                                 </tr>
                             )}
                         </tbody>
                     </table>
-                    {/* <div className="pagginator">
-                        {this.pagginator()}
-                    </div> */}
+
+                    {this.state.modelOpen ? <ViewInstructionModal instructionData={this.state.selectedInstruction}
+                        open={this.state.modelOpen} onOpen={this.handleViewInstModalOpen}
+                        onClose={this.handleViewInstModalClose}></ViewInstructionModal> : null}
                 </div>
             </React.Fragment >
         );
