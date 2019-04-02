@@ -12,9 +12,11 @@ export default class Accordians extends React.Component {
       showModal: false,
       accSumary: null,
       businessSavingsAccounts:[],
-      selectedBusiness:{first:0,second:1},
+      selectedBusiness:{first:null,second:null},
       selectedControlAccount: null,
       selectedContraAccount: null,
+      execMode: null,
+      execFrequency: null,
       target: 0
     }
   }
@@ -73,7 +75,10 @@ export default class Accordians extends React.Component {
       this.setState({ showModal: true });
     }.bind(this))
   }
-
+  handleResetInstr=()=>
+  {
+    this.props.getAccordian()
+  }
   handleTarget = (e) => {
     this.setState({ target: e.target.value });
   }
@@ -88,6 +93,8 @@ export default class Accordians extends React.Component {
     Object.assign(selectedBusiness,this.state.selectedBusiness)
     selectedBusiness.first = index
     this.setState({selectedBusiness:selectedBusiness})
+    let controlBox = document.getElementById('controlBox');
+    controlBox.style.pointerEvents='none';
     let controlAccount = document.getElementsByClassName('accountCard1')[index];
     controlAccount.style.background = '#00864f';
     let pTags = controlAccount.getElementsByTagName('p');
@@ -102,9 +109,10 @@ export default class Accordians extends React.Component {
         contraAccount[i].style.display = 'block';
       }
     }
-    if (contraAccount[index]) {
+ 
       contraAccount[index].style.opacity = 0.5;
-    }
+      contraAccount[index].style.pointerEvents='none';
+    
   }
 
   handleContraAccount = (index) => {
@@ -120,6 +128,14 @@ export default class Accordians extends React.Component {
         pTags[i].style.color = 'white';
       }
     }
+    let contraAccounts = document.getElementsByClassName('accountCard2');
+    for(let i of contraAccounts) {
+      i.style.pointerEvents = 'none';
+    }
+    let finalAccordion = document.getElementById('collapseThree');
+    let currentAccordion = document.getElementById('collapseTwo');
+    currentAccordion.className = 'collapse';
+    finalAccordion.className = 'collapse show';
   }
 
   closeModal = () => {
@@ -142,7 +158,61 @@ export default class Accordians extends React.Component {
 
     return number;
   }
-
+  handleExecMode = (e) => {
+    this.setState({execMode: e.target.value})
+  }
+  handleFrequencyChange = (e) => {
+    this.setState({execFrequency: e.target.value});
+  }
+  renderWeeklyList = () => {
+    const WeeklyList = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
+    return (
+      <div style={{ width: '25%' }}>
+          <label htmlFor="instType" style={{ width: '100%' }}>Frequency</label>
+          <select style={{ borderRadius: '5px', width: '75%' }} id="WeeklyDay" name="Day">
+            {WeeklyList.map((day) => {
+              return <option key={day}>{day}</option>
+            })}
+          </select>
+        </div>
+    )
+  }
+  renderMonthlyList = () => {
+    return (
+      <div style={{ width: '25%' }}>
+        <label htmlFor="instType" style={{ width: '100%' }}>Day</label>
+        <input type="date" className="monthDate" id="Day" name="Day"/>
+      </div>
+    )
+  }
+  renderExtraDropDown = () => {
+    return (
+      <div>
+      <div style={{ display: 'flex', flexWrap: 'wrap', marginBottom: '4%' }}>
+        <div style={{ width: '25%' }}>
+          <label htmlFor="instType" style={{ width: '100%' }}>Frequency</label>
+          <select style={{ borderRadius: '5px', width: '75%' }} id="instType" name="Frequency" onChange={(e) => this.handleFrequencyChange(e)}>
+            <option>Daily</option>
+            <option>Weekly</option>
+            <option>Monthly</option>
+          </select>
+        </div>
+        <div style={{ width: '25%' }}>
+          <label htmlFor="instType" style={{ width: '100%' }}>Time</label>
+          <select style={{ borderRadius: '5px', width: '75%' }} id="instType" name="Time">
+            <option>E.O.D</option>
+            <option>B.O.D</option>
+          </select>
+        </div>
+        {this.state.execFrequency === 'Weekly' ?
+          this.renderWeeklyList() : this.state.execFrequency === 'Monthly' ?
+          this.renderMonthlyList() : <div></div>}
+      </div>
+      <hr />
+      </div>
+    )
+    
+  }
   render() {
     if (this.state.accSumary) {
       return (
@@ -156,12 +226,13 @@ export default class Accordians extends React.Component {
                 <div style={{ width: '100%', color: '#00864f' }}>
                   <span><b>ASSIGN ACCOUNTS</b></span>
                   <span style={{ float: 'right' }}><i className='fa fa-angle-down'></i></span>
+                  <span className="stepsListing">Step 1 of 2 &nbsp; &nbsp;</span>
                 </div>
               </div>
               <div id="collapseTwo" className="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
                 <div className="card-body" style={{ padding: '0 2% 3% 2%' }}>
                   <div className="secondAccordionMain">
-                    <div style={{ width: '50%', display: 'flex', flexWrap: 'wrap' }}>
+                    <div id="controlBox" style={{ width: '50%', display: 'flex', flexWrap: 'wrap' }}>
                       <h6 style={{ width: '50%', margin: '15px', fontWeight: 'bold' }}>Select Control Account</h6>
                       <input type="checkbox" style={{ marginTop: '15px' }} disabled id="controlCheckbox" />
                       <label htmlFor="controlCheckbox" style={{ margin: '10px', fontWeight: 'lighter' }}>
@@ -209,11 +280,41 @@ export default class Accordians extends React.Component {
                 </div>
               </div>
             </div>
+            {(this.state.selectedBusiness.first !==null && this.state.selectedBusiness.second !==null) ?
+              (
+                <div style={{ width: '100%', display: 'flex',marginBottom:'2%'}}>
+                          <div className="card accountCard1" style={{width:'40%',background:'#00864f',marginRight:'11%'}}>
+                            <div className="card-body secondAccordionMain">
+                              <div style={{ width: '50%' }}>
+                                <p className="accountName" style={{ marginBottom: '5px',color:'white' }}>{this.state.businessSavingsAccounts[this.state.selectedBusiness.first].business}</p>
+                                <p style={{ fontSize: '20px',color:'white' }}>{this.state.businessSavingsAccounts[this.state.selectedBusiness.first].accountNumber}</p>
+                              </div>
+                              <div style={{ width: '50%' }}>
+                                <p className="availableBalanceDisplay">₤ {this.state.businessSavingsAccounts[this.state.selectedBusiness.first].availableBalance}</p>
+                              </div>
+                            </div>
+                          </div>
+
+                          <div className="card accountCard1" style={{width:'40%',background:'rgb(102,152,12)',marginRight:'2%'}}>
+                            <div className="card-body secondAccordionMain">
+                              <div style={{ width: '50%' }}>
+                                <p className="accountName" style={{ marginBottom: '5px',color:'white' }}>{this.state.businessSavingsAccounts[this.state.selectedBusiness.second].business}</p>
+                                <p style={{ fontSize: '20px' ,color:'white'}}>{this.manipulateAccountNumber(this.state.businessSavingsAccounts[this.state.selectedBusiness.second].accountNumber)}</p>
+                              </div>
+                              <div style={{ width: '50%' }}>
+                                <p className="availableBalanceDisplay">₤ {this.numberWithCommas(this.state.businessSavingsAccounts[this.state.selectedBusiness.second].availableBalance)}</p>
+                              </div>
+                            </div>
+                          </div>
+                    </div>
+ 
+              ):(null)}
             <div className="card accordianCard">
               <div className="cardHeader" id="headingThree" data-toggle="collapse" data-target="#collapseThree">
                 <div style={{ width: '100%', color: '#00864f' }}>
                   <span><b>SET VALUES AND INSTRUCTION</b></span>
                   <span style={{ float: 'right' }}><i className='fa fa-angle-down'></i></span>
+                  <span className="stepsListing">Step 2 of 2 &nbsp; &nbsp;</span>
                 </div>
               </div>
               <div id="collapseThree" className="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
@@ -231,8 +332,9 @@ export default class Accordians extends React.Component {
                     </div>
                     <div style={{ width: '25%' }}>
                       <label htmlFor="execMode" style={{ width: '100%' }}>Execution Mode</label>
-                      <select style={{ borderRadius: '5px', width: '75%' }} id="execMode" name="Execution Mode">
+                      <select onChange={(e) => this.handleExecMode(e)}  style={{ borderRadius: '5px', width: '75%' }} id="execMode" name="Execution Mode">
                         <option>Manual</option>
+                        <option>Auto</option>
                       </select>
                     </div>
                     <div style={{ width: '25%' }}>
@@ -243,12 +345,13 @@ export default class Accordians extends React.Component {
                     </div>
                   </div>
                   <hr />
+                  {this.state.execMode === 'Auto' ? this.renderExtraDropDown() : <div></div>}
                   <div style={{ display: 'flex', flexWrap: 'wrap' }}>
                     <div style={{ width: '100%' }}>
                       <button className="greenBtn addInst_addBtn" onClick={this.handleAddInstr}>
                         <span>ADD</span>
                       </button>
-                      <button className="greenBtn addInst_resetBtn">
+                      <button className="greenBtn addInst_resetBtn" onClick={this.handleResetInstr}>
                         <span>RESET</span>
                       </button>
                     </div>

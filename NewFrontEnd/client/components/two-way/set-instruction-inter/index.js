@@ -10,7 +10,7 @@ import History from '../../history/index';
 import Accordian from '../../accordiansInter/index';
 import images from '../../accountDetails/config';
 import ConfirmationModal from '../confirmationModal/index';
-
+import InterInfoCard from '../InterInfoCard/index'
 export default class TwoWay extends React.Component {
   constructor(props) {
     super(props);
@@ -42,7 +42,7 @@ export default class TwoWay extends React.Component {
       showAccordians: false,
       allInstructionForOneBusiness: [],
       accountListData: {},
-      predictionData: {}
+      predictionData: null
     }
   }
   componentDidMount() {
@@ -160,6 +160,7 @@ export default class TwoWay extends React.Component {
     let selectedInstr = updatedInstructionSelected.filter((value) => value.instructionId === id);
     selectedInstr[0].selected = event.target.checked
     this.setState({ instructionSelected: updatedInstructionSelected })
+    this.confirmationFunction();
     console.log(selectedInstr, id);
 
   }
@@ -278,15 +279,16 @@ export default class TwoWay extends React.Component {
       })
     }
     this.setState({ instructionSelected: instructionSelected })
+    this.confirmationFunction();
   }
 
-  execute = (data) => {
-    this.setState({ confirmationModalOpen: false });
+  execute = () => {
+    this.setState({ confirmationModalOpen: false,predictionData:null });
 
     var token = sessionStorage.getItem("token");
     let query = {
       token: token,
-      data: data
+      data: this.state.accountListData
     }
 
     Services.transact(query, response => {
@@ -395,6 +397,24 @@ export default class TwoWay extends React.Component {
                 <span>ADD NEW INSTRUCTIONS</span>
               </button>      </div>) : (
               <Accordian refresh={this.refresh} getAccordian={this.getAccordian} index={this.state.selectedBusiness} />)}
+               {this.state.predictionData!==null? 
+            (<div>
+              <div><p className='My-financials'>Account Status</p></div>
+              <br/>
+              <div style={{display:'flex'}}>
+              <div style={{width :'40%'}}>
+              <h6><b>Current Balance</b></h6>
+              
+              <InterInfoCard accounts= {this.state.predictionData.preTransaction}/>
+              </div>
+              <div style={{width :'40%',    marginLeft: '7%'}}>
+              <h6><b>Post Execution Balance</b></h6>
+              <InterInfoCard accounts= {this.state.predictionData.postTransaction}/>
+              </div>
+              </div>
+              </div>
+            ):
+            (null)}
           <React.Fragment>
             <div>
               <div style={{ margin: '1.5% 0' }}>
@@ -443,7 +463,7 @@ export default class TwoWay extends React.Component {
           </React.Fragment>
 
           <div style={{ width: '100%' }}>
-            <button className="greenBtn executeBtn" onClick={this.confirmationFunction}>
+            <button className="greenBtn executeBtn" onClick={this.execute}>
               <span>EXECUTE</span>
               <span style={{ paddingLeft: '20px' }}>
                 <i className='fa fa-arrow-right'></i>
@@ -456,7 +476,7 @@ export default class TwoWay extends React.Component {
             handleExectuteMore={this.handleExecuteMoreEvent}
           ></InstructionModal>
 
-          {this.renderConfirmationModal()}
+          {/*this.renderConfirmationModal()*/}
         </div>
       )
     }
@@ -484,14 +504,19 @@ export default class TwoWay extends React.Component {
         token: token,
         data: instructionData
       };
-
       Services.preTransaction(someData, (data) => {
         if (data) {
-          this.setState({ predictionData: data, confirmationModalOpen: true });
+          console.log("prediction",data)
+          this.setState({ predictionData: data});
         }
       });
+      
+        //this.setState({predictionData:null})
 
-    } else alert('Please Select an Instruction');
+    } 
+    else{
+      this.setState({predictionData:null})
+    }
   }
 
   handleConfirmationModalClose = () => {
