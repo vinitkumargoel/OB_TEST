@@ -43,7 +43,7 @@ export default class Accordians extends React.Component {
      let businessSavingsAccount={}
      businessSavingsAccount.business = business["name"]
       business["accounts"].map((account, i) => {
-        if(account["accountName"]==="Business Saving Account")
+        if(account["accountName"]==="Business Savings Account")
         {
         businessSavingsAccount.availableBalance = account["availableBalance"]
         businessSavingsAccount.accountNumber = account["accountNumber"]
@@ -227,7 +227,7 @@ export default class Accordians extends React.Component {
                 <div style={{ width: '100%', color: '#00864f' }}>
                   <span><b>ASSIGN ACCOUNTS</b></span>
                   <span style={{ float: 'right' }}><i className='fa fa-angle-down'></i></span>
-                  <span className="stepsListing">Step 1 of 2 &nbsp; &nbsp;</span>
+                  <span className="stepsListing">(Step 1 of 2) &nbsp; &nbsp;</span>
                 </div>
               </div>
               <div id="collapseTwo" className="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
@@ -315,7 +315,7 @@ export default class Accordians extends React.Component {
                 <div style={{ width: '100%', color: '#00864f' }}>
                   <span><b>SET VALUES AND INSTRUCTION</b></span>
                   <span style={{ float: 'right' }}><i className='fa fa-angle-down'></i></span>
-                  <span className="stepsListing">Step 2 of 2 &nbsp; &nbsp;</span>
+                  <span className="stepsListing">(Step 2 of 2) &nbsp; &nbsp;</span>
                 </div>
               </div>
               <div id="collapseThree" className="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">

@@ -6,6 +6,8 @@ import Sidebar from '../../sidebar'
 import Services from '../../../services'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import InstructionModal from '../../history/instExeModal/index';
+import DeleteConfirmationModal from '../deleteConfirmationModal/index';
+import InstructionDeletedModal from'../instructionDeletedModal/index';
 import History from '../../history/index';
 import Accordian from '../../accordiansInter/index';
 import images from '../../accountDetails/config';
@@ -23,6 +25,8 @@ export default class TwoWay extends React.Component {
       confirmationModalOpen: false,
       showHistory: false,
       instExeModalOpen: false,
+      instDelModalOpen:false,
+      instDeletedModal:false,
       modalOpen: true,
       accSumary: {},
       value: '',
@@ -42,7 +46,8 @@ export default class TwoWay extends React.Component {
       showAccordians: false,
       allInstructionForOneBusiness: [],
       accountListData: {},
-      predictionData: null
+      predictionData: null,
+      instructionToDelete:null
     }
   }
   componentDidMount() {
@@ -58,7 +63,7 @@ export default class TwoWay extends React.Component {
       // console.log(err);
     })
 
-
+   
 
     Services.instructionCall(token, function (data) {
       // data=JSON.parse(data);
@@ -81,6 +86,23 @@ export default class TwoWay extends React.Component {
     }.bind(this), function (err) {
       // console.log(err);
     })
+  }
+  populateInstructionData= (data) =>
+  {
+    let instList = []
+      let interBusinessDataInstructions = data.currentInstructions.filter(instruction => instruction.controlBusinessName !== instruction.contraBusinessName)
+      let interBusinessData = {}
+      interBusinessData.currentInstructions = interBusinessDataInstructions
+      this.setState({ instructionData: interBusinessData })
+      interBusinessData.currentInstructions.map(instruction => {
+        const instructionSelected = {};
+        let id = instruction.instructionId;
+        instructionSelected.instructionId = id
+        instructionSelected.selected = false
+        instructionSelected.business = instruction.controlBusinessName
+        instList.push(instructionSelected)
+      })
+      this.setState({ instructionSelected: instList })
   }
 
   handleChange = (e, { value }) => this.setState({ value })
@@ -307,7 +329,16 @@ export default class TwoWay extends React.Component {
   toggleModal = () => {
     this.setState({ popupFlag: !this.state.popupFlag });
   }
-
+  handleInstDelModal=(instructionId,event)=>
+  {
+    this.setState({instructionToDelete:instructionId})
+    
+    this.setState({instDelModalOpen:!this.state.instDelModalOpen})
+  }
+  handleInstDeletedModal=()=>
+  {
+    this.setState({instDeletedModal:!this.state.instDeletedModal})
+  }
   handleInstExeModalOpen = () => {
     this.setState({ instExeModalOpen: true });
   }
@@ -320,7 +351,24 @@ export default class TwoWay extends React.Component {
     this.setState({ instExeModalOpen: false });
     this.showHistory();
   }
-
+  handleDeleteModalEvent=()=>
+  {
+    //console.log("Instruction to delete",this.state.instructionToDelete);
+    this.setState({instDelModalOpen:false})
+    let token = sessionStorage.getItem("token")
+    let query = {}
+    query.instructionId = this.state.instructionToDelete
+    query.token = token
+    Services.deleteInstruction(query,function(data)
+    {
+      console.log("datafromdelete",data)
+      this.populateInstructionData(data)
+      
+    }.bind(this))
+    this.setState({instDeletedModal:true});
+    // let instructionSelected = this.state.instructionSelected.filter(instruction=>instruction.instructionId!==this.state.instructionToDelete)
+    // this.setState({instructionSelected:instructionSelected})
+  }
   handleExecuteMoreEvent = () => {
     this.setState({ instExeModalOpen: false });
   }
@@ -418,7 +466,7 @@ export default class TwoWay extends React.Component {
           <React.Fragment>
             <div>
               <div style={{ margin: '1.5% 0' }}>
-                <p className='My-financials'>Current instructions</p>
+                <p className='My-financials'>Current Instructions</p>
               </div>
               <table className="ui striped table">
                 <thead>
@@ -454,7 +502,7 @@ export default class TwoWay extends React.Component {
                       <td>No</td>
                       <td>
                         <img src={'images/ic-edit-copy-7.png'} onClick={this.handleOk} style={{ marginRight: '20px', cursor: 'pointer' }} />
-                        <img src={'images/ic-delete-copy-7.png'} onClick={this.handleOk} style={{ cursor: 'pointer' }} />
+                        <img src={'images/ic-delete-copy-7.png'} onClick={this.handleInstDelModal.bind(this,instruction.instructionId)} style={{ cursor: 'pointer' }} />
                       </td>
                       <td><img src={'images/ic-reorder.png'} onClick={this.handleOk} /></td>
                     </tr>
@@ -477,6 +525,12 @@ export default class TwoWay extends React.Component {
             onOpen={this.handleInstExeModalOpen} onClose={this.handleInstExeModalClose} handleView={this.handleViewEventInstExeModal}
             handleExectuteMore={this.handleExecuteMoreEvent}
           ></InstructionModal>
+          <DeleteConfirmationModal open={this.state.instDelModalOpen} 
+            onClose={this.handleInstDelModal}
+            onConfirm={this.handleDeleteModalEvent}
+          ></DeleteConfirmationModal>
+          <InstructionDeletedModal showModal={this.state.instDeletedModal}
+          closeModal={this.handleInstDeletedModal}></InstructionDeletedModal>
 
           {/*this.renderConfirmationModal()*/}
         </div>

@@ -226,5 +226,18 @@ module.exports = {
       success: successCb,
       error: errorCb
     })
+  },
+  deleteInstruction:function(queryData,successCb,errorCb)
+  {
+    
+    $.ajax({
+      type:"DELETE",
+      url:config.instructionUrl+"/instruction/"+queryData.instructionId,
+      headers: { "x-access-token": queryData.token },
+      contentType: "application/json",
+      success: successCb,
+      error: errorCb
+    })
+    
   }
 }
