@@ -23,8 +23,10 @@ router.post('/populateInstruction', function (req, res) {
     axios.get(`${serviceUrlConfig.dbUrl}/${userName}-instructions`)
       .then((resp) => {
         Object.assign(data, resp.data);
+        let instrLength = data['currentInstructions'].length;
+        let lastID = parseInt(data['currentInstructions'][instrLength-1].instructionId);
         let resObj = {
-          instructionId: parseInt(data['currentInstructions'].length) + 100000,
+          instructionId: lastID+1,
           priorityId: parseInt(data['currentInstructions'].length) + 1,
           controlBankAccountNumber: instruction.controlBankAccountNumber,
           controlBusinessName:instruction.controlBusinessName,
