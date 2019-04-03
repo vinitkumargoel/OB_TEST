@@ -11,7 +11,7 @@
                 "contactNumber": "079 6536 2681",
                 "sortCode": "77-95-34",
                 "accounts": [{
-                        "accountName": "Business Saving Account",
+                        "accountName": "Business Savings Account",
                         "accountType": "Savings",
                         "type": "SB",
                         "accountNumber": "77953466666615",
@@ -52,7 +52,7 @@
                 "contactNumber": "078 0939 0737",
                 "sortCode": "77-95-33",
                 "accounts": [{
-                        "accountName": "Business Saving Account",
+                        "accountName": "Business Savings Account",
                         "accountType": "Savings",
                         "type": "SB",
                         "accountNumber": "77953377777715",
@@ -93,7 +93,7 @@
                 "contactNumber": "079 2266 3750",
                 "sortCode": "77-95-31",
                 "accounts": [{
-                        "accountName": "Business Saving Account",
+                        "accountName": "Business Savings Account",
                         "accountType": "Savings",
                         "type": "SB",
                         "accountNumber": "77953188888815",
