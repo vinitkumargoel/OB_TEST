@@ -451,7 +451,7 @@ export default class TwoWay extends React.Component {
                                   <div>
                                     <div><b>{value.name}</b></div>
                                     <div>{value.address}</div>
-                                    <div><b style={{ color: 'grey' }}>Contact</b>:{value.contactNumber}</div>
+                                    <div><b style={{ color: 'grey' }}>Contact</b>: {value.contactNumber}</div>
                                   </div>
                                 </div>
                               </div>
@@ -491,7 +491,7 @@ export default class TwoWay extends React.Component {
             (<React.Fragment>
               <div>
                 <div style={{ margin: '1.5% 0' }}>
-                  <p className='My-financials'>Current instructions</p>
+                  <p className='My-financials'>Current Instructions</p>
                 </div>
                 <table className="ui striped table">
                   <thead>
