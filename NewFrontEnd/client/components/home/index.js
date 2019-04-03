@@ -64,13 +64,13 @@ export default class Rel extends React.Component{
               <div style = {{display:"flex"}}>
                 <Sidebar activeComponent = "home" type={type}/>
               <div className='row main-content' style = {{backgroundColor:"#f5f6fa",width:"94.5%"}}>
-                <div className='col-9' >
+                <div className='col-9' style={{paddingTop:'5%'}}>
                 <Banner accounts = {this.state.debitData.length} amount = {amount} accSumary = {this.state.accSumary} history = {this.props.history} />
                 <Balance creditData = {this.state.creditData} history = {this.props.history}
                 debitData = {this.state.debitData}/>
                 </div>
                 <div className='col-3'>
-                <img style = {{height:'677px',width:'260px',paddingTop:'11px',marginTop:'18%'}} src='images/image-ad@3x.png'/>
+                <img style = {{height:'677px',width:'260px',paddingTop:'11px',marginTop:'18%',paddingTop: '89%'}} src='images/image-ad@3x.png'/>
                 </div>
                 </div>
               </div>
