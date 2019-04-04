@@ -4,6 +4,7 @@ html{
 
 body{
     font-family: 'Open Sans' !important;
+    /* overflow-y: auto !important; */
 }
 
 .modal-open {

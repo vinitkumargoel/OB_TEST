@@ -23,21 +23,24 @@ router.post('/populateInstruction', function (req, res) {
     axios.get(`${serviceUrlConfig.dbUrl}/${userName}-instructions`)
       .then((resp) => {
         Object.assign(data, resp.data);
+        let instrLength = data['currentInstructions'].length;
+        let lastID = parseInt(data['currentInstructions'][instrLength - 1].instructionId);
         let resObj = {
-          instructionId: parseInt(data['currentInstructions'].length) + 100000,
+          instructionId: lastID + 1,
           priorityId: parseInt(data['currentInstructions'].length) + 1,
           controlBankAccountNumber: instruction.controlBankAccountNumber,
+          controlAccountType: instruction.controlAccountType,
+          contraAccountType: instruction.contraAccountType,
           controlBusinessName: instruction.controlBusinessName,
           contraBankAccountNumber: instruction.contraBankAccountNumber,
           contraBusinessName: instruction.contraBusinessName,
-          contraAccountType: instruction.contraAccountType,
-          controlAccountType: instruction.controlAccountType,
           target: instruction.target,
           instructionType: "Target Balance",
           executionMode: "Manual",
           reversal: "false",
           forceDebitControlAccount: "false",
-          forceDebitContraAccount: "false"
+          forceDebitContraAccount: "false",
+
         }
         let finalData = data['currentInstructions'];
         finalData.push(resObj);
@@ -148,6 +151,7 @@ router.post('/preTransaction', function (req, res, next) {
   });
 
 });
+
 
 //function which executes the selected instructions, updates the account details and history of instructions
 const instrResult = async (userName, accNoList) => {
@@ -554,6 +558,8 @@ const preTransferResult = async (userName, accNoList) => {
   return { "preTransaction": preTransfer, "postTransaction": postTransfer, "errors": errorDetails };
 };
 
+
+
 //function which returns the account details of post transation
 const predictionResult = async (userName, accNoList, businessName) => {
   let instrObj = await getInstruction(userName);
@@ -670,6 +676,82 @@ const predictionResult = async (userName, accNoList, businessName) => {
   return { "accountDetails": filteredBusiness["accounts"], "errors": errorDetails };
 };
 
+
+router.delete('/instruction/:id', function (req, res, next) {
+  let token = req.headers['x-access-token'];
+  let instrId = req.params.id;
+
+  jwt.verify(token, config.secret, function (err, decodedObj) {
+    if (err) return res.status(500).json({
+      auth: false,
+      message: 'Failed to authenticate token.'
+    });
+    let userName = decodedObj.username;
+    // console.log(userName);
+    let instrObj = getInstruction(userName);
+    instrObj.then(function (instrObj) {
+      let initialLength = instrObj["currentInstructions"].length;
+      var filteredInstr = instrObj["currentInstructions"].filter((instr) => {
+        return instr.instructionId != instrId;
+      });
+
+      let instrLength = filteredInstr.length;
+      if (initialLength == instrLength) {
+        res.send({ "success": "false", "error": "InstructionId not found" })
+      }
+
+      for (i = 0; i < instrLength; i++) {
+        filteredInstr[i].priorityId = i + 1;
+      }
+
+      let result = updateInstruction(userName, filteredInstr);
+
+      result.then(function (data) {
+        res.send({ "success": "true", "currentInstructions": data });
+      })
+        .catch((err) => {
+          console.log(err);
+        })
+
+    });
+
+  });
+
+});
+
+
+
+router.post('/instruction/:id', function (req, res, next) {
+  let token = req.headers['x-access-token'];
+  let instrId = req.params.id;
+  let instrDetail = req.body;
+
+  jwt.verify(token, config.secret, function (err, decodedObj) {
+    if (err) return res.status(500).json({
+      auth: false,
+      message: 'Failed to authenticate token.'
+    });
+    let userName = decodedObj.username;
+    // console.log(userName);
+
+    let result = editInstruction(userName, instrId, instrDetail);
+
+    result.then(function (data) {
+
+      res.send(data);
+    })
+      .catch((err) => {
+        console.log(err);
+      })
+
+  });
+
+});
+
+
+
+
+
 //Api to get the history of instructions
 router.get('/history', function (req, res, next) {
   let token = req.headers['x-access-token'];
@@ -726,6 +808,28 @@ router.get('/accounts', function (req, res, next) {
 
 });
 
+
+let editInstruction = async (userName, instrId, instrDetail) => {
+  try {
+    let instrObj = await getInstruction(userName);
+    let filteredInstr = instrObj["currentInstructions"].filter((instr) => {
+      return instr.instructionId == instrId;
+    });
+
+    if (filteredInstr.length == 0)
+      return ({ "success": "false", "error": "InstructionId not found" });
+    filteredInstr[0].target = instrDetail.target;
+
+    let result = await updateInstruction(userName, instrObj["currentInstructions"]);
+
+    if (result) {
+      return ({ "success": "true", "editedInstruction": filteredInstr });
+    }
+  } catch (err) {
+    console.log(err);
+  }
+};
+
 //To get the balances of the savings account of all businesses
 let getBalance = async (data) => {
   let businesses = data.business;
@@ -771,6 +875,22 @@ let getHistory = async (userName) => {
     console.log(err);
   };
 }
+
+//To update the commercial account of the user
+let updateInstruction = async (userName, instructions) => {
+  try {
+    let resp = await axios.patch(serviceUrlConfig.dbUrl + '/' + userName + '-instructions', { 'currentInstructions': instructions })
+    if (resp) {
+      console.log(resp.data);
+      return resp.data["currentInstructions"];
+    };
+
+
+  } catch (err) {
+    throw new Error('Failed to patch data');
+  };
+
+};
 
 //To update the commercial account of the user
 let updateTransaction = async (userName, business) => {
@@ -830,4 +950,9 @@ router.get('/getInstruction', (req, res) => {
   });
 });
 
+
+
+
+
 module.exports = router;
+

@@ -6,11 +6,13 @@ import Sidebar from '../../sidebar'
 import Services from '../../../services'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import InstructionModal from '../../history/instExeModal/index';
+import DeleteConfirmationModal from '../deleteConfirmationModal/index';
+import InstructionDeletedModal from'../instructionDeletedModal/index';
 import History from '../../history/index';
 import Accordian from '../../accordiansInter/index';
 import images from '../../accountDetails/config';
 import ConfirmationModal from '../confirmationModal/index';
-
+import InterInfoCard from '../InterInfoCard/index'
 export default class TwoWay extends React.Component {
   constructor(props) {
     super(props);
@@ -23,6 +25,8 @@ export default class TwoWay extends React.Component {
       confirmationModalOpen: false,
       showHistory: false,
       instExeModalOpen: false,
+      instDelModalOpen:false,
+      instDeletedModal:false,
       modalOpen: true,
       accSumary: {},
       value: '',
@@ -42,7 +46,8 @@ export default class TwoWay extends React.Component {
       showAccordians: false,
       allInstructionForOneBusiness: [],
       accountListData: {},
-      predictionData: {}
+      predictionData: null,
+      instructionToDelete:null
     }
   }
   componentDidMount() {
@@ -58,7 +63,7 @@ export default class TwoWay extends React.Component {
       // console.log(err);
     })
 
-
+   
 
     Services.instructionCall(token, function (data) {
       // data=JSON.parse(data);
@@ -81,6 +86,23 @@ export default class TwoWay extends React.Component {
     }.bind(this), function (err) {
       // console.log(err);
     })
+  }
+  populateInstructionData= (data) =>
+  {
+    let instList = []
+      let interBusinessDataInstructions = data.currentInstructions.filter(instruction => instruction.controlBusinessName !== instruction.contraBusinessName)
+      let interBusinessData = {}
+      interBusinessData.currentInstructions = interBusinessDataInstructions
+      this.setState({ instructionData: interBusinessData })
+      interBusinessData.currentInstructions.map(instruction => {
+        const instructionSelected = {};
+        let id = instruction.instructionId;
+        instructionSelected.instructionId = id
+        instructionSelected.selected = false
+        instructionSelected.business = instruction.controlBusinessName
+        instList.push(instructionSelected)
+      })
+      this.setState({ instructionSelected: instList })
   }
 
   handleChange = (e, { value }) => this.setState({ value })
@@ -160,6 +182,7 @@ export default class TwoWay extends React.Component {
     let selectedInstr = updatedInstructionSelected.filter((value) => value.instructionId === id);
     selectedInstr[0].selected = event.target.checked
     this.setState({ instructionSelected: updatedInstructionSelected })
+    this.confirmationFunction();
     console.log(selectedInstr, id);
 
   }
@@ -278,15 +301,16 @@ export default class TwoWay extends React.Component {
       })
     }
     this.setState({ instructionSelected: instructionSelected })
+    this.confirmationFunction();
   }
 
-  execute = (data) => {
-    this.setState({ confirmationModalOpen: false });
+  execute = () => {
+    this.setState({ confirmationModalOpen: false,predictionData:null });
 
     var token = sessionStorage.getItem("token");
     let query = {
       token: token,
-      data: data
+      data: this.state.accountListData
     }
 
     Services.transact(query, response => {
@@ -305,7 +329,16 @@ export default class TwoWay extends React.Component {
   toggleModal = () => {
     this.setState({ popupFlag: !this.state.popupFlag });
   }
-
+  handleInstDelModal=(instructionId,event)=>
+  {
+    this.setState({instructionToDelete:instructionId})
+    
+    this.setState({instDelModalOpen:!this.state.instDelModalOpen})
+  }
+  handleInstDeletedModal=()=>
+  {
+    this.setState({instDeletedModal:!this.state.instDeletedModal})
+  }
   handleInstExeModalOpen = () => {
     this.setState({ instExeModalOpen: true });
   }
@@ -318,7 +351,24 @@ export default class TwoWay extends React.Component {
     this.setState({ instExeModalOpen: false });
     this.showHistory();
   }
-
+  handleDeleteModalEvent=()=>
+  {
+    //console.log("Instruction to delete",this.state.instructionToDelete);
+    this.setState({instDelModalOpen:false})
+    let token = sessionStorage.getItem("token")
+    let query = {}
+    query.instructionId = this.state.instructionToDelete
+    query.token = token
+    Services.deleteInstruction(query,function(data)
+    {
+      console.log("datafromdelete",data)
+      this.populateInstructionData(data)
+      
+    }.bind(this))
+    this.setState({instDeletedModal:true});
+    // let instructionSelected = this.state.instructionSelected.filter(instruction=>instruction.instructionId!==this.state.instructionToDelete)
+    // this.setState({instructionSelected:instructionSelected})
+  }
   handleExecuteMoreEvent = () => {
     this.setState({ instExeModalOpen: false });
   }
@@ -395,10 +445,28 @@ export default class TwoWay extends React.Component {
                 <span>ADD NEW INSTRUCTIONS</span>
               </button>      </div>) : (
               <Accordian refresh={this.refresh} getAccordian={this.getAccordian} index={this.state.selectedBusiness} />)}
+               {this.state.predictionData!==null? 
+            (<div>
+              <div><p className='My-financials'>Account Status</p></div>
+              <br/>
+              <div style={{display:'flex'}}>
+              <div style={{width :'40%'}}>
+              <h6><b>Current Balance</b></h6>
+              
+              <InterInfoCard accounts= {this.state.predictionData.preTransaction}/>
+              </div>
+              <div style={{width :'40%',    marginLeft: '7%'}}>
+              <h6><b>Post Execution Balance</b></h6>
+              <InterInfoCard accounts= {this.state.predictionData.postTransaction}/>
+              </div>
+              </div>
+              </div>
+            ):
+            (null)}
           <React.Fragment>
             <div>
               <div style={{ margin: '1.5% 0' }}>
-                <p className='My-financials'>Current instructions</p>
+                <p className='My-financials'>Current Instructions</p>
               </div>
               <table className="ui striped table">
                 <thead>
@@ -406,12 +474,13 @@ export default class TwoWay extends React.Component {
                     <th>
                       <input onChange={this.selectAllInstructionsHandler} type="checkbox" />
                     </th>
+                    <th>Instruction ID</th>
                     <th>Control A/C</th>
                     <th>Contra A/C </th>
-                    <th>Instruction type</th>
+                    <th>Type</th>
                     <th>Value </th>
                     <th>Priority</th>
-                    <th>Execution mode</th>
+                    <th>Execution Mode</th>
                     <th>Reversal</th>
                     <th>Actions</th>
                     <th></th>
@@ -423,6 +492,7 @@ export default class TwoWay extends React.Component {
                       <td>
                         <input onChange={this.changeInstructionSelection.bind(this, instruction.instructionId)} type="checkbox" checked={this.selectedInstruction(instruction.instructionId)} />
                       </td>
+                      <td>{instruction.instructionId}</td>
                       <td>{this.manipulateAccountNumber(instruction.controlBankAccountNumber)}</td>
                       <td>{this.manipulateAccountNumber(instruction.contraBankAccountNumber)}</td>
                       <td>{instruction.instructionType}</td>
@@ -432,7 +502,7 @@ export default class TwoWay extends React.Component {
                       <td>No</td>
                       <td>
                         <img src={'images/ic-edit-copy-7.png'} onClick={this.handleOk} style={{ marginRight: '20px', cursor: 'pointer' }} />
-                        <img src={'images/ic-delete-copy-7.png'} onClick={this.handleOk} style={{ cursor: 'pointer' }} />
+                        <img src={'images/ic-delete-copy-7.png'} onClick={this.handleInstDelModal.bind(this,instruction.instructionId)} style={{ cursor: 'pointer' }} />
                       </td>
                       <td><img src={'images/ic-reorder.png'} onClick={this.handleOk} /></td>
                     </tr>
@@ -443,7 +513,7 @@ export default class TwoWay extends React.Component {
           </React.Fragment>
 
           <div style={{ width: '100%' }}>
-            <button className="greenBtn executeBtn" onClick={this.confirmationFunction}>
+            <button className="greenBtn executeBtn" onClick={this.execute}>
               <span>EXECUTE</span>
               <span style={{ paddingLeft: '20px' }}>
                 <i className='fa fa-arrow-right'></i>
@@ -455,8 +525,14 @@ export default class TwoWay extends React.Component {
             onOpen={this.handleInstExeModalOpen} onClose={this.handleInstExeModalClose} handleView={this.handleViewEventInstExeModal}
             handleExectuteMore={this.handleExecuteMoreEvent}
           ></InstructionModal>
+          <DeleteConfirmationModal open={this.state.instDelModalOpen} 
+            onClose={this.handleInstDelModal}
+            onConfirm={this.handleDeleteModalEvent}
+          ></DeleteConfirmationModal>
+          <InstructionDeletedModal showModal={this.state.instDeletedModal}
+          closeModal={this.handleInstDeletedModal}></InstructionDeletedModal>
 
-          {this.renderConfirmationModal()}
+          {/*this.renderConfirmationModal()*/}
         </div>
       )
     }
@@ -484,14 +560,19 @@ export default class TwoWay extends React.Component {
         token: token,
         data: instructionData
       };
-
       Services.preTransaction(someData, (data) => {
         if (data) {
-          this.setState({ predictionData: data, confirmationModalOpen: true });
+          console.log("prediction",data)
+          this.setState({ predictionData: data});
         }
       });
+      
+        //this.setState({predictionData:null})
 
-    } else alert('Please Select an Instruction');
+    } 
+    else{
+      this.setState({predictionData:null})
+    }
   }
 
   handleConfirmationModalClose = () => {
