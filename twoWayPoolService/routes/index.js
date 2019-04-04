@@ -29,6 +29,8 @@ router.post('/populateInstruction', function (req, res) {
           instructionId: lastID+1,
           priorityId: parseInt(data['currentInstructions'].length) + 1,
           controlBankAccountNumber: instruction.controlBankAccountNumber,
+          controlAccountType: instruction.controlAccountType,
+          contraAccountType: instruction.contraAccountType,
           controlBusinessName:instruction.controlBusinessName,
           contraBankAccountNumber: instruction.contraBankAccountNumber,
           contraBusinessName: instruction.contraBusinessName,
@@ -37,7 +39,8 @@ router.post('/populateInstruction', function (req, res) {
 					executionMode:"Manual",
 				  reversal:"false",
 				  forceDebitControlAccount:"false",
-				  forceDebitContraAccount:"false"
+          forceDebitContraAccount:"false",
+          
         }
         let finalData = data['currentInstructions'];
         finalData.push(resObj);
