@@ -384,7 +384,7 @@
     border-bottom: solid 1px rgb(56, 55, 56) !important;
   }
 
-  .currentInstruction th {
+  /* .currentInstruction th {
     background-image: linear-gradient( #474547, black) !important;
     color: white !important;
   }
@@ -403,7 +403,7 @@
 
   .currentInstruction td:nth-child(12) {
       cursor: pointer !important;
-  }
+  } */
 
   input {
     height: 13px !important;
@@ -421,7 +421,7 @@
     table-layout:fixed;
   }
 
-  .currentInstruction th,
+  /* .currentInstruction th,
   .currentInstruction td {
     width: 12% !important;
     text-align: center !important;
@@ -439,7 +439,7 @@
   .currentInstruction th:nth-child(6),
   .currentInstruction td:nth-child(6) {
     width: 5% !important;
-  }
+  } */
 
   .standingInstTable thead, tbody tr {
     border-bottom: none !important;

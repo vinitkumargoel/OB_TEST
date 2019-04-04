@@ -402,12 +402,8 @@ body {
   .currentInstruction th:first-child,
   .currentInstruction td:first-child, 
   .currentInstruction td:nth-child(11), 
-  .currentInstruction td:nth-child(12){
+  .currentInstruction td:nth-child(11){
       text-align: center !important;
-  }
-
-  .currentInstruction td:nth-child(12) {
-      cursor: pointer !important;
   }
 
   input {
@@ -428,24 +424,33 @@ body {
 
   .currentInstruction th,
   .currentInstruction td {
-    width: 12% !important;
+    width: 7% !important;
     text-align: center !important;
   }
 
+  .currentInstruction th:last-child,
+  .currentInstruction td:last-child,
   .currentInstruction th:first-child,
   .currentInstruction td:first-child {
     width: 5% !important;
   }
 
-  .currentInstruction th:last-child,
-  .currentInstruction td:last-child,
-  .currentInstruction th:nth-child(5),
-  .currentInstruction td:nth-child(5),
-  .currentInstruction th:nth-child(6),
-  .currentInstruction td:nth-child(6) {
-    width: 5% !important;
+  .currentInstruction th:nth-child(3),
+  .currentInstruction td:nth-child(3),
+  .currentInstruction th:nth-child(4),
+  .currentInstruction td:nth-child(4) {
+    width: 12% !important;
   }
 
+  .currentInstruction th:nth-child(6),
+  .currentInstruction td:nth-child(6),
+  .currentInstruction th:nth-child(7),
+  .currentInstruction td:nth-child(7),
+  .currentInstruction th:nth-child(9),
+  .currentInstruction td:nth-child(9) {
+    width: 4% !important;
+  }
+ 
   .standingInstTable thead, tbody tr {
     border-bottom: none !important;
   }
