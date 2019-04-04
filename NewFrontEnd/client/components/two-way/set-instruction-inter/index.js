@@ -480,7 +480,7 @@ export default class TwoWay extends React.Component {
                     <th>Type</th>
                     <th>Value </th>
                     <th>Priority</th>
-                    <th>Execution mode</th>
+                    <th>Execution Mode</th>
                     <th>Reversal</th>
                     <th>Actions</th>
                     <th></th>

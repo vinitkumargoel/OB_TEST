@@ -27,7 +27,7 @@ export default class AccountDetails extends React.Component {
                 <div>
                   <div><b>{value.name}</b></div>
                   <div>{value.address}</div>
-                  <div><b style={{ color: 'grey' }}>Contact</b>:{value.contactNumber}</div>
+                  <div><b style={{ color: 'grey' }}>Contact</b>: {value.contactNumber}</div>
                 </div>
               </div>
             )
