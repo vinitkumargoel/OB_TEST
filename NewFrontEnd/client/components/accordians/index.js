@@ -142,10 +142,18 @@ export default class Accordians extends React.Component {
     )
   }
   renderMonthlyList = () => {
+    let monthList = [];
+    for(let i=1; i<=31; i++) {
+      monthList.push(i);
+    }
     return (
       <div style={{ width: '25%' }}>
-        <label htmlFor="instType" style={{ width: '100%' }}>Day</label>
-        <input type="date" className="monthDate" id="Day" name="Day"/>
+        <label htmlFor="monthList" style={{ width: '100%' }}>Day</label>
+          <select style={{ borderRadius: '5px', width: '75%' }} id="monthList" name="Day">
+            {monthList.map((day) => {
+              return <option key={day}>{day}</option>
+            })}
+          </select>
       </div>
     )
   }
