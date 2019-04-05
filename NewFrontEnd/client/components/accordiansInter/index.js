@@ -71,7 +71,7 @@ export default class Accordians extends React.Component {
     }
 
     Services.submitInstruction(query, function (data) {
-      this.props.refresh();
+      this.props.refresh("add");
       this.setState({ showModal: true });
     }.bind(this))
   }
@@ -179,10 +179,18 @@ export default class Accordians extends React.Component {
     )
   }
   renderMonthlyList = () => {
+    let monthList = [];
+    for(let i=1; i<=31; i++) {
+      monthList.push(i);
+    }
     return (
       <div style={{ width: '25%' }}>
-        <label htmlFor="instType" style={{ width: '100%' }}>Day</label>
-        <input type="date" className="monthDate" id="Day" name="Day"/>
+        <label htmlFor="monthList" style={{ width: '100%' }}>Day</label>
+          <select style={{ borderRadius: '5px', width: '75%'}} id="monthList" name="Day">
+            {monthList.map((day) => {
+              return <option key={day}>{day}</option>
+            })}
+          </select>
       </div>
     )
   }
@@ -288,10 +296,10 @@ export default class Accordians extends React.Component {
                             <div className="card-body secondAccordionMain">
                               <div style={{ width: '50%' }}>
                                 <p className="accountName" style={{ marginBottom: '5px',color:'white' }}>{this.state.businessSavingsAccounts[this.state.selectedBusiness.first].business}</p>
-                                <p style={{ fontSize: '20px',color:'white' }}>{this.state.businessSavingsAccounts[this.state.selectedBusiness.first].accountNumber}</p>
+                                <p style={{ fontSize: '20px',color:'white' }}>{this.manipulateAccountNumber(this.state.businessSavingsAccounts[this.state.selectedBusiness.first].accountNumber)}</p>
                               </div>
                               <div style={{ width: '50%' }}>
-                                <p className="availableBalanceDisplay">₤ {this.state.businessSavingsAccounts[this.state.selectedBusiness.first].availableBalance}</p>
+                                <p className="availableBalanceDisplay">₤ {this.numberWithCommas(this.state.businessSavingsAccounts[this.state.selectedBusiness.first].availableBalance)}</p>
                               </div>
                             </div>
                           </div>

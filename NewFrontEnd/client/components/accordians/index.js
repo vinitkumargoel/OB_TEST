@@ -42,7 +42,7 @@ export default class Accordians extends React.Component {
     }
 
     Services.submitInstruction(query, function (data) {
-      this.props.refresh();
+      this.props.refresh("add");
       this.setState({ showModal: true });
     }.bind(this))
   }

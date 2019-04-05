@@ -456,7 +456,8 @@ body {
   }
 
   .addNewInstBtn {
-    margin-left: 77.5% !important ;
+    /* margin-left: 77.5% !important ; */
+    float:right;
   }
 
   .company-card-button{

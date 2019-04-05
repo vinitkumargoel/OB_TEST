@@ -239,5 +239,17 @@ module.exports = {
       error: errorCb
     })
     
+  },
+  editInstruction:function(queryData,successCb,errorCb)
+  {
+    $.ajax({
+      type:"POST",
+      url:config.instructionUrl+"/instruction/"+queryData.instructionId,
+      data:JSON.stringify(queryData.data),
+      headers: {"x-access-token": queryData.token},
+      contentType: "application/json",
+      success:successCb,
+      error:errorCb
+    })
   }
 }

@@ -10,6 +10,7 @@ import DeleteConfirmationModal from '../deleteConfirmationModal/index';
 import InstructionDeletedModal from'../instructionDeletedModal/index';
 import History from '../../history/index';
 import Accordian from '../../accordians/index';
+import EditAccordian from '../editAccordian/index'
 import images from '../../accountDetails/config';
 import ConfirmationModal from '../confirmationModal/index';
 import Cards from '../../cards'
@@ -45,10 +46,12 @@ export default class TwoWay extends React.Component {
       accountInfos: [],
       availableBalance: { controlBankAccountBalance: "", contraBankAccountBalance: "" },
       showAccordians: false,
+      showEditAccordian:false,
       allInstructionForOneBusiness: [],
       accountListData: {},
       predictionData: null,
-      instructionToDelete:null
+      instructionToDelete:null,
+      editInstruction:null
     }
   }
   componentDidMount() {
@@ -241,7 +244,7 @@ export default class TwoWay extends React.Component {
     }
 
     Services.submitInstruction(query, function (data) {
-      this.refresh();
+      this.refresh("add");
     }.bind(this))
 
   }
@@ -282,7 +285,7 @@ export default class TwoWay extends React.Component {
     }
   }
 
-  refresh = () => {
+  refresh = (task) => {
     var token = sessionStorage.getItem("token");
     Services.instructionCall(token, function (data) {
       // data=JSON.parse(data);
@@ -293,9 +296,12 @@ export default class TwoWay extends React.Component {
       let addedInstruction = intraBusinessData.currentInstructions[intraBusinessData.currentInstructions.length - 1]
       let id = addedInstruction.instructionId
       let business = addedInstruction.controlBusinessName
+      if(task==="add")
+      {
       this.setState(prevState => ({
         instructionSelected: [...prevState.instructionSelected, { instructionId: id, selected: false, business: business }]
       }))
+    }
       // console.log(data)
     }.bind(this), function (err) {
       // console.log(err);
@@ -380,6 +386,12 @@ export default class TwoWay extends React.Component {
     // let instructionSelected = this.state.instructionSelected.filter(instruction=>instruction.instructionId!==this.state.instructionToDelete)
     // this.setState({instructionSelected:instructionSelected})
   }
+  handleEditInstruction = (instruction,event)=>
+  {
+    this.setState({showEditAccordian:true})
+    this.setState({editInstruction:instruction})
+    this.setState({predictionData:null})
+  }
   handleInstDeletedModal=()=>
   {
     this.setState({instDeletedModal:!this.state.instDeletedModal})
@@ -409,7 +421,13 @@ export default class TwoWay extends React.Component {
       this.setState({ showAccordians: !this.state.showAccordians })
 
   }
-
+  getEditAccordian=()=>
+  {
+    this.setState(prevState=>({
+      showEditAccordian:!prevState.showEditAccordian
+    }))
+    this.setState({showAccordians:false})
+  }
   getButtons = () => {
     return (this.state.accSumary.business.map((value, index) => {
       return (
@@ -475,7 +493,8 @@ export default class TwoWay extends React.Component {
     else {
       return (
         <div>
-          {!this.state.showAccordians  && this.state.accSumary.business !== undefined ? (
+          {!this.state.showEditAccordian?
+          !this.state.showAccordians  && this.state.accSumary.business !== undefined ? (
             <div>
               {/* <div><img style={{ cursor: 'pointer' }} src='../../../../images/addInstruction/add_new_btn.png' onClick={this.getAccordian} /></div> */}
               <div className="accordion" id="accordionExample">
@@ -514,8 +533,9 @@ export default class TwoWay extends React.Component {
               <button className="greenBtn addNewInstBtn" onClick={this.getAccordian}>
                 <span>ADD NEW INSTRUCTIONS</span>
               </button>      </div>) :
-            (<Accordian refresh={this.refresh} getAccordian={this.getAccordian} index={this.state.selectedBusiness}  />)}
-            
+            (<Accordian refresh={this.refresh} getAccordian={this.getAccordian} index={this.state.selectedBusiness}  />)
+            :(<EditAccordian type="intra" refresh={this.refresh} getEditAccordian={this.getEditAccordian} 
+            instruction={this.state.editInstruction} index={this.state.selectedBusiness}  />)}
             {this.state.accSumary.business !== undefined && this.state.predictionData !== null ? 
             (<div>
               <div><p className='My-financials'>Account Status</p></div>
@@ -566,15 +586,15 @@ export default class TwoWay extends React.Component {
                           <input onChange={this.changeInstructionSelection.bind(this, instruction.instructionId)} type="checkbox" checked={this.selectedInstruction(instruction.instructionId)} />
                         </td>
                         <td>{instruction.instructionId}</td>
-                        <td colSpan="3">{this.manipulateAccountNumber(instruction.controlBankAccountNumber)}({instruction.controlAccountType}) </td>
-                        <td colSpan="3">{this.manipulateAccountNumber(instruction.contraBankAccountNumber)}({instruction.contraAccountType})</td>
+                        <td colSpan="3">{this.manipulateAccountNumber(instruction.controlBankAccountNumber)} ({instruction.controlAccountType}) </td>
+                        <td colSpan="3">{this.manipulateAccountNumber(instruction.contraBankAccountNumber)} ({instruction.contraAccountType})</td>
                         <td>{instruction.instructionType}</td>
                         <td>{instruction.target}</td>
                         <td>{instruction.priorityId}</td>
                         <td>{instruction.executionMode}</td>
                         <td>No</td>
                         <td>
-                          <img src={'images/ic-edit-copy-7.png'} onClick={this.handleOk} style={{ marginRight: '20px', cursor: 'pointer' }} />
+                          <img src={'images/ic-edit-copy-7.png'} onClick={this.handleEditInstruction.bind(this,instruction)} style={{ marginRight: '20px', cursor: 'pointer' }} />
                           <img src={'images/ic-delete-copy-7.png'} onClick={this.handleInstDelModal.bind(this,instruction.instructionId)} style={{ cursor: 'pointer' }} />
                         </td>
                         <td><img src={'images/ic-reorder.png'} onClick={this.handleOk} /></td>
