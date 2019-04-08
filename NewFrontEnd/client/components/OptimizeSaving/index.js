@@ -42,7 +42,7 @@ export default class Saving extends React.Component{
               <Header history = {this.props.history} />
               <div style = {{display:"flex"}}>
                 <Sidebar/>
-                <div  style = {{backgroundColor:"#f5f6fa",width:"100%",paddingBottom:'30px',paddingTop:'2%'}}>
+                <div  style = {{backgroundColor:"#f5f6fa",width:"100%",paddingBottom:'30px',paddingTop:'2%',height:'100vh'}}>
                   <div className='Recommended_for_you'>
                   Recommended for you
                   </div>

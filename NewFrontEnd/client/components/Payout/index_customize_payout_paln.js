@@ -399,7 +399,7 @@ export default class Rel extends React.Component{
         <Header history = {this.props.history} username = {this.state.username}/>
         <div style = {{display:"flex"}}>
           <Sidebar/>
-          <div  style = {{backgroundColor:"#f5f6fa",width:"100%",paddingBottom:'30px',paddingTop:'2%'}}>
+          <div  style = {{backgroundColor:"#f5f6fa",width:"100%",paddingBottom:'30px',paddingTop:'2%',height:'100vh'}}>
             <div className='Recommended_for_you'>
               Recommended for you
             </div>

@@ -39,6 +39,7 @@ export default class Rel extends React.Component{
      })
   }
     render(){
+      let type = sessionStorage.getItem("type")
       let amount = 0
       this.state.debitData.forEach((bank) => {
         amount = amount + bank.accounts[0].balance
@@ -47,7 +48,7 @@ export default class Rel extends React.Component{
             <div className='container-fluid' style={{paddingLeft:'0px',paddingRight:'0px'}}>
               <Header username = {this.state.accSumary.username} history = {this.props.history}/>
               <div style = {{display:"flex"}}>
-                <Sidebar activeComponent = "wallet"/>
+                <Sidebar activeComponent = "wallet" type={type}/>
               <div className='main-content' style = {{backgroundColor:"#f5f6fa",width:"94.5%",paddingBottom:'20px'}}>
                 <div>
                 <h1 style = {{fontWeight: '300',marginTop:'20PX'}}>My Accounts</h1>

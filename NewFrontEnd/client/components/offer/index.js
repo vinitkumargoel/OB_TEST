@@ -76,7 +76,7 @@ export default class Offerings extends React.Component{
                 <Header username = {this.state.username} history = {this.props.history}/>
             <div style = {{display:"flex"}}>
            <Sidebar activeComponent = "home"/>
-           <div style={{backgroundColor:"#f5f6fa",width:'100%',}}>
+           <div style={{backgroundColor:"#f5f6fa",width:'100%',height:'100vh',overflow:'auto'}}>
             <div className="container">
                 <div id="banner" className="row" >
                     <img src="images/img-banner.png" id="banner-img"/>
