@@ -7,7 +7,7 @@ import Optimizings from './components/Optimizings';
 import Home from './components/home';
 import Login from './components/Login';
 import Payout from './components/Payout';
-import Wallet from './components/Wallet';
+// import Wallet from './components/Wallet';
 import FinancialAdvice from './components/financial-advisory';
 import PoolingFromCard from './components/PoolFunds/FromCards/index';
 import PoolingToCard from './components/PoolFunds/ToCards';
@@ -33,7 +33,7 @@ render(
                 <Route exact path='/home' component={Home} />
                 <Route exact path='/payout' component={Payout} />
                 <Route exact path='/offerings' component={Offerings} />
-                <Route exact path='/wallet' component={Wallet} />
+                {/* <Route exact path='/wallet' component={Wallet} /> */}
                 <Route exact path='/optimizings' component={Optimizings} />
                 <Route exact path='/poolfrom' component={PoolingFromCard} />
                 <Route exact path='/poolto' component={PoolingToCard} />

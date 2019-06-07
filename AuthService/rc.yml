@@ -3,7 +3,7 @@ kind: ReplicationController
 metadata:
   name: authservice-rc
 spec:
-  replicas: 5
+  replicas: 2
   selector:
     app: authservice
   template:

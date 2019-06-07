@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { Modal, Button } from 'react-bootstrap';
 
 import BarChart from './BarChart';
-import ToolTip from './ToolTip';
 
 import './style.css';
 
@@ -65,18 +64,7 @@ export default class GraphModal extends Component {
     
     createTooltip() {
         if (this.state.showToolTip) {
-            return (
-            <ToolTip
-                top={this.state.top}
-                left={this.state.left}
-            >
-                <div className="tooltip-wrapper">
-                    <div className='tooltip-img' dangerouslySetInnerHTML={{__html: this.state.img}}></div>
-                    <div className='tooltip-bank'>Bank name: {this.state.x}</div> 
-                    <div className='tooltip-bal'>{!this.props.iscredit?'Balance':'Balance due'}: {this.state.y}</div> 
-                </div>
-            </ToolTip>
-            );
+            return null;
         }
         return false;
     }
